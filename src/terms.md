@@ -1,59 +1,35 @@
 ---
-title: 'Terms of service'
+title: 'Terms of Service'
 layout: layouts/base.njk
-description: 'This document outlines the terms of service for the V8 website and project.'
+description: 'Terms of service and site policies for Hunting For Kicks.'
 ---
-# Terms of service
 
-By using the official V8 website (the “Service”), you agree to be bound by our Google Terms of Services located at <https://www.google.com/accounts/TOS> as well as these additional terms. Google may change these terms from time to time and post any modified terms at <https://v8.dev/terms>. You understand and agree that if you use the Service after the date on which these terms have changed, Google treats your use as acceptance of the updated terms.
+# Terms of Service
 
-## Code of conduct
+Welcome to Hunting For Kicks. By accessing and using our website (the "Service"), you agree to comply with and be bound by the following terms and conditions. If you disagree with any part of these terms, please do not use our website.
 
-As part of the Chromium team, the V8 team is committed to preserving and fostering a diverse, welcoming community. To this end, the [Chromium Code of Conduct](https://chromium.googlesource.com/chromium/src/+/main/CODE_OF_CONDUCT.md) applies to our website, repositories, organizations, mailing lists, and any other Chromium-supported communication groups, as well as any private communication initiated in the context of these spaces.
+## Intellectual Property & Content
 
-## Site policies
+All content published on Hunting For Kicks, including but not limited to articles, reviews, opinion pieces, layout, and graphics, is the property of Hunting For Kicks unless otherwise stated. 
 
-We are pleased to license much of the documentation on the official V8 website under terms that explicitly encourage people to take, modify, reuse, re-purpose, and remix our work as they see fit.
+You are welcome to share our content, quote our articles, or link back to our reviews, provided that you give clear and proper attribution to **Hunting For Kicks** and include a direct link back to the original page on our site. You may not scrape, republish in full, or use our content for commercial purposes without explicit written permission.
 
-Many pages on the V8 website contain the following notice:
+## Accuracy of Information
 
-> Except as otherwise noted, any code samples from the V8 project are licensed under [V8’s BSD-style license](https://chromium.googlesource.com/v8/v8.git/+/main/LICENSE). Other content on this page is licensed under [the Creative Commons Attribution 3.0 License](https://creativecommons.org/licenses/by/3.0/).
+The sneaker world moves fast. While we strive to provide the most accurate and up-to-date information regarding sneaker release dates, retail prices, and product details, this information is subject to change by the manufacturers and retailers at any time. 
 
-When you see a page with this notice you are free to use [nearly everything](#restrictions) on the page in your own creations. For example, you could quote the text in a book, cut-and-paste sections to your blog, record it as an audiobook for the visually impaired, or even translate it into Swahili. Really. That’s what open content licenses are all about. We just ask that you give us attribution when you reuse our work.
-In addition, you are free to use the computer source code that appears in the content (such as in examples) in the code of your own projects. This applies to any source code from the V8 project as well, as long as [its license](https://chromium.googlesource.com/v8/v8.git/+/main/LICENSE) is respected.
+Hunting For Kicks is a news and review publication. We make no warranties or guarantees regarding the completeness or accuracy of the release information provided, and we cannot be held liable for delayed drops, price changes, or missed releases. 
 
-### What is _not_ licensed?
+## External Links and Affiliates
 
-We say “nearly everything” as there are a few simple conditions that apply.
+Our articles may contain links to third-party websites, retailers, or services that are not owned or controlled by Hunting For Kicks (such as links to purchase sneakers). 
 
-Google’s trademarks and other brand features are not included in this license. Please see [our standard guidelines for third-party use of Google brand features](https://www.google.com/permissions/guidelines.html) for information about this usage.
+We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites. You acknowledge and agree that Hunting For Kicks shall not be responsible or liable, directly or indirectly, for any damage or loss caused by or in connection with the use of any such content, goods, or services available on or through any such external sites.
 
-In some cases, a page may include content consisting of images, audio, or video material, or a link to content on a different webpage (such as videos or slide decks). This content is not covered by the license, unless specifically noted.
+## Acceptable Use & Site Policies
 
-### Attribution
+By using this site, you agree not to use the Service in any way that causes, or may cause, damage to the website or impairment of the availability or accessibility of the website. Automated scraping, aggressive botting, or attempting to bypass the security features of the site is strictly prohibited.
 
-Proper attribution is required when you reuse or create modified versions of content that appears on a page made available under the terms of the Creative Commons Attribution license. The complete requirements for attribution can be found in [section 4 of the Creative Commons legal code](https://creativecommons.org/licenses/by/3.0/legalcode).
+## Changes to These Terms
 
-In practice we ask that you provide attribution to the V8 project to the best of the ability of the medium in which you are producing the work.
-
-There are several typical ways in which this might apply:
-
-#### Exact reproductions
-
-If your online work exactly reproduces text or images from this site, in whole or in part, please include a paragraph at the bottom of your page that reads:
-
-> Portions of this page are reproduced from work created and [shared by the V8 project](/terms#site-policies) and used according to terms described in [the Creative Commons 3.0 Attribution License](https://creativecommons.org/licenses/by/3.0/).
-
-Also, please link back to the original source page so that readers can refer to it for more information.
-
-#### Modified versions
-
-If your online work shows modified text or images based on the content from this site, please include a paragraph at the bottom of your page that reads:
-
-> Portions of this page are modifications based on work created and [shared by the V8 project](/terms#site-policies) and used according to terms described in [the Creative Commons 3.0 Attribution License](https://creativecommons.org/licenses/by/3.0/).
-
-Again, please link back to the original source page so that readers can refer to it for more information. This is even more important when the content has been modified.
-
-#### Other media
-
-If you produce non-hypertext works, such as books, audio, or video, we ask that you make a best effort to include a spoken or written attribution in the spirit of the messages above.
+We may update our Terms of Service from time to time as the site grows. We will notify you of any changes by posting the new Terms of Service on this page. Your continued use of the Service after any modifications indicates your acceptance of the updated terms.

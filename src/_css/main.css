@@ -634,3 +634,55 @@ pre mark .token.punctuation {
 .highlight-line {
   display: inline-block;
 }
+
+
+/* --- Hunting For Kicks: Post List Layout --- */
+.sneaker-post-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sneaker-post-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.sneaker-post-thumb {
+  width: 120px;       /* Adjust this to make thumbnails larger/smaller */
+  height: 120px;
+  object-fit: cover;  /* Prevents the sneaker images from stretching out of proportion */
+  border-radius: 8px;
+  flex-shrink: 0;     /* Stops the text from squishing the image */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.sneaker-post-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sneaker-post-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.sneaker-post-title p {
+  /* V8's markdown filter sometimes wraps titles in <p> tags. This fixes the spacing. */
+  margin: 0; 
+}
+
+.sneaker-post-meta {
+  font-size: 0.9rem;
+  color: #555;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
