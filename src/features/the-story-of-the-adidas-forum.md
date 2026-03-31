@@ -11,7 +11,7 @@ layout: layouts/post.njk
 thumbnail: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000&auto=format&fit=crop"
 ---
 
-# The $100 Legend: The Story of the Adidas Forum
+
 
 In the world of sneakers, few silhouettes carry as much historical weight as the **Adidas Forum**. Originally released in 1984, it wasn't just a basketball shoe—it was a statement of intent. At a time when the sneaker industry was beginning to explode, the Forum arrived with a triple-digit price tag and a design that changed the game forever.
 
