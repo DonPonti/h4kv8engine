@@ -1,14 +1,14 @@
 {
-  "title": "V8",
-  "url": "https://v8.dev/",
+  "title": "Hunting For Kicks",
+  "url": "https://huntingforkicks.com/",
   "feed": {
-    "subtitle": "The V8 JavaScript engine",
+    "subtitle": "The ultimate sneaker magazine",
     "filename": "blog.atom",
     "path": "/blog.atom",
-    "url": "https://v8.dev/blog.atom",
-    "id": "https://v8.dev/"
+    "url": "https://huntingforkicks.com/blog.atom",
+    "id": "https://huntingforkicks.com/"
   },
   "author": {
-    "name": "Mathias Bynens"
+    "name": "Sage"
   }
 }
