@@ -1,0 +1,28 @@
+backend:
+  name: git-gateway
+  branch: main # Branch to update (master or main)
+
+# Where the CMS should save uploaded images, and how to link them
+media_folder: "src/_css/img"
+public_folder: "/_css/img"
+
+site_url: https://huntingforkicks.com
+display_url: https://huntingforkicks.com
+logo_url: https://huntingforkicks.com/_css/img/hlogo.png
+
+
+collections:
+  - name: "articles"
+    label: "Articles"
+    folder: "src/articles" # Where the markdown files will be saved
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "layouts/post.njk" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Author", name: "author", widget: "string", default: "Sage" }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Tags", name: "tags", widget: "list", default: ["sneakers"] }
+      - { label: "Thumbnail Image", name: "thumbnail", widget: "image", required: false, hint: "Upload an image or paste an Unsplash URL here" }
+      - { label: "Body", name: "body", widget: "markdown" }

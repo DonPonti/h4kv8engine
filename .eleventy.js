@@ -115,7 +115,7 @@ module.exports = (eleventyConfig) => {
   // Match Firebase’s `cleanUrls` setting.
   eleventyConfig.addFilter('clean', (path) => {
     if (path === '/') return path;
-    if (path === 'https://v8.dev/') return path;
+    if (path === 'https://huntingforkicks.com/') return path;
     if (path.endsWith('/')) return path.slice(0, -1);
     return path;
   });
@@ -185,6 +185,7 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addPassthroughCopy('src/robots.txt');
   eleventyConfig.addPassthroughCopy('src/_img');
   eleventyConfig.addPassthroughCopy('src/_css/img');
+  eleventyConfig.addPassthroughCopy('src/admin');
 
   return {
     templateFormats: [
