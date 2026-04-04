@@ -128,10 +128,10 @@ body {
   padding: 1em;
   color: var(--black);
   font-weight: bold;
-  background: rgba(255, 255, 255, .8);
+  background: rgba(255, 255, 255, .8);  
   font-size: 1em;
   margin-right: 1em;
-  display: block;
+  display: block; 
 }
 #nav-toggle {
   display: none;
@@ -517,7 +517,7 @@ dark-mode-toggle {
   }
 }
 
-@media (max-width: 819px) {
+ @media (max-width: 819px) {
   #header, .compact #header {
     height: auto;
     background: transparent;
@@ -558,7 +558,7 @@ dark-mode-toggle {
     background-image: none;
     padding-right: var(--offset);
   }
-}
+} 
 
 /* https://github.com/PrismJS/prism-themes/blob/master/themes/prism-cb.css
 ** with custom modifications for increased accessibility/contrast.
@@ -686,3 +686,4 @@ pre mark .token.punctuation {
   align-items: center;
   flex-wrap: wrap;
 }
+

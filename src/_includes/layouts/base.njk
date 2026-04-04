@@ -7,7 +7,33 @@
     <meta name="color-scheme" content="dark light">
     <meta name="google-site-verification" content="_id9bpWau5RTqOu8c_2VMC6eLoMuXZyZqQWhDVvA8IY" />
     <link rel="stylesheet" href="/_css/main.css">
-    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "cdffa18a84f040898a4c50f9f0b1352c"}'></script><!-- End Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "cdffa18a84f040898a4c50f9f0b1352c"}'></script><style>
+      /* Hide the new text on desktop */
+      .mobile-txt { display: none; }
+
+      /* When on mobile view... */
+      @media (max-width: 819px) {
+        /* Override V8's hidden text tricks */
+        #header h1 a {
+          display: flex !important;
+          align-items: center !important;
+          text-indent: 0 !important;
+          background: none !important;
+          width: auto !important;
+        }
+        /* Hide the original V8 text */
+        .desktop-v8 { display: none !important; }
+        
+        /* Show your custom text */
+        .mobile-txt { 
+          display: block !important; 
+          color: #FFF; 
+          font-weight: bold; 
+          font-size: 1.2rem; 
+        }
+      }
+    </style>
+
 {% if '/features' in page.url %}
     <link rel="stylesheet" href="/_css/feature-support.css">
 {% endif %}
@@ -26,13 +52,18 @@
   </head>
   <body>
     <header id="header">
-      <h1><a href="/">V8</a></h1>
+      <h1>
+        <a href="/">
+          <span class="desktop-v8">Hunting For Kicks</span>
+          <span class="mobile-txt">huntingforkicks.com</span>
+        </a>
+      </h1>
       <a href="#navigation-toggle" id="nav-toggle">Show navigation</a>
       <nav>
         <ul>
           <li{% if '/' === page.url %} class="current"{% endif %}><a href="/">Home</a></li>
           <li{% if '/blog' in page.url %} class="current"{% endif %}><a href="/blog">Blog</a></li>
- <li{% if '/features' in page.url %} class="current"{% endif %}><a href="/features" title="Features">Features</a></li>
+          <li{% if '/features' in page.url %} class="current"{% endif %}><a href="/features" title="Features">Features</a></li>
           <li{% if '/grant' in page.url %} class="current"{% endif %}><a href="/grant">Research</a></li>
         </ul>
       </nav>
