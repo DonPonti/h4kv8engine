@@ -1,9 +1,15 @@
+media:
+  input:  /src/_img/
+  output: /_img/
+
+
+
 content:
   - name: blog
     label: Blog Posts
     path: src/blog
     type: collection
-    filename: "{year}-{month}-{day}-{primary}.md"
+    filename: "{slug}.md"
 
     fields:
       - name: title
