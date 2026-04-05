@@ -1,0 +1,46 @@
+content:
+  - name: blog
+    label: Blog Posts
+    path: src/blog
+    type: collection
+    filename: "{year}-{month}-{day}-{primary}.md"
+
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+
+      - name: description
+        label: Description
+        type: string
+        required: true
+
+      - name: author
+        label: Author
+        type: string
+        default: Sage
+
+      - name: date
+        label: Date
+        type: date
+        required: true
+
+      - name: tags
+        label: Tags
+        type: string
+        list: true
+
+      - name: thumbnail
+        label: Thumbnail Image URL
+        type: string
+
+      - name: layout
+        label: Layout
+        type: string
+        default: layouts/post.njk
+        hidden: true
+
+      - name: body
+        label: Content
+        type: rich-text
