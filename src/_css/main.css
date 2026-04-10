@@ -117,10 +117,10 @@ body {
   font-size: 1rem;
   position: absolute;
   bottom: 0;
-  background: url(/_img/hlogo.png) no-repeat center center;
+  background: url(/_img/kicks_logo_final.svg) no-repeat center center;
   background-size: 80%;
-  width: 6.5em;
-  height: 6.5em;
+  width: 8.5em;
+  height: 5.5em;
   text-indent: -9999em;
   overflow: hidden;
 }
@@ -137,7 +137,7 @@ body {
   display: none;
 }
 #nav-toggle::after {
-  background: url(/_img/hlogo.png) no-repeat center center;
+  background: url(/_img/kicks_logo_final.svg) no-repeat center center;
   content: '';
   width: 2em;
   height: 2em;
@@ -214,7 +214,7 @@ hr {
 }
 #footer {
   color: var(--footer-color);
-  background: var(--footer-background) url(/_img/hlogoblack.png) no-repeat 96% center;
+  background: var(--footer-background) url(/_img/kicks_logo_final.svg) no-repeat 96% center;
   padding-right: 10.8em;
   background-size: 10em;
 }
