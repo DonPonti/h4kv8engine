@@ -1,88 +1,88 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% if '/' === page.url %}V8 JavaScript engine{% else %}{{ (renderData.title or title) | markdown | striptags | decodeHtmlEntities }} · V8{% endif %}</title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="color-scheme" content="dark light">
-    <meta name="google-site-verification" content="_id9bpWau5RTqOu8c_2VMC6eLoMuXZyZqQWhDVvA8IY" />
-    <link rel="stylesheet" href="/_css/main.css">
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "cdffa18a84f040898a4c50f9f0b1352c"}'></script><style>
-      /* Hide the new text on desktop */
-      .mobile-txt { display: none; }
+<head>
+<meta charset="utf-8">
+<title>{% if '/' === page.url %}Hunting For Kicks{% else %}{{ (renderData.title or title) | markdown | striptags | decodeHtmlEntities }} · Hunting For Kicks{% endif %}</title>
+<meta name="viewport" content="width=device-width">
+<meta name="color-scheme" content="dark light">
+<meta name="google-site-verification" content="_id9bpWau5RTqOu8c_2VMC6eLoMuXZyZqQWhDVvA8IY" />
+<link rel="stylesheet" href="/_css/main.css">
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "cdffa18a84f040898a4c50f9f0b1352c"}'></script>
+<style>
+  /* Hide mobile text by default (desktop view) */
+  .mobile-txt { display: none; }
 
-      /* When on mobile view... */
-      @media (max-width: 819px) {
-        /* Override V8's hidden text tricks */
-        #header h1 a {
-          display: flex !important;
-          align-items: center !important;
-          text-indent: 0 !important;
-          background: none !important;
-          width: auto !important;
-        }
-        /* Hide the original V8 text */
-        .desktop-v8 { display: none !important; }
-        
-        /* Show your custom text */
-        .mobile-txt { 
-          display: block !important; 
-          color: #FFF; 
-          font-weight: bold; 
-          font-size: 1.2rem; 
-        }
-      }
-    </style>
+  /* Mobile view adjustments */
+  @media (max-width: 819px) {
+    #header h1 a {
+      display: flex !important;
+      align-items: center !important;
+      text-indent: 0 !important;
+      background: none !important;
+      width: auto !important;
+    }
 
+    /* Hide desktop logo text on mobile */
+    .desktop-logo { display: none !important; }
+
+    /* Show short mobile brand text */
+    .mobile-txt {
+      display: block !important;
+      color: #FFF;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+</style>
 {% if '/features' in page.url %}
-    <link rel="stylesheet" href="/_css/feature-support.css">
+<link rel="stylesheet" href="/_css/feature-support.css">
 {% endif %}
-    <link rel="icon" href="/favicon.png" sizes="48x48">
-    <link rel="manifest" href="/.webmanifest">
-    <meta name="theme-color" content="#4285F4">
-    <link rel="alternate" href="{{ metadata.feed.path | url }}" type="application/atom+xml" title="V8 Atom feed">
-    <link rel="alternate" href="/features.atom" type="application/atom+xml" title="V8 JS/Wasm features Atom feed">
+<link rel="icon" href="/favicon.png" sizes="48x48">
+<link rel="manifest" href="/.webmanifest">
+<meta name="theme-color" content="#111111">
+<link rel="alternate" href="{{ metadata.feed.path | url }}" type="application/atom+xml" title="Hunting For Kicks feed">
+<link rel="alternate" href="/features.atom" type="application/atom+xml" title="Hunting For Kicks Releases feed">
 {% for extra_link in extra_links %}
-    <link rel="{{ extra_link.rel }}" href="{{ extra_link.href }}">
+<link rel="{{ extra_link.rel }}" href="{{ extra_link.href }}">
 {% endfor %}
-    <script>document.documentElement.className+=' js'</script>
+<script>document.documentElement.className+=' js'</script>
 {% if description %}
-    <meta name="description" content="{{ description }}">
+<meta name="description" content="{{ description }}">
 {% endif %}
-  </head>
-  <body>
-    <header id="header">
-      <h1>
-        <a href="/">
-          <span class="desktop-v8">Hunting For Kicks</span>
-          <span class="mobile-txt">huntingforkicks.com</span>
-        </a>
-      </h1>
-      <a href="#navigation-toggle" id="nav-toggle">Show navigation</a>
-      <nav>
-        <ul>
-          <li{% if '/' === page.url %} class="current"{% endif %}><a href="/">Home</a></li>
-          <li{% if '/blog' in page.url %} class="current"{% endif %}><a href="/blog">Blog</a></li>
-          <li{% if '/features' in page.url %} class="current"{% endif %}><a href="/features" title="Features">Features</a></li>
-          <li{% if '/grant' in page.url %} class="current"{% endif %}><a href="/grant">Research</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main id="main">
-      {{ content | safe }}
-    </main>
-    <footer id="footer">
-      <div>
-        <nav>
-          <a href="/terms">Terms</a>
-          <a href="/privacy">Privacy</a>
-          <a href="https://x.com/praveenjpeg" rel="me nofollow">Twitter</a>
-        </nav>
-        <dark-mode-toggle permanent dark="Light Mode" light="Dark Mode"></dark-mode-toggle>
-      </div>
-      <p><small>&copy; 2026 Hunting For Kicks. All rights reserved. Release dates and retail prices are subject to change.</small></p>
-    </footer>
-    <script type="module" src="/_js/dark-mode-toggle.mjs"></script>
-    <script src="/_js/main.js"></script>
-  </body>
+</head>
+<body>
+<header id="header">
+  <h1>
+    <a href="/">
+      <span class="desktop-logo">Hunting For Kicks</span>
+      <span class="mobile-txt">huntingforkicks.com</span>
+    </a>
+  </h1>
+  <a href="#navigation-toggle" id="nav-toggle">Show navigation</a>
+  <nav>
+    <ul>
+      <li{% if '/' === page.url %} class="current"{% endif %}><a href="/">Home</a></li>
+      <li{% if '/blog' in page.url %} class="current"{% endif %}><a href="/blog">Blog</a></li>
+      <li{% if '/features' in page.url %} class="current"{% endif %}><a href="/features" title="Releases">Releases</a></li>
+      <li{% if '/grant' in page.url %} class="current"{% endif %}><a href="/grant">Research</a></li>
+    </ul>
+  </nav>
+</header>
+<main id="main">
+  {{ content | safe }}
+</main>
+<footer id="footer">
+  <div>
+    <nav>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+      <a href="https://x.com/praveenjpeg" rel="me nofollow">Twitter</a>
+    </nav>
+    <dark-mode-toggle permanent dark="Light Mode" light="Dark Mode"></dark-mode-toggle>
+  </div>
+  <p><small>&copy; 2026 Hunting For Kicks. All rights reserved. Release dates and retail prices are subject to change.</small></p>
+</footer>
+<script type="module" src="/_js/dark-mode-toggle.mjs"></script>
+<script src="/_js/main.js"></script>
+</body>
 </html>
