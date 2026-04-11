@@ -4,7 +4,7 @@ excludeFromSitemap: true
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>V8</title>
+  <title>Huntingforkicks.com</title>
   <subtitle>{{ metadata.feed.subtitle }}</subtitle>
   <link href="{{ metadata.feed.url }}" rel="self"/>
   <link href="{{ metadata.url }}"/>
@@ -21,9 +21,7 @@ excludeFromSitemap: true
     <updated>{{ (post.data.updated or post.date) | rssDate }}</updated>
     <id>{{ absolutePostUrl }}</id>
     {%- for tag in post.data.tags %}
-      {%- if not 'io' in tag and not 'Node.js' in tag %}
         <category label="{{ tag }}" term="{{ tag | slug }}" />
-      {%- endif %}
     {%- endfor %}
     <author>
       <name>{{ post.data.author | markdown | striptags }}</name>

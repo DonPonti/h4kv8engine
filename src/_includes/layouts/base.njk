@@ -49,6 +49,42 @@
 {% if description %}
 <meta name="description" content="{{ description }}">
 {% endif %}
+<!-- Canonical URL -->
+<link rel="canonical" href="{{ page.url | url | absoluteUrl(site.url) }}" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ page.url | url | absoluteUrl(site.url) }}" />
+<meta property="og:title" content="{% if '/' === page.url %}Hunting For Kicks{% else %}{{ (renderData.title or title) | markdown | striptags | decodeHtmlEntities | e }} · Hunting For Kicks{% endif %}" />
+{% if description %}
+<meta property="og:description" content="{{ description | e }}" />
+{% endif %}
+<meta property="og:image" content="{{ '/_img/hlogo.png' | url | absoluteUrl(site.url) }}" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="{{ page.url | url | absoluteUrl(site.url) }}" />
+<meta property="twitter:title" content="{% if '/' === page.url %}Hunting For Kicks{% else %}{{ (renderData.title or title) | markdown | striptags | decodeHtmlEntities | e }} · Hunting For Kicks{% endif %}" />
+{% if description %}
+<meta property="twitter:description" content="{{ description | e }}" />
+{% endif %}
+<meta property="twitter:image" content="{{ '/_img/hlogo.png' | url | absoluteUrl(site.url) }}" />
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Hunting For Kicks",
+  "url": "{{ site.url }}",
+  "description": "News and reviews on sneakers and releases.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hunting For Kicks"
+  }
+}
+</script>
+
 </head>
 <body>
 <header id="header">

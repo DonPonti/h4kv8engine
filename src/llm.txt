@@ -1,0 +1,26 @@
+# Hunting For Kicks
+
+A sneaker news and review website covering releases, reviews, and sneaker culture.
+
+## Site Structure
+
+- Home: /
+- Blog: /blog
+- Releases: /features
+- Terms: /terms
+- Privacy: /privacy
+
+## Key Content
+
+- Sneaker release dates and reviews
+- News on brands like Adidas, Nike, Puma
+- Features on sneaker history and culture
+
+## Contact
+
+Email: contact@huntingforkicks.com
+Twitter: @praveenjpeg
+
+## Last Updated
+
+2026-04-11
