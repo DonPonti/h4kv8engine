@@ -1,5 +1,5 @@
 ---
-title: 'Extra content for "Understanding the ECMAScript spec, part 2"'
+title: 'Extra content for Understanding the ECMAScript spec, part 2'
 author: '[Marja Hölttä](https://twitter.com/marjakh), speculative specification spectator'
 avatars:
   - marja-holtta
