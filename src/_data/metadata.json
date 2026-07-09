@@ -1,12 +1,12 @@
 {
   "title": "Hunting For Kicks",
-  "url": "https://huntingforkicks.com/",
+  "url": "https://huntingforkicks.com",
   "feed": {
-    "subtitle": "The ultimate sneaker magazine",
+    "subtitle": "The ultimate Sneaker's and Fashion magazine",
     "filename": "blog.atom",
     "path": "/blog.atom",
     "url": "https://huntingforkicks.com/blog.atom",
-    "id": "https://huntingforkicks.com/"
+    "id": "https://huntingforkicks.com"
   },
   "author": {
     "name": "Sage"

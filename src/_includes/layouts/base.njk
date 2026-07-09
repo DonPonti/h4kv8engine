@@ -45,9 +45,10 @@
 <link rel="{{ extra_link.rel }}" href="{{ extra_link.href }}">
 {% endfor %}
 <script>document.documentElement.className+=' js'</script>
-{% if description %}
-<meta name="description" content="{{ description }}">
-{% endif %}
+
+<!-- SEO Descriptions (with global fallback) -->
+<meta name="description" content="{{ description or 'Hunting For Kicks is your ultimate source for sneaker reviews, release dates, and vintage kicks.' }}">
+
 <!-- Canonical URL -->
 <link rel="canonical" href="{{ page.url | url | absoluteUrl(site.url) }}" />
 
@@ -55,18 +56,14 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ page.url | url | absoluteUrl(site.url) }}" />
 <meta property="og:title" content="{% if '/' === page.url %}Hunting For Kicks{% else %}{{ (renderData.title or title) | markdown | striptags | decodeHtmlEntities | e }} · Hunting For Kicks{% endif %}" />
-{% if description %}
-<meta property="og:description" content="{{ description | e }}" />
-{% endif %}
+<meta property="og:description" content="{{ description or 'Hunting For Kicks is your ultimate source for sneaker reviews, release dates, and vintage kicks.' }}" />
 <meta property="og:image" content="{{ '/_img/hlogo.png' | url | absoluteUrl(site.url) }}" />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content="{{ page.url | url | absoluteUrl(site.url) }}" />
 <meta property="twitter:title" content="{% if '/' === page.url %}Hunting For Kicks{% else %}{{ (renderData.title or title) | markdown | striptags | decodeHtmlEntities | e }} · Hunting For Kicks{% endif %}" />
-{% if description %}
-<meta property="twitter:description" content="{{ description | e }}" />
-{% endif %}
+<meta property="twitter:description" content="{{ description or 'Hunting For Kicks is your ultimate source for sneaker reviews, release dates, and vintage kicks.' }}" />
 <meta property="twitter:image" content="{{ '/_img/hlogo.png' | url | absoluteUrl(site.url) }}" />
 
 <!-- Structured Data -->
@@ -83,8 +80,6 @@
   }
 }
 </script>
-
-
 </head>
 <body>
 <header id="header">
@@ -100,7 +95,6 @@
       <li{% if '/' === page.url %} class="current"{% endif %}><a href="/">Home</a></li>
       <li{% if '/blog' in page.url %} class="current"{% endif %}><a href="/blog">Blog</a></li>
       <li{% if '/features' in page.url %} class="current"{% endif %}><a href="/features" title="Releases">Releases</a></li>
-      <li{% if '/grant' in page.url %} class="current"{% endif %}><a href="/grant">Research</a></li>
     </ul>
   </nav>
 </header>
