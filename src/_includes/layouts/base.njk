@@ -11,29 +11,40 @@
 <link rel="stylesheet" href="/_css/main.css">
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "cdffa18a84f040898a4c50f9f0b1352c"}'></script>
 <style>
-  /* Hide mobile text by default (desktop view) */
-  .mobile-txt { display: none; }
-
   /* Mobile view adjustments */
   @media (max-width: 819px) {
-    #header h1 a {
+    /* 1. Turn the header into a clean, spaced row */
+    #header {
       display: flex !important;
+      justify-content: space-between !important;
       align-items: center !important;
+      padding: 10px 15px !important;
+    }
+    
+    /* 2. Override V8's old hiding tricks */
+    #header h1, #header h1 a {
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
       text-indent: 0 !important;
       background: none !important;
+    }
+
+    /* 3. Force the logo to stay large and stop it from squishing */
+    #header h1 a img {
+      height: 40px !important; /* Perfect height for mobile */
       width: auto !important;
+      flex-shrink: 0 !important; /* Stops the browser from crushing it */
     }
 
-    /* Hide desktop logo text on mobile */
-    .desktop-logo { display: none !important; }
-
-    /* Show short mobile brand text */
-    .mobile-txt {
-      display: block !important;
-      color: #FFF;
-      font-weight: bold;
-      font-size: 1.2rem;
+    /* 4. Tidy up the nav button */
+    #nav-toggle {
+      margin: 0 !important;
+      padding: 10px !important;
     }
+
+    /* 5. Hide any leftover text hacks */
+    .mobile-txt { display: none !important; }
   }
 </style>
 {% if '/features' in page.url %}
@@ -88,14 +99,11 @@
 <header id="header">
   <h1>
     <a href="/">
-      <!-- The new Logo for Desktop -->
-      <img src="/_css/img/kicks_logo_final.svg" alt="H4KICKS Logo" class="desktop-logo" style="height: 120px; width: auto; vertical-align: middle;">
-      
-      <!-- Mobile text -->
-      <span class="mobile-txt">H4KICKS</span>
+      <!-- One perfect logo for both desktop and mobile -->
+      <img src="/_css/img/kicks_logo_final.svg" alt="H4KICKS Logo" style="height: 60px; width: auto; vertical-align: middle;">
     </a>
   </h1>
-  <a href="#navigation-toggle" id="nav-toggle">Show Nav</a>
+  <a href="#navigation-toggle" id="nav-toggle">Show navigation</a>
   <nav>
     <ul>
       <li{% if '/' === page.url %} class="current"{% endif %}><a href="/">Home</a></li>
