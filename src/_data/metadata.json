@@ -2,13 +2,13 @@
   "title": "Hunting For Kicks",
   "url": "https://huntingforkicks.com",
   "feed": {
-    "subtitle": "The ultimate Sneaker's and Fashion magazine covering Hollywood , Bollywood , and indian celebrities",
+    "subtitle": "The ultimate Sneaker's and Fashion magazine covering Hollywood , Bollywood , and Indian celebrities",
     "filename": "blog.atom",
     "path": "/blog.atom",
     "url": "https://huntingforkicks.com/blog.atom",
     "id": "https://huntingforkicks.com"
   },
   "author": {
-    "name": "Sage"
+    "name": "Vishnu Mitra"
   }
 }
