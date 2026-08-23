@@ -32,22 +32,22 @@
   /* Body padding offset. */
   --offset: 2em;
 
-  /* Light mode */
-  --html-color: var(--black);
-  --html-background: var(--darkgray);
-  --main-color: var(--black);
-  --main-background: var(--white);
-  --footer-background: var(--lightestgray);
-  --main-and-footer-link-color: var(--darkblue);
+ /* Light mode - Luxury Editorial Theme */
+  --html-color: #000000;
+  --html-background: #FFFFFF; /* Removes the dark cement sides */
+  --main-color: #000000;
+  --main-background: #FFFFFF;
+  --footer-background: #FAFAFA; /* Subtle, elegant off-white */
+  --main-and-footer-link-color: #000000; /* Replaces blue links with stark black */
   --avatar-img-filter: none;
   --icon-no-support-filter: grayscale(100%);
-  --note-color: var(--main-color);
-  --note-background: var(--lightyellow);
-  --tag-color: var(--black);
-  --tag-background: var(--lightestgray);
-  --table-border: var(--lightestgray);
-  --logo-hover-background: var(--lightestgray);
-  --alt-table-row-background: #EEE;
+  --note-color: #000000;
+  --note-background: #F5F5F5; /* Replaces yellow notes with clean light gray */
+  --tag-color: #000000;
+  --tag-background: #EFEFEF;
+  --table-border: #EAEAEA;
+  --logo-hover-background: #FAFAFA;
+  --alt-table-row-background: #F9F9F9;
 }
 
 :root.dark {
@@ -98,7 +98,8 @@ body {
 #header {
   position: relative;
   height: 6.5em;
-  background: var(--blue);
+  background: #FFFFFF; /* Replaces the heavy blue with clean white */
+  border-bottom: 1px solid #EAEAEA; /* Adds a crisp luxury fashion divider */
   padding: 0 1em;
 }
 #header nav ul, #header nav li {
@@ -146,7 +147,7 @@ body {
   vertical-align: middle;
 }
 #header nav .current a {
-  background: #FFF;
+  border-bottom: 2px solid #000000; /* Minimalist black underline for the active page */
 }
 #header nav a:hover, #header nav a:focus {
   background-color: var(--darkgray);
