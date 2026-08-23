@@ -176,7 +176,10 @@ main, #footer {
 }
 article footer {
   overflow: hidden;
-  background: var(--yellow);
+  background: #FAFAFA; /* Changes the yellow to a subtle, luxury off-white */
+  border-top: 1px solid #EAEAEA; /* Adds a crisp dividing line */
+  border-bottom: 1px solid #EAEAEA;
+  padding: 1.5em; /* Gives the text some elegant breathing room */
 }
 article footer p {
   color: var(--black);
