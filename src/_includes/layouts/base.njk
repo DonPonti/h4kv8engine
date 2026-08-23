@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="/_css/main.css">
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "cdffa18a84f040898a4c50f9f0b1352c"}'></script>
 <style>
+  /* Hide the text logo on desktop */
+  .mobile-logo-text { display: none; }
+
   /* --- ULTIMATE MOBILE HEADER FIX --- */
   @media (max-width: 819px) {
     /* 1. Make the header a perfect row */
@@ -32,14 +35,20 @@
       height: auto !important;
     }
 
-    /* 3. Lock the logo size so it never squishes */
-    #header h1 a img {
-      height: 40px !important; 
-      width: auto !important;
+    /* 3. Hide the SVG image on mobile */
+    .desktop-logo { display: none !important; }
+
+    /* 4. Style the new text logo for mobile */
+    .mobile-logo-text {
       display: block !important;
+      font-family: 'Playfair Display', serif; /* Matches your premium headlines */
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #000000;
+      letter-spacing: 0.05em;
     }
 
-    /* 4. Clean up the "Show navigation" button */
+    /* 5. Clean up the "Show navigation" button */
     #nav-toggle {
       margin: 0 !important;
       padding: 5px 10px !important;
@@ -47,7 +56,7 @@
       color: #000000 !important;
     }
 
-    /* 5. Kill the tiny ghost logo and replace with a clean menu icon */
+    /* 6. Clean menu icon */
     #nav-toggle::after {
       content: ' ☰' !important;
       background: none !important;
@@ -108,8 +117,11 @@
 <header id="header">
   <h1>
     <a href="/">
-      <!-- Pointing specifically to your .svg file now! -->
-      <img src="/_css/img/kicks_logo_final.svg" alt="H4KICKS Logo" style="height: 60px; width: auto; vertical-align: middle;">
+      <!-- This image will ONLY show on desktop -->
+      <img src="/_css/img/kicks_logo_final.svg" alt="H4KICKS Logo" class="desktop-logo" style="height: 60px; width: auto; vertical-align: middle;">
+      
+      <!-- This text will ONLY show on mobile -->
+      <span class="mobile-logo-text">H4KICKS</span>
     </a>
   </h1>
   <a href="#navigation-toggle" id="nav-toggle">Show navigation</a>
