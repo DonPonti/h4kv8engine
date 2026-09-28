@@ -13,7 +13,8 @@
     "copy-js": "shx cp ./node_modules/dark-mode-toggle/dist/dark-mode-toggle.min.mjs dist/_js/dark-mode-toggle.mjs",
     "clean": "shx rm -rf -- dist",
     "build": "npm run clean && npm run css && npm run js && npm run json && npm run copy-js && npm run eleventy && npm run sw && npm run xml && npm run html",
-   "dev": "npm run build && npx eleventy --serve"
+    "dev": "npm run build && npx eleventy --serve",
+    "admin": "node admin-server.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2",
