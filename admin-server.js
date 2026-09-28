@@ -5,6 +5,7 @@ const slug=s=>String(s||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toL
 const json=(r,c,d)=>{r.writeHead(c,{'Content-Type':'application/json','Cache-Control':'no-store'});r.end(JSON.stringify(d))};
 const body=q=>new Promise((ok,no)=>{let b='';q.on('data',x=>{b+=x;if(b.length>3e6)q.destroy()});q.on('end',()=>{try{ok(JSON.parse(b||'{}'))}catch(e){no(e)}})});
 const postFiles=()=>fs.existsSync(BLOG)?fs.readdirSync(BLOG).filter(x=>x.endsWith('.md')):[];
+const backupPath=path.join(ROOT,'hfk-backup.json');
 const readPost=file=>{const raw=fs.readFileSync(path.join(BLOG,file),'utf8'),m=raw.match(/^---\s*([\s\S]*?)\s*---/),fm={};(m?m[1]:'').split(/\r?\n/).forEach(l=>{const x=l.match(/^([\w-]+):\s*(.*)$/);if(x)fm[x[1]]=x[2].replace(/^['"]|['"]$/g,'')});return{file,title:fm.title||file.replace('.md',''),date:fm.date||'',category:(fm.tags||'').replace(/[\[\]"]/g,'').split(',')[0].trim(),description:fm.description||'',content:m?raw.slice(m[0].length).trim():raw}};
 const state=()=>{const d=read();return{...d,posts:postFiles().map(readPost)}};
 const normalizeIg=u=>String(u||'').trim().replace(/\/$/,'').replace(/^http:\/\//i,'https://').replace(/^https:\/\/instagram\.com/i,'https://www.instagram.com');
@@ -13,6 +14,8 @@ const normalizeUrl=u=>String(u||'').trim();
 const clean=s=>String(s||'').replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r?\n/g,' ');
 const savePost=(x,file)=>fs.writeFileSync(path.join(BLOG,file),['---','layout: layouts/post.njk','title: "'+clean(x.title)+'"','date: '+(x.date||new Date().toISOString().slice(0,10)),'tags: ["'+clean(x.category||'Sneakers')+'"]','description: "'+clean(x.seoDescription||x.description||x.excerpt||'')+'"','---','',x.content||'',''].join('\n'));
 async function handler(q,r){const u=new URL(q.url,'http://127.0.0.1'),p=u.pathname;
+if(q.method==='GET'&&p==='/api/backup'){return json(r,200,read())}
+if(q.method==='POST'&&p==='/api/restore'){const x=await body(q);if(!x||!Array.isArray(x.celebrities)||!Array.isArray(x.shoes)||!Array.isArray(x.updates)||!Array.isArray(x.affiliates))return json(r,400,{error:'Invalid HFK backup'});fs.copyFileSync(DATA,backupPath);write(x);return json(r,200,{ok:true,backup:'hfk-backup.json'})}
 if(q.method==='GET'&&p==='/api/state')return json(r,200,state());
 if(q.method==='POST'&&p==='/api/celebrities'){const x=await body(q),d=read(),s=slug(x.name);if(!s||d.celebrities.some(v=>v.slug===s))return json(r,400,{error:'Celebrity already exists'});d.celebrities.push({name:x.name,slug:s,instagram:x.instagram||'',bio:x.bio||'',updateCount:0});write(d);return json(r,201,{ok:true})}
 if(q.method==='PUT'&&p.startsWith('/api/celebrities/')){const old=decodeURIComponent(p.split('/')[3]),x=await body(q),d=read(),v=d.celebrities.find(v=>v.slug===old);if(!v)return json(r,404,{error:'Celebrity not found'});const s=slug(x.name||v.name);if(d.celebrities.some(z=>z!==v&&z.slug===s))return json(r,400,{error:'Celebrity slug already exists'});v.name=x.name||v.name;v.instagram=x.instagram??v.instagram;v.bio=x.bio??v.bio;v.slug=s;d.updates.forEach(z=>{if(z.celebritySlug===old){z.celebritySlug=s;z.celebrityName=v.name}});write(d);return json(r,200,{ok:true})}
