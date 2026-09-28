@@ -1,0 +1,32 @@
+---
+pagination:
+  data: hfk.brands
+  size: 1
+  alias: brand
+permalink: "/brands/{{ brand.slug }}/"
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ brand.name }} Sneakers & Celebrity Shoes"
+  description: "{{ brand.name }} sneakers and shoes worn by celebrities, with sightings and places to buy."
+---
+<section class="hfk-profile">
+  <p class="eyebrow">Brand</p>
+  <h1>{{ brand.name }}</h1>
+  {% if brand.description %}<p class="profile-bio">{{ brand.description }}</p>{% endif %}
+</section>
+{% set brandShoes = hfk.shoes | where("brandSlug", brand.slug) %}
+<section class="related-block">
+  <div class="section-heading"><h2>Shoes</h2><span>{{ brandShoes.length }} models</span></div>
+  <div class="hfk-grid">
+  {% for shoe in brandShoes %}
+    <a class="hfk-card" href="/shoes/{{ shoe.slug }}/">
+      <span class="eyebrow">{{ brand.name }}</span>
+      <h2>{{ shoe.name }}</h2>
+      <p>{{ hfk.updates | where("shoeSlug", shoe.slug) | length }} celebrity sightings</p>
+    </a>
+  {% else %}<p>No shoes have been catalogued yet.</p>{% endfor %}
+  </div>
+</section>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"{{ brand.name }} Sneakers & Celebrity Shoes","url":"{{ page.url | url | absoluteUrl(site.url) }}","isPartOf":{"@type":"WebSite","name":"Hunting For Kicks","url":"{{ site.url }}"}} 
+</script>
