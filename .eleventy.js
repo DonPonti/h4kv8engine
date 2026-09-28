@@ -120,6 +120,8 @@ module.exports = (eleventyConfig) => {
     return path;
   });
 
+  eleventyConfig.addFilter('slug', (value) => String(value || '').normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''));
+  eleventyConfig.addFilter('uniqueBy', (array, key) => { const seen = new Set(); return (array || []).filter(item => { const value = item && item[key]; if (seen.has(value)) return false; seen.add(value); return true; }); });
   eleventyConfig.addFilter('where', (array, key, value) => { return (array || []).filter(item => item && item[key] === value); });
 
   // Get the first `n` elements of a collection.
