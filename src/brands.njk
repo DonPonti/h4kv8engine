@@ -1,0 +1,10 @@
+---
+permalink: /brands/
+title: Sneaker Brands & Celebrity Shoes
+description: Browse sneaker brands, their shoes and celebrity sightings tracked by Hunting For Kicks.
+layout: layouts/base.njk
+---
+<section class="hfk-hero"><p class="eyebrow">HFK BRAND DATABASE</p><h1>Sneaker Brands</h1><p>Browse brands, shoe models and celebrity sightings.</p></section>
+<div class="hfk-grid">
+{% for brand in hfk.brands %}<a class="hfk-card" href="/brands/{{ brand.slug }}/"><span class="eyebrow">Brand</span><h2>{{ brand.name }}</h2><p>{{ hfk.shoes | where("brandSlug", brand.slug) | length }} shoe models</p></a>{% else %}<p>No brands have been added yet.</p>{% endfor %}
+</div>
