@@ -1,28 +1,62 @@
 ---
 permalink: /top-100-celebrities/
 title: Top 100 Celebrity Style Profiles | Hunting For Kicks
-description: Explore 100 celebrity style profiles covering actors, musicians, athletes and creators, with sneaker and fashion updates from Hunting For Kicks.
+description: Explore celebrity style profiles covering sneakers, shoes and fashion updates on Hunting For Kicks.
 layout: layouts/base.njk
 ---
 <section class="hfk-hero">
   <p class="eyebrow">HFK CELEBRITY DATABASE</p>
   <h1>Top 100 Celebrity Style Profiles</h1>
-  <p>Browse 100 celebrity profiles and discover their sneaker, shoe and fashion updates as they are added to Hunting For Kicks.</p>
+  <p>Browse celebrity sneaker, shoe and fashion profiles. Each profile is updated as new looks are catalogued from public social posts.</p>
 </section>
-<section class="related-block"><h2>Browse by category</h2><div class="hfk-grid">
-{% set cats=[] %}{% for celebrity in hfk.celebrities %}{% if celebrity.category and not (celebrity.category in cats) %}{% set cats=cats.concat(celebrity.category) %}{% endif %}{% endfor %}
-{% for category in cats | sort %}<a class="hfk-card" href="/top-100-celebrities/#{{ category | slug }}"><span class="eyebrow">Category</span><h2>{{ category }}</h2><p>{{ hfk.celebrities | where("category", category) | length }} profiles</p></a>{% endfor %}
-</div></section>
-<section class="hfk-grid" aria-label="Top 100 celebrity profiles">
+
+<section class="related-block" aria-label="Celebrity directory tools">
+  <div class="section-heading"><h2>Find a celebrity</h2><span>{{ hfk.celebrities | length }} profiles</span></div>
+  <label class="directory-search" for="celebrity-directory-search">
+    <span class="sr-only">Search celebrity profiles</span>
+    <input id="celebrity-directory-search" type="search" placeholder="Search by celebrity, category or Instagram username…" autocomplete="off">
+  </label>
+  <p id="celebrity-directory-count" class="muted">Showing all profiles</p>
+</section>
+
+<section class="hfk-grid celebrity-directory" id="celebrity-directory" aria-label="Celebrity style profiles">
 {% for celebrity in hfk.celebrities | sort(attribute="top100Rank") %}
-<a class="hfk-card" href="/celebrities/{{ celebrity.slug }}/">
+<a class="hfk-card celebrity-directory-card" href="/celebrities/{{ celebrity.slug }}/" data-search="{{ celebrity.name }} {{ celebrity.category }} {{ celebrity.instagram }}" data-rank="{{ celebrity.top100Rank }}">
   <span class="eyebrow">#{{ celebrity.top100Rank }} · {{ celebrity.category }}</span>
   <h2>{{ celebrity.name }}</h2>
   <p>{{ celebrity.bio }}</p>
+  {% set looks = hfk.updates | where("celebritySlug", celebrity.slug) %}
+  <small>{{ looks | length }} tracked look{% if looks | length != 1 %}s{% endif %}</small>
   <strong>View profile →</strong>
 </a>
 {% endfor %}
 </section>
+
+<div id="celebrity-directory-empty" class="panel" hidden>
+  <p>No celebrity profiles match your search.</p>
+</div>
+
+<script>
+(function () {
+  const input = document.getElementById('celebrity-directory-search');
+  const cards = Array.from(document.querySelectorAll('.celebrity-directory-card'));
+  const count = document.getElementById('celebrity-directory-count');
+  const empty = document.getElementById('celebrity-directory-empty');
+  function filter() {
+    const query = input.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(function (card) {
+      const match = !query || card.dataset.search.toLowerCase().includes(query);
+      card.hidden = !match;
+      if (match) visible++;
+    });
+    count.textContent = query ? ('Showing ' + visible + ' of ' + cards.length + ' profiles') : ('Showing all ' + cards.length + ' profiles');
+    empty.hidden = visible !== 0;
+  }
+  input.addEventListener('input', filter);
+}());
+</script>
+
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"CollectionPage","name":"Top 100 Celebrity Style Profiles","url":"{{ page.url | url | absoluteUrl(site.url) }}","isPartOf":{"@type":"WebSite","name":"Hunting For Kicks","url":"{{ site.url }}"}} 
+{"@context":"https://schema.org","@type":"CollectionPage","name":"Top 100 Celebrity Style Profiles","description":"Celebrity sneaker, shoe and fashion profiles from Hunting For Kicks.","url":"{{ page.url | url | absoluteUrl(site.url) }}","isPartOf":{"@type":"WebSite","name":"Hunting For Kicks","url":"{{ site.url }}"}}
 </script>
