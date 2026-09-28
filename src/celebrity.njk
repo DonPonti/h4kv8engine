@@ -50,6 +50,19 @@ eleventyComputed:
   <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %} · {{ update.occasion }}{% endif %}</div>
   <h3>{% if update.shoeSlug %}<a href="/shoes/{{ update.shoeSlug }}/">{{ update.shoeName }}</a>{% else %}Latest fashion look{% endif %}</h3>
   {% if update.description %}<p>{{ update.description }}</p>{% endif %}
+    {% if update.shoeSlug %}
+      {% set lookShoe = hfk.shoes | where("slug", update.shoeSlug) | first %}
+      {% if lookShoe and lookShoe.affiliates and lookShoe.affiliates.length %}
+      <div class="shop-box">
+        <h4>Shop this look</h4>
+        <div class="shop-links">
+        {% for offer in lookShoe.affiliates %}
+          {% if offer.url %}<a class="shop-link" href="{{ offer.url }}" target="_blank" rel="sponsored nofollow noopener"><span>{{ offer.retailer }}</span><strong>{% if offer.label %}{{ offer.label }}{% else %}Check price{% endif %} →</strong></a>{% endif %}
+        {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    {% endif %}
   {% set instagramUrl = update.instagramUrl %}
   {% include "instagram.njk" %}
 </article>
