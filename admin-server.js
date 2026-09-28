@@ -13,6 +13,8 @@ const validIg=u=>/^https:\/\/(www\.)?instagram\.com\/(p|reel|tv)\//i.test(normal
 const normalizeUrl=u=>String(u||'').trim();
 const clean=s=>String(s||'').replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r?\n/g,' ');
 const seo=(type,x)=>{const n=String(x.name||'').trim(),b=String(x.brand||'').trim();if(type==='celebrity')return{title:n+' Shoes & Fashion | Hunting For Kicks',description:'Latest '+n+' sneaker, shoe and fashion sightings, with Instagram looks and related footwear.'};if(type==='shoe')return{title:b+' '+n+' — Celebrity Sightings & Where to Buy | Hunting For Kicks',description:'See celebrity sightings for '+b+' '+n+', related fashion looks and current places to buy.'};return{title:String(x.title||'')+' | Hunting For Kicks',description:String(x.description||x.excerpt||'').slice(0,155)}};
+const normalizeInstagram=u=>{try{const x=new URL(String(u).trim());let p=x.pathname.replace(/\\/+$/,'').replace(/\\/+/g,'/').toLowerCase();if(!/^\\/(p|reel|tv)\\//.test(p))return null;return 'https://www.instagram.com'+p+'/'}catch(e){return null}};
+const validUrl=u=>{try{const x=new URL(String(u));return /^https?:$/.test(x.protocol)}catch(e){return false}};
 const savePost=(x,file)=>fs.writeFileSync(path.join(BLOG,file),['---','layout: layouts/post.njk','title: "'+clean(x.title)+'"','date: '+(x.date||new Date().toISOString().slice(0,10)),'tags: ["'+clean(x.category||'Sneakers')+'"]','description: "'+clean(x.seoDescription||x.description||x.excerpt||'')+'"','---','',x.content||'',''].join('\n'));
 async function handler(q,r){const u=new URL(q.url,'http://127.0.0.1'),p=u.pathname;
 if(q.method==='GET'&&p==='/api/backup'){return json(r,200,read())}
