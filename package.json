@@ -14,7 +14,7 @@
     "clean": "shx rm -rf -- dist",
     "build": "npm run clean && npm run css && npm run js && npm run json && npm run copy-js && npm run eleventy && npm run sw && npm run xml && npm run html",
     "dev": "npm run build && npx eleventy --serve",
-    "admin": "node admin-server.js"
+    "admin": "node hfk-studio-server.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2",
@@ -23,7 +23,7 @@
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
     "dark-mode-toggle": "^0.14.3",
-    "glob": "^8.0.3",
+    "glob": "^8.0.0",
     "he": "^1.2.0",
     "html-minifier-terser": "^7.1.0",
     "image-size": "^1.0.2",
