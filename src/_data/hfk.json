@@ -1,5 +1,414 @@
 {
-  "celebrities": [],
+  "celebrities": [
+    {
+      "name": "Virat Kohli",
+      "slug": "virat-kohli",
+      "instagram": "virat.kohli",
+      "category": "Cricketer",
+      "top100Rank": 1,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Shraddha Kapoor",
+      "slug": "shraddha-kapoor",
+      "instagram": "shraddhakapoor",
+      "category": "Actress",
+      "top100Rank": 2,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Priyanka Chopra",
+      "slug": "priyanka-chopra",
+      "instagram": "priyankachopra",
+      "category": "Actress",
+      "top100Rank": 3,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Alia Bhatt",
+      "slug": "alia-bhatt",
+      "instagram": "aliaabhatt",
+      "category": "Actress",
+      "top100Rank": 4,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Katrina Kaif",
+      "slug": "katrina-kaif",
+      "instagram": "katrinakaif",
+      "category": "Actress",
+      "top100Rank": 5,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Deepika Padukone",
+      "slug": "deepika-padukone",
+      "instagram": "deepikapadukone",
+      "category": "Actress",
+      "top100Rank": 6,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Neha Kakkar",
+      "slug": "neha-kakkar",
+      "instagram": "nehakakkar",
+      "category": "Singer",
+      "top100Rank": 7,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Salman Khan",
+      "slug": "salman-khan",
+      "instagram": "beingsalmankhan",
+      "category": "Actor",
+      "top100Rank": 8,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Jacqueline Fernandez",
+      "slug": "jacqueline-fernandez",
+      "instagram": "jacquelienefernandez",
+      "category": "Actress",
+      "top100Rank": 9,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Urvashi Rautela",
+      "slug": "urvashi-rautela",
+      "instagram": "urvashirautela",
+      "category": "Actress",
+      "top100Rank": 10,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Anushka Sharma",
+      "slug": "anushka-sharma",
+      "instagram": "anushkasharma",
+      "category": "Actress",
+      "top100Rank": 11,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Akshay Kumar",
+      "slug": "akshay-kumar",
+      "instagram": "akshaykumar",
+      "category": "Actor",
+      "top100Rank": 12,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Disha Patani",
+      "slug": "disha-patani",
+      "instagram": "dishapatani",
+      "category": "Actress",
+      "top100Rank": 13,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Kriti Sanon",
+      "slug": "kriti-sanon",
+      "instagram": "kritisanon",
+      "category": "Actress",
+      "top100Rank": 14,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Sunny Leone",
+      "slug": "sunny-leone",
+      "instagram": "sunnyleone",
+      "category": "Actress",
+      "top100Rank": 15,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Sachin Tendulkar",
+      "slug": "sachin-tendulkar",
+      "instagram": "sachintendulkar",
+      "category": "Cricketer",
+      "top100Rank": 16,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Jannat Zubair",
+      "slug": "jannat-zubair",
+      "instagram": "jannatzubair29",
+      "category": "Actress",
+      "top100Rank": 17,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Rashmika Mandanna",
+      "slug": "rashmika-mandanna",
+      "instagram": "rashmika_mandanna",
+      "category": "Actress",
+      "top100Rank": 18,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "MS Dhoni",
+      "slug": "ms-dhoni",
+      "instagram": "mahi7781",
+      "category": "Cricketer",
+      "top100Rank": 19,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Kartik Aaryan",
+      "slug": "kartik-aaryan",
+      "instagram": "kartikaaryan",
+      "category": "Actor",
+      "top100Rank": 20,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Hrithik Roshan",
+      "slug": "hrithik-roshan",
+      "instagram": "hrithikroshan",
+      "category": "Actor",
+      "top100Rank": 21,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Shah Rukh Khan",
+      "slug": "shah-rukh-khan",
+      "instagram": "iamsrk",
+      "category": "Actor",
+      "top100Rank": 22,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Shahid Kapoor",
+      "slug": "shahid-kapoor",
+      "instagram": "shahidkapoor",
+      "category": "Actor",
+      "top100Rank": 23,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Ranveer Singh",
+      "slug": "ranveer-singh",
+      "instagram": "ranveersingh",
+      "category": "Actor",
+      "top100Rank": 24,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Nora Fatehi",
+      "slug": "nora-fatehi",
+      "instagram": "norafatehi",
+      "category": "Actress",
+      "top100Rank": 25,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Rohit Sharma",
+      "slug": "rohit-sharma",
+      "instagram": "rohitsharma45",
+      "category": "Cricketer",
+      "top100Rank": 26,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Varun Dhawan",
+      "slug": "varun-dhawan",
+      "instagram": "varundvn",
+      "category": "Actor",
+      "top100Rank": 27,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Hardik Pandya",
+      "slug": "hardik-pandya",
+      "instagram": "hardikpandya93",
+      "category": "Cricketer",
+      "top100Rank": 28,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Sara Ali Khan",
+      "slug": "sara-ali-khan",
+      "instagram": "saraalikhan95",
+      "category": "Actress",
+      "top100Rank": 29,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Kapil Sharma",
+      "slug": "kapil-sharma",
+      "instagram": "kapilsharma",
+      "category": "Comedian",
+      "top100Rank": 30,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Parineeti Chopra",
+      "slug": "parineeti-chopra",
+      "instagram": "parineetichopra",
+      "category": "Actress",
+      "top100Rank": 31,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Tiger Shroff",
+      "slug": "tiger-shroff",
+      "instagram": "tigerjackieshroff",
+      "category": "Actor",
+      "top100Rank": 32,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Samantha Ruth Prabhu",
+      "slug": "samantha-ruth-prabhu",
+      "instagram": "samantharuthprabhuoffl",
+      "category": "Actress",
+      "top100Rank": 33,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Madhuri Dixit",
+      "slug": "madhuri-dixit",
+      "instagram": "madhuridixitnene",
+      "category": "Actress",
+      "top100Rank": 34,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Anushka Sen",
+      "slug": "anushka-sen",
+      "instagram": "anushkasen0408",
+      "category": "Actress",
+      "top100Rank": 35,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Amitabh Bachchan",
+      "slug": "amitabh-bachchan",
+      "instagram": "amitabhbachchan",
+      "category": "Actor",
+      "top100Rank": 36,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Kiara Advani",
+      "slug": "kiara-advani",
+      "instagram": "kiaraaliaadvani",
+      "category": "Actress",
+      "top100Rank": 37,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Guru Randhawa",
+      "slug": "guru-randhawa",
+      "instagram": "gururandhawa",
+      "category": "Singer",
+      "top100Rank": 38,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Shreya Ghoshal",
+      "slug": "shreya-ghoshal",
+      "instagram": "shreyaghoshal",
+      "category": "Singer",
+      "top100Rank": 39,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Mr Faisu",
+      "slug": "mr-faisu",
+      "instagram": "mr_faisu_07",
+      "category": "Influencer",
+      "top100Rank": 40,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Sonam Kapoor",
+      "slug": "sonam-kapoor",
+      "instagram": "sonamkapoor",
+      "category": "Actress",
+      "top100Rank": 41,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Shilpa Shetty",
+      "slug": "shilpa-shetty",
+      "instagram": "theshilpashetty",
+      "category": "Actress",
+      "top100Rank": 42,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Mouni Roy",
+      "slug": "mouni-roy",
+      "instagram": "imouniroy",
+      "category": "Actress",
+      "top100Rank": 43,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Sidharth Malhotra",
+      "slug": "sidharth-malhotra",
+      "instagram": "sidmalhotra",
+      "category": "Actor",
+      "top100Rank": 44,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Nidhhi Agerwal",
+      "slug": "nidhhi-agerwal",
+      "instagram": "nidhhiagerwal",
+      "category": "Actress",
+      "top100Rank": 45,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Avneet Kaur",
+      "slug": "avneet-kaur",
+      "instagram": "avneetkaur_13",
+      "category": "Actress",
+      "top100Rank": 46,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Awez Darbar",
+      "slug": "awez-darbar",
+      "instagram": "awez_darbar",
+      "category": "Choreographer",
+      "top100Rank": 47,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Arishfa Khan",
+      "slug": "arishfa-khan",
+      "instagram": "arishfakhan138",
+      "category": "Actress",
+      "top100Rank": 48,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Sonakshi Sinha",
+      "slug": "sonakshi-sinha",
+      "instagram": "aslisona",
+      "category": "Actress",
+      "top100Rank": 49,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Tamannaah Bhatia",
+      "slug": "tamannaah-bhatia",
+      "instagram": "tamannaahspeaks",
+      "category": "Actress",
+      "top100Rank": 50,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Pooja Hegde",
+      "slug": "pooja-hegde",
+      "instagram": "hegdepooja",
+      "category": "Actress",
+      "top100Rank": 51,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    }
+  ],
   "shoes": [],
   "brands": [],
   "updates": [],
