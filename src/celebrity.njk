@@ -16,6 +16,22 @@ eleventyComputed:
   {% if celebrity.instagram %}<a href="https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/" target="_blank" rel="noopener noreferrer">@{{ celebrity.instagram | replace("@","") }}</a>{% endif %}
 </section>
 
+{% if updates.length %}
+<section class="related-block">
+<h2>Related Celebrity Style</h2>
+<div class="hfk-grid">
+{% set seenShoes = [] %}
+{% for update in updates %}
+{% if update.shoeSlug and not (update.shoeSlug in seenShoes) %}
+{% set seenShoes = seenShoes.concat(update.shoeSlug) %}
+{% set shoe = hfk.shoes | where("slug", update.shoeSlug) | first %}
+{% if shoe %}<a class="hfk-card" href="/shoes/{{ shoe.slug }}/"><span class="eyebrow">{{ shoe.brand }}</span><h3>{{ shoe.name }}</h3><p>View celebrity sightings →</p></a>{% endif %}
+{% endif %}
+{% endfor %}
+</div>
+</section>
+{% endif %}
+
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
