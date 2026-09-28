@@ -89,3 +89,57 @@ function hfkAffiliateWorkspace(){
     hfkAffiliateWorkspace();
   };
 })();
+
+
+// Shoe HQ: one workspace for catalog health, sightings, brands and affiliate coverage.
+function hfkShoeHQ(slug){
+  const s=state.shoes.find(x=>x.slug===slug);
+  if(!s){render('shoes');return}
+  const sightings=state.updates.filter(u=>u.shoeSlug===slug).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+  const brands=state.brands.find(b=>b.slug===s.brandSlug)||state.brands.find(b=>b.name===s.brand);
+  const offers=s.affiliates||[];
+  const active=offers.filter(a=>(a.status||'active')==='active');
+  const primary=offers.filter(a=>a.primary);
+  const india=offers.filter(a=>String(a.country||'').toUpperCase()==='IN');
+  const us=offers.filter(a=>String(a.country||'').toUpperCase()==='US');
+  const health=[];
+  if(!s.brand)health.push('Missing brand');
+  if(!s.name)health.push('Missing model');
+  if(!offers.length)health.push('No affiliate offers');
+  if(!india.length)health.push('Missing India offer');
+  if(!us.length)health.push('Missing US offer');
+  if(!primary.length)health.push('No primary offer');
+  const healthText=health.length?health.join(' · '):'Catalogued and monetization-ready';
+  const offerRows=offers.map((a,i)=>'<div class="row"><div><h3>'+esc(a.retailer||'Retailer')+'</h3><small>'+esc(a.country||'GLOBAL')+' · '+esc(a.status||'active')+(a.primary?' · Primary':'')+'</small></div><a class="btn secondary" target="_blank" rel="sponsored nofollow noopener" href="'+esc(a.url)+'">Open</a></div>').join('');
+  const sightRows=sightings.slice(0,20).map(u=>{const c=state.celebrities.find(x=>x.slug===u.celebritySlug);return '<div class="row"><div><h3>'+esc(c?c.name:u.celebrityName||'Unknown celebrity')+'</h3><small>'+esc(u.date||'No date')+' · '+esc(u.occasion||'Fashion update')+'</small></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Instagram</a></div>'}).join('');
+  shell('Shoe HQ','<div class="panel"><div class="hq-head"><div><p class="eyebrow">'+esc(s.brand||'Shoe')+(brands?' · '+esc(brands.name):'')+'</p><h2>'+esc(s.name)+'</h2><p class="muted">'+esc(s.description||'No description yet.')+'</p></div><span class="badge">'+esc(health.length?'Needs attention':'Ready')+'</span></div><p class="muted">'+esc(healthText)+'</p></div>'+
+    '<div class="grid"><div class="stat"><strong>'+sightings.length+'</strong><span>Celebrity sightings</span></div><div class="stat"><strong>'+offers.length+'</strong><span>Affiliate offers</span></div><div class="stat"><strong>'+active.length+'</strong><span>Active offers</span></div><div class="stat"><strong>'+primary.length+'</strong><span>Primary offers</span></div></div>'+
+    '<div class="panel"><h2>Catalog</h2><div class="two"><label>Brand<input id="shBrand" value="'+esc(s.brand||'')+'"></label><label>Model<input id="shName" value="'+esc(s.name||'')+'"></label></div><label>Description<textarea id="shDesc" style="min-height:100px">'+esc(s.description||'')+'</textarea><button class="btn" onclick="hfkSaveShoe(\''+esc(slug)+'\')">Save shoe</button><span id="shoeSaveMsg" class="muted" style="margin-left:10px"></span></div>'+
+    '<div class="panel"><div class="section-heading"><h2>Affiliate offers</h2><span>'+offers.length+'</span></div>'+ (offerRows||'<p class="muted">No offers yet.</p>') +'<button class="btn secondary" onclick="editAff(\''+esc(slug)+'\')">Manage affiliate offers →</button></div>'+
+    '<div class="panel"><div class="section-heading"><h2>Celebrity sightings</h2><span>'+sightings.length+'</span></div>'+ (sightRows||'<p class="muted">No celebrity sightings yet.</p>') +'</div>'+
+    '<button class="btn secondary" onclick="render(\'shoes\')">← Shoe catalog</button>');
+}
+async function hfkSaveShoe(oldSlug){
+  const msg=document.getElementById('shoeSaveMsg');
+  try{
+    await api('/api/shoes/'+encodeURIComponent(oldSlug),{method:'PUT',body:JSON.stringify({brand:document.getElementById('shBrand').value.trim(),name:document.getElementById('shName').value.trim(),description:document.getElementById('shDesc').value})});
+    await load();
+    const b=state.shoes.find(x=>x.slug===((document.getElementById('shBrand').value.trim()+' '+document.getElementById('shName').value.trim()).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')));
+    if(b)hfkShoeHQ(b.slug); else render('shoes');
+  }catch(e){if(msg)msg.textContent=e.message}
+}
+(function(){
+  const oldShoes=window.shoes;
+  window.shoes=function(){
+    oldShoes();
+    setTimeout(function(){
+      document.querySelectorAll('#app .list .row').forEach(function(row){
+        const title=row.querySelector('h3'); if(!title)return;
+        const text=title.textContent;
+        const s=state.shoes.find(x=>(x.brand+' '+x.name)===text); if(!s)return;
+        const btn=document.createElement('button'); btn.className='btn secondary'; btn.textContent='Shoe HQ'; btn.style.marginLeft='8px'; btn.onclick=function(){hfkShoeHQ(s.slug)};
+        row.querySelector('div:last-child')?.appendChild(btn);
+      });
+    },0);
+  };
+})();
