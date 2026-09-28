@@ -120,6 +120,8 @@ module.exports = (eleventyConfig) => {
     return path;
   });
 
+  eleventyConfig.addFilter('where', (array, key, value) => { return (array || []).filter(item => item && item[key] === value); });
+
   // Get the first `n` elements of a collection.
   eleventyConfig.addFilter('head', (array, n) => {
     return array.slice(0, n);
