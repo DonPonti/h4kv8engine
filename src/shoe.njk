@@ -18,7 +18,7 @@ eleventyComputed:
 {% include "shop-links.njk" %}
 
 <h2>Celebrity Sightings</h2>
-{% set sightings = hfk.updates | selectattr("shoeSlug", "equalto", shoe.slug) | sort(attribute="date", reverse=true) %}
+{% set sightings = hfk.updates | where("shoeSlug", shoe.slug) | sort(attribute="date", reverse=true) %}
 {% for update in sightings %}
 <article class="look-card">
   <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time> · <a href="/celebrities/{{ update.celebritySlug }}/">{{ update.celebrityName }}</a></div>
