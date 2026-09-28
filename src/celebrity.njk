@@ -7,51 +7,56 @@ permalink: "/celebrities/{{ celebrity.slug }}/"
 layout: layouts/base.njk
 eleventyComputed:
   title: "{{ celebrity.name }} Shoes & Fashion"
-  description: "{{ celebrity.name }} latest sneaker and fashion sightings on Hunting For Kicks."
+  description: "{{ celebrity.name }} latest sneaker, shoe and fashion sightings on Hunting For Kicks."
 ---
 {% set updates = hfk.updates | where("celebritySlug", celebrity.slug) | sort(attribute="date", reverse=true) %}
-{% set trackedShoes = updates | where("shoeSlug", "") %}
+{% set shoeRefs = updates | uniqueBy("shoeSlug") %}
 <section class="hfk-profile">
   <p class="eyebrow">{{ celebrity.category or "Celebrity Style" }}</p>
   <h1>{{ celebrity.name }} Shoes & Fashion</h1>
   {% if celebrity.bio %}<p class="profile-bio">{{ celebrity.bio }}</p>{% endif %}
-  {% if celebrity.instagram %}<a href="https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/" target="_blank" rel="noopener noreferrer">@{{ celebrity.instagram | replace("@","") }}</a>{% endif %}
+  {% if celebrity.instagram %}<a class="profile-instagram" href="https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/" target="_blank" rel="noopener noreferrer">Instagram · @{{ celebrity.instagram | replace("@","") }}</a>{% endif %}
   <div class="profile-stats">
     <span><strong>{{ updates.length }}</strong> tracked looks</span>
-    <span><strong>{{ updates | uniqueBy("shoeSlug") | length }}</strong> shoe references</span>
+    <span><strong>{{ shoeRefs | selectattr("shoeSlug") | list | length }}</strong> shoe references</span>
   </div>
 </section>
 
-<section class="related-block">
-  <div class="section-heading"><h2>Latest Looks</h2><span>{{ updates.length }} tracked</span></div>
-  {% if updates.length %}
+{% if updates.length %}
+<section class="related-block" aria-labelledby="latest-looks-title">
+  <div class="section-heading"><h2 id="latest-looks-title">Latest Looks</h2><span>{{ updates.length }} tracked</span></div>
   <div class="look-feed">
   {% for update in updates %}
-  <article class="look-card">
+  {% set lookShoe = hfk.shoes | where("slug", update.shoeSlug) | first %}
+  <article class="look-card" id="look-{{ loop.index }}">
     <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %} · {{ update.occasion }}{% endif %}</div>
-    <h3>{% if update.shoeSlug %}<a href="/shoes/{{ update.shoeSlug }}/">{{ update.shoeName }}</a>{% else %}Shoe not identified{% endif %}</h3>
+    {% if lookShoe %}<p class="look-brand">{{ lookShoe.brand }}</p><h3><a href="/shoes/{{ lookShoe.slug }}/">{{ lookShoe.name }}</a></h3>{% else %}<h3>Shoe not identified</h3>{% endif %}
     {% if update.description %}<p>{{ update.description }}</p>{% endif %}
-    {% set lookShoe = hfk.shoes | where("slug", update.shoeSlug) | first %}
     {% if lookShoe %}{% include "shop-links.njk" %}{% endif %}
-    {% if update.instagramUrl %}{% set instagramUrl = update.instagramUrl %}{% include "instagram.njk" %}{% endif %}
+    {% if update.instagramUrl %}{% set instagramUrl = update.instagramUrl %}{% include "instagram.njk" %}<p class="source-link"><a href="{{ update.instagramUrl }}" target="_blank" rel="noopener noreferrer">View original Instagram post →</a></p>{% endif %}
   </article>
   {% endfor %}
   </div>
-  {% else %}
-  <div class="panel"><p>No fashion updates have been catalogued yet.</p></div>
-  {% endif %}
 </section>
+{% else %}
+<section class="related-block"><div class="panel"><h2>Latest Looks</h2><p>No fashion updates have been catalogued yet.</p></div></section>
+{% endif %}
 
-{% set shoeRefs = updates | uniqueBy("shoeSlug") %}
-<section class="related-block">
-  <div class="section-heading"><h2>Shoes Worn by {{ celebrity.name }}</h2><span>{{ shoeRefs.length }}</span></div>
+{% set identifiedShoes = shoeRefs | selectattr("shoeSlug") | list %}
+{% if identifiedShoes.length %}
+<section class="related-block" aria-labelledby="shoes-worn-title">
+  <div class="section-heading"><h2 id="shoes-worn-title">Shoes Worn by {{ celebrity.name }}</h2><span>{{ identifiedShoes.length }}</span></div>
   <div class="hfk-grid">
-  {% for ref in shoeRefs %}
-    {% if ref.shoeSlug %}{% set shoe = hfk.shoes | where("slug", ref.shoeSlug) | first %}{% if shoe %}
-    <a class="hfk-card" href="/shoes/{{ shoe.slug }}/"><span class="eyebrow">{{ shoe.brand }}</span><h3>{{ shoe.name }}</h3><p>{{ hfk.updates | where("shoeSlug", shoe.slug) | length }} celebrity sightings</p></a>
-    {% endif %}{% endif %}
-  {% else %}<p>No shoes identified yet.</p>{% endfor %}
+  {% for ref in identifiedShoes %}
+    {% set shoe = hfk.shoes | where("slug", ref.shoeSlug) | first %}
+    {% if shoe %}<a class="hfk-card" href="/shoes/{{ shoe.slug }}/"><span class="eyebrow">{{ shoe.brand }}</span><h3>{{ shoe.name }}</h3><p>{{ hfk.updates | where("shoeSlug", shoe.slug) | length }} celebrity sightings</p><strong>View shoe →</strong></a>{% endif %}
+  {% endfor %}
   </div>
+</section>
+{% endif %}
+
+<section class="related-block profile-disclaimer" aria-label="Source note">
+  <p>Hunting For Kicks tracks publicly available fashion sightings and links to the original social post. Product links may be affiliate links.</p>
 </section>
 
 <script type="application/ld+json">
