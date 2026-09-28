@@ -9,6 +9,10 @@ layout: layouts/base.njk
   <h1>Top 100 Celebrity Style Profiles</h1>
   <p>Browse 100 celebrity profiles and discover their sneaker, shoe and fashion updates as they are added to Hunting For Kicks.</p>
 </section>
+<section class="related-block"><h2>Browse by category</h2><div class="hfk-grid">
+{% set cats=[] %}{% for celebrity in hfk.celebrities %}{% if celebrity.category and not (celebrity.category in cats) %}{% set cats=cats.concat(celebrity.category) %}{% endif %}{% endfor %}
+{% for category in cats | sort %}<a class="hfk-card" href="/top-100-celebrities/#{{ category | slug }}"><span class="eyebrow">Category</span><h2>{{ category }}</h2><p>{{ hfk.celebrities | where("category", category) | length }} profiles</p></a>{% endfor %}
+</div></section>
 <section class="hfk-grid" aria-label="Top 100 celebrity profiles">
 {% for celebrity in hfk.celebrities | sort(attribute="top100Rank") %}
 <a class="hfk-card" href="/celebrities/{{ celebrity.slug }}/">
