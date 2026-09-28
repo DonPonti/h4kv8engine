@@ -27,11 +27,11 @@ eleventyComputed:
 </script>
 
 <h2>Latest Looks</h2>
-{% set updates = hfk.updates | selectattr("celebritySlug", "equalto", celebrity.slug) | sort(attribute="date", reverse=true) %}
+{% set updates = hfk.updates | where("celebritySlug", celebrity.slug) | sort(attribute="date", reverse=true) %}
 {% for update in updates %}
 <article class="look-card">
   <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %} · {{ update.occasion }}{% endif %}</div>
-  <h3>{% if update.shoeName %}{{ update.shoeName }}{% else %}Latest fashion look{% endif %}</h3>
+  <h3>{% if update.shoeSlug %}<a href="/shoes/{{ update.shoeSlug }}/">{{ update.shoeName }}</a>{% else %}Latest fashion look{% endif %}</h3>
   {% if update.description %}<p>{{ update.description }}</p>{% endif %}
   {% set instagramUrl = update.instagramUrl %}
   {% include "instagram.njk" %}
