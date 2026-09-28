@@ -695,6 +695,22 @@
       "category": "Singer",
       "top100Rank": 87,
       "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Mahesh Babu",
+      "slug": "mahesh-babu",
+      "instagram": "urstrulymahesh",
+      "category": "Actor",
+      "top100Rank": 88,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+    },
+    {
+      "name": "Rishabh Pant",
+      "slug": "rishabh-pant",
+      "instagram": "rishabhpant",
+      "category": "Cricketer",
+      "top100Rank": 89,
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
     }
   ],
   "shoes": [],
