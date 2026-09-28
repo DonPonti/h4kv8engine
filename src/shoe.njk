@@ -22,7 +22,7 @@ eleventyComputed:
 {% for update in sightings %}
 <article class="look-card">
   <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time> · <a href="/celebrities/{{ update.celebritySlug }}/">{{ update.celebrityName }}</a></div>
-  {% if update.description %}<p>{{ update.description }}</p>{% endif %}
+  <h3><a href="/celebrities/{{ update.celebritySlug }}/">{{ update.celebrityName }}</a></h3>{% if update.description %}<p>{{ update.description }}</p>{% endif %}
   {% set instagramUrl = update.instagramUrl %}
   {% include "instagram.njk" %}
 </article>
