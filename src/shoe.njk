@@ -10,7 +10,7 @@ eleventyComputed:
   description: "{{ shoe.name }} by {{ shoe.brand }}: celebrity sightings, fashion updates and places to buy."
 ---
 <section class="hfk-profile">
-  <p class="eyebrow">{{ shoe.brand }}</p>
+  <p class="eyebrow">{% if shoe.brandSlug %}<a href="/brands/{{ shoe.brandSlug }}/">{{ shoe.brand }}</a>{% else %}{{ shoe.brand }}{% endif %}</p>
   <h1>{{ shoe.name }}</h1>
   {% if shoe.description %}<p class="profile-bio">{{ shoe.description }}</p>{% endif %}
 </section>
