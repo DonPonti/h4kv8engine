@@ -698,3 +698,21 @@ pre mark .token.punctuation {
   flex-wrap: wrap;
 }
 
+
+/* Hunting For Kicks structured content */
+.hfk-hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid var(--table-border);margin-bottom:1.5rem}
+.eyebrow{font:700 .75rem/1.2 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.65}
+.hfk-hero h1,.hfk-profile h1{font-size:clamp(2rem,6vw,3.6rem);margin:.2em 0}
+.hfk-hero p,.profile-bio{max-width:680px}
+.hfk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.hfk-card{display:block;border:1px solid var(--table-border);padding:1.2rem;background:var(--main-background);transition:transform .15s ease,box-shadow .15s ease}
+.hfk-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.hfk-card h3{margin:.2rem 0}.hfk-card p{margin:.2rem 0;font-size:.85rem}.hfk-card span{font-size:.8rem;opacity:.65}
+.hfk-profile{padding:2rem 0}.look-feed{display:grid;gap:1.5rem}.look-card{border-top:1px solid var(--table-border);padding-top:1.5rem}
+.look-meta{font-size:.8rem;opacity:.65;margin-bottom:.5rem}.instagram-embed{max-width:540px;margin:1rem auto}
+.instagram-media{min-width:280px!important;width:100%!important}
+.shop-box{border:1px solid var(--table-border);padding:1.2rem;margin:1.5rem 0;background:rgba(127,127,127,.04)}
+.shop-box h2{margin-top:0}.affiliate-note{font-size:.75rem;opacity:.65}.shop-links{display:grid;gap:.6rem}
+.shop-link{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--table-border);padding:.8rem 1rem}.shop-link strong{font-size:.85rem}
+@media(max-width:770px){.hfk-grid{grid-template-columns:1fr 1fr}.hfk-hero{padding-top:1.5rem}.shop-link{gap:1rem}}
+@media(max-width:480px){.hfk-grid{grid-template-columns:1fr}.hfk-hero h1,.hfk-profile h1{font-size:2rem}.look-card{padding-top:1.2rem}}
