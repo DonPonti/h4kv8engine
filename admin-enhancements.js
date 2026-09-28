@@ -26,3 +26,38 @@ function hfkCapture(){
   capUrl.focus();
 }
 (function(){const bar=document.querySelector('.quickbar');if(!bar)return;const b=document.createElement('button');b.textContent='Capture Look';b.onclick=hfkCapture;bar.insertBefore(b,bar.firstChild);})();
+
+
+// Inline shoe identification for captured looks.
+function hfkIdentify(updateId){
+  const u=state.updates.find(x=>x.id===updateId); if(!u)return;
+  const c=state.celebrities.find(x=>x.slug===u.celebritySlug);
+  const renderMatches=()=>{
+    const q=(document.getElementById('identifySearch')?.value||'').trim().toLowerCase();
+    const matches=state.shoes.filter(s=>(s.brand+' '+s.name).toLowerCase().includes(q)).slice(0,50);
+    const box=document.getElementById('identifyResults');
+    if(!box)return;
+    box.innerHTML=matches.map(s=>'<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3><small>'+((s.affiliates||[]).length)+' affiliate offer'+((s.affiliates||[]).length===1?'':'s')+'</small></div><button class="btn secondary" onclick="hfkAssignShoe(\\''+esc(s.slug)+'\\',\\''+esc(updateId)+'\\')">Use this shoe</button></div>').join('')||'<p class="muted">No matching shoes. Create the model below.</p>';
+  };
+  const html='<div class="panel"><div class="row"><div><h2>'+esc(c?c.name:u.celebrityName)+'</h2><small>'+esc(u.date||'')+' · '+esc(u.instagramUrl||'')+'</small></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Open Instagram</a></div></div>'+
+    '<div class="panel"><h2>Find existing shoe</h2><input id="identifySearch" autofocus placeholder="Search brand or model…"><div id="identifyResults" class="list" style="margin-top:12px"></div></div>'+
+    '<div class="panel"><h2>Create new shoe</h2><p class="muted">Use this when the model is not yet in your catalog.</p><form id="identifyNew" class="form"><div class="two"><label>Brand<input id="identifyBrand" required></label><label>Model<input id="identifyModel" required></label></div><label>Description<textarea id="identifyDesc" style="min-height:70px"></textarea></label><button class="btn">Create & assign shoe</button><div id="identifyMsg"></div></form></div>'+
+    '<button class="btn secondary" onclick="hq(\\''+esc(u.celebritySlug)+'\\')">← Back to Celebrity HQ</button>';
+  shell('Identify Shoe',html);
+  identifySearch.oninput=renderMatches;
+  identifyNew.onsubmit=async e=>{e.preventDefault();const msg=document.getElementById('identifyMsg');try{const brand=identifyBrand.value.trim(),name=identifyModel.value.trim();if(!brand||!name)throw Error('Enter brand and model');await api('/api/shoes',{method:'POST',body:JSON.stringify({brand,name,description:identifyDesc.value})});await load();const s=state.shoes.find(x=>x.slug===((brand+' '+name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')));if(!s)throw Error('Shoe was created but could not be found');await hfkAssignShoe(s.slug,updateId)}catch(e){msg.innerHTML='<div class="notice error">'+esc(e.message)+'</div>'}};
+  renderMatches();
+}
+async function hfkAssignShoe(shoeSlug,updateId){
+  try{await api('/api/updates/'+encodeURIComponent(updateId),{method:'PUT',body:JSON.stringify({celebritySlug:state.updates.find(x=>x.id===updateId)?.celebritySlug,shoeSlug})});await load();const u=state.updates.find(x=>x.id===updateId);if(u)hq(u.celebritySlug)}catch(e){alert(e.message)}
+}
+(function(){
+  const originalHQ=window.hq;
+  if(typeof originalHQ!=='function')return;
+  window.hq=function(slug){originalHQ(slug);setTimeout(function(){
+    const c=state.celebrities.find(x=>x.slug===slug);if(!c)return;
+    const ups=state.updates.filter(v=>v.celebritySlug===slug).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,12);
+    const rows=document.querySelectorAll('.panel .list .row');
+    ups.forEach(function(u,i){if(u.shoeSlug||!rows[i])return;const a=rows[i].querySelector('a');if(!a)return;const b=document.createElement('button');b.className='btn secondary';b.textContent='Identify Shoe';b.style.marginLeft='8px';b.onclick=function(){hfkIdentify(u.id)};a.parentNode.appendChild(b);});
+  },0)};
+})();
