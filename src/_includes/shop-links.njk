@@ -1,16 +1,14 @@
 {% if shoe and shoe.affiliates and shoe.affiliates.length %}
 <section class="shop-box" aria-labelledby="shop-title">
-  <h2 id="shop-title">Where to Buy {{ shoe.name }}</h2>
-  <p class="affiliate-note">Some links may be affiliate links. We may earn a commission if you purchase through them.</p>
-  <div class="shop-links">
-  {% for offer in shoe.affiliates %}
-    {% if offer.url %}
-    <a class="shop-link" href="{{ offer.url }}" target="_blank" rel="sponsored nofollow noopener">
-      <span>{{ offer.retailer }}</span>
-      <strong>{% if offer.label %}{{ offer.label }}{% else %}Check price{% endif %} →</strong>
-    </a>
-    {% endif %}
-  {% endfor %}
-  </div>
+<h2 id="shop-title">Where to Buy {{ shoe.name }}</h2>
+<p class="affiliate-note">Some links may be affiliate links. We may earn a commission if you purchase through them.</p>
+{% set countries=[] %}{% for offer in shoe.affiliates %}{% if offer.country and not (offer.country in countries) %}{% set countries=countries.concat(offer.country) %}{% endif %}{% endfor %}
+{% if countries.length > 1 %}<label class="shop-country-label" for="shop-country">Country</label><select id="shop-country" class="shop-country">{% for country in countries | sort %}<option value="{{ country }}">{{ country }}</option>{% endfor %}</select>{% endif %}
+<div class="shop-links">
+{% for offer in shoe.affiliates %}{% if offer.url %}<a class="shop-link" data-country="{{ offer.country or 'global' }}" href="{{ offer.url }}" target="_blank" rel="sponsored nofollow noopener"><span>{{ offer.retailer }}{% if offer.country %} · {{ offer.country }}{% endif %}</span><strong>{% if offer.label %}{{ offer.label }}{% else %}Check price{% endif %} →</strong></a>{% endif %}{% endfor %}
+</div>
 </section>
 {% endif %}
+<script>
+document.querySelectorAll('.shop-country').forEach(function(sel){function filter(){document.querySelectorAll('.shop-link').forEach(function(a){a.hidden=a.dataset.country!==sel.value&&a.dataset.country!=='global'});}sel.addEventListener('change',filter);filter();});
+</script>
