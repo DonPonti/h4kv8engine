@@ -2,7 +2,7 @@
 renderData:
   title: 'Blog posts tagged “{{ tag }}”'
 pagination:
-  data: collections
+  data: collections.tagList
   size: 1
   alias: tag
   filter:
@@ -10,7 +10,7 @@ pagination:
     - posts
     - features
     - tagList
-permalink: /blog/tags/{{ tag | slug }}/index.html
+permalink: /blog/tags/{{ tag | slug }}/
 layout: layouts/base.njk
 ---
 <h1>Blog posts tagged “{{ tag }}”</h1>
