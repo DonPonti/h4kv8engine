@@ -61,3 +61,31 @@ async function hfkAssignShoe(shoeSlug,updateId){
     ups.forEach(function(u,i){if(u.shoeSlug||!rows[i])return;const a=rows[i].querySelector('a');if(!a)return;const b=document.createElement('button');b.className='btn secondary';b.textContent='Identify Shoe';b.style.marginLeft='8px';b.onclick=function(){hfkIdentify(u.id)};a.parentNode.appendChild(b);});
   },0)};
 })();
+
+
+// Affiliate coverage workspace: prioritize monetization gaps by market and show coverage at a glance.
+function hfkAffiliateCoverage(s){
+  const offers=s.affiliates||[];
+  const countries=new Set(offers.map(a=>String(a.country||'global').trim().toUpperCase()));
+  return {offers,countries,india:countries.has('IN')||countries.has('INDIA')||countries.has('GLOBAL'),us:countries.has('US')||countries.has('USA')||countries.has('GLOBAL')};
+}
+function hfkAffiliateWorkspace(){
+  const q=(document.getElementById('affSearch')?.value||'').trim().toLowerCase();
+  const market=document.getElementById('affMarket')?.value||'';
+  const filter=document.getElementById('affFilter')?.value||'all';
+  let shoes=state.shoes.filter(s=>(s.brand+' '+s.name).toLowerCase().includes(q));
+  shoes=shoes.filter(s=>{const c=hfkAffiliateCoverage(s);if(market==='IN'&&!c.india)return false;if(market==='US'&&!c.us)return false;if(filter==='missing'&&(c.india&&c.us))return false;if(filter==='ready'&&!(c.india&&c.us))return false;return true});
+  const list=document.getElementById('affWorkspaceList');
+  if(list)list.innerHTML=shoes.map(s=>{const c=hfkAffiliateCoverage(s);const india=c.india?'Covered':'Missing',us=c.us?'Covered':'Missing';return '<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3><small>'+c.offers.length+' offer'+(c.offers.length===1?'':'s')+' · India: '+india+' · US: '+us+'</small></div><button class="btn secondary" onclick="editAff(\\''+esc(s.slug)+'\\')">Manage</button></div>'}).join('')||'<div class="panel"><p>No shoes match this filter.</p></div>';
+  const count=document.getElementById('affWorkspaceCount');if(count)count.textContent=shoes.length+' shoe'+(shoes.length===1?'':'s');
+}
+(function(){
+  const oldAff=window.affiliates;
+  window.affiliates=function(){
+    const missingIN=state.shoes.filter(s=>!hfkAffiliateCoverage(s).india).length;
+    const missingUS=state.shoes.filter(s=>!hfkAffiliateCoverage(s).us).length;
+    const ready=state.shoes.filter(s=>{const c=hfkAffiliateCoverage(s);return c.india&&c.us}).length;
+    shell('Affiliate Links','<div class="grid"><div class="stat"><strong>'+missingIN+'</strong><span>Missing India coverage</span></div><div class="stat"><strong>'+missingUS+'</strong><span>Missing US coverage</span></div><div class="stat"><strong>'+ready+'</strong><span>India + US covered</span></div><div class="stat"><strong>'+state.shoes.length+'</strong><span>Total shoes</span></div></div><div class="panel"><div class="two"><label>Search shoe<input id="affSearch" placeholder="Brand or model..." oninput="hfkAffiliateWorkspace()"></label><label>Market<select id="affMarket" onchange="hfkAffiliateWorkspace()"><option value="">All markets</option><option value="IN">India</option><option value="US">United States</option></select></label></div><div class="two"><label>Coverage<select id="affFilter" onchange="hfkAffiliateWorkspace()"><option value="all">All shoes</option><option value="missing">Needs coverage</option><option value="ready">India + US covered</option></select></label><div><p id="affWorkspaceCount" class="muted"></p></div></div></div><div id="affWorkspaceList" class="list"></div>');
+    hfkAffiliateWorkspace();
+  };
+})();
