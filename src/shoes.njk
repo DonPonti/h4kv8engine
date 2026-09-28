@@ -1,0 +1,16 @@
+---
+permalink: /shoes/
+title: Celebrity Shoes & Sneakers
+description: Browse sneaker and shoe pages with celebrity sightings and places to buy.
+layout: layouts/base.njk
+---
+<section class="hfk-hero">
+  <p class="eyebrow">Hunting For Kicks</p>
+  <h1>Celebrity Shoes & Sneakers</h1>
+  <p>Discover the shoes celebrities are wearing and find current retailer links.</p>
+</section>
+<div class="hfk-grid">
+{% for shoe in hfk.shoes %}
+  {% include "shoe-card.njk" %}
+{% endfor %}
+</div>

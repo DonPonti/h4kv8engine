@@ -1,0 +1,31 @@
+---
+pagination:
+  data: hfk.shoes
+  size: 1
+  alias: shoe
+permalink: "/shoes/{{ shoe.slug }}/"
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ shoe.name }} — Celebrity Sightings"
+  description: "{{ shoe.name }} by {{ shoe.brand }}: celebrity sightings, fashion updates and places to buy."
+---
+<section class="hfk-profile">
+  <p class="eyebrow">{{ shoe.brand }}</p>
+  <h1>{{ shoe.name }}</h1>
+  {% if shoe.description %}<p class="profile-bio">{{ shoe.description }}</p>{% endif %}
+</section>
+
+{% include "shop-links.njk" %}
+
+<h2>Celebrity Sightings</h2>
+{% set sightings = hfk.updates | selectattr("shoeSlug", "equalto", shoe.slug) | sort(attribute="date", reverse=true) %}
+{% for update in sightings %}
+<article class="look-card">
+  <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time> · <a href="/celebrities/{{ update.celebritySlug }}/">{{ update.celebrityName }}</a></div>
+  {% if update.description %}<p>{{ update.description }}</p>{% endif %}
+  {% set instagramUrl = update.instagramUrl %}
+  {% include "instagram.njk" %}
+</article>
+{% else %}
+<p>No celebrity sightings yet.</p>
+{% endfor %}

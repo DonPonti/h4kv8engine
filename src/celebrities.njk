@@ -1,0 +1,16 @@
+---
+permalink: /celebrities/
+title: Celebrity Sneakers & Fashion
+description: Track the latest sneakers, shoes and fashion looks spotted on celebrities and influencers.
+layout: layouts/base.njk
+---
+<section class="hfk-hero">
+  <p class="eyebrow">Hunting For Kicks</p>
+  <h1>Celebrity Sneakers & Fashion</h1>
+  <p>Follow the latest shoe and fashion sightings from celebrities, athletes and influencers.</p>
+</section>
+<div class="hfk-grid">
+{% for celebrity in hfk.celebrities %}
+  {% include "celebrity-card.njk" %}
+{% endfor %}
+</div>

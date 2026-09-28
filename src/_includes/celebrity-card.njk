@@ -1,0 +1,7 @@
+<a class="hfk-card celebrity-card" href="{{ celebrity.url }}">
+  <div>
+    <h3>{{ celebrity.name }}</h3>
+    {% if celebrity.instagram %}<p>@{{ celebrity.instagram | replace("@","") }}</p>{% endif %}
+    <span>{{ celebrity.updateCount or 0 }} fashion updates</span>
+  </div>
+</a>

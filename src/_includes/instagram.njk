@@ -1,0 +1,8 @@
+{% if instagramUrl %}
+<div class="instagram-embed" data-instagram-url="{{ instagramUrl }}" aria-label="Instagram post">
+  <blockquote class="instagram-media" data-instgrm-permalink="{{ instagramUrl }}" data-instgrm-version="14">
+    <a href="{{ instagramUrl }}" target="_blank" rel="noopener noreferrer">View this post on Instagram</a>
+  </blockquote>
+</div>
+<script async src="https://www.instagram.com/embed.js"></script>
+{% endif %}

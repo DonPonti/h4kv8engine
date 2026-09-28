@@ -1,0 +1,23 @@
+---
+permalink: /celebrity-fashion/
+title: Celebrity Fashion Today
+description: The latest celebrity sneaker and fashion sightings updated by Hunting For Kicks.
+layout: layouts/base.njk
+---
+<section class="hfk-hero">
+  <p class="eyebrow">Updated regularly</p>
+  <h1>Celebrity Fashion Today</h1>
+  <p>The latest celebrity shoe and fashion sightings from Instagram and other public sources.</p>
+</section>
+{% set updates = hfk.updates | sort(attribute="date", reverse=true) %}
+<div class="look-feed">
+{% for update in updates %}
+<article class="look-card">
+  <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time> · <a href="/celebrities/{{ update.celebritySlug }}/">{{ update.celebrityName }}</a></div>
+  <h2>{% if update.shoeName %}{{ update.shoeName }}{% else %}Latest look{% endif %}</h2>
+  {% if update.description %}<p>{{ update.description }}</p>{% endif %}
+  {% set instagramUrl = update.instagramUrl %}
+  {% include "instagram.njk" %}
+</article>
+{% endfor %}
+</div>

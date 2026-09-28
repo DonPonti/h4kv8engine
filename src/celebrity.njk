@@ -1,0 +1,31 @@
+---
+pagination:
+  data: hfk.celebrities
+  size: 1
+  alias: celebrity
+permalink: "/celebrities/{{ celebrity.slug }}/"
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ celebrity.name }} Shoes & Fashion"
+  description: "{{ celebrity.name }} latest sneaker and fashion sightings on Hunting For Kicks."
+---
+<section class="hfk-profile">
+  <p class="eyebrow">Celebrity Style</p>
+  <h1>{{ celebrity.name }}</h1>
+  {% if celebrity.bio %}<p class="profile-bio">{{ celebrity.bio }}</p>{% endif %}
+  {% if celebrity.instagram %}<a href="https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/" target="_blank" rel="noopener noreferrer">@{{ celebrity.instagram | replace("@","") }}</a>{% endif %}
+</section>
+
+<h2>Latest Looks</h2>
+{% set updates = hfk.updates | selectattr("celebritySlug", "equalto", celebrity.slug) | sort(attribute="date", reverse=true) %}
+{% for update in updates %}
+<article class="look-card">
+  <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %} · {{ update.occasion }}{% endif %}</div>
+  <h3>{% if update.shoeName %}{{ update.shoeName }}{% else %}Latest fashion look{% endif %}</h3>
+  {% if update.description %}<p>{{ update.description }}</p>{% endif %}
+  {% set instagramUrl = update.instagramUrl %}
+  {% include "instagram.njk" %}
+</article>
+{% else %}
+<p>No fashion updates yet. Check back soon.</p>
+{% endfor %}
