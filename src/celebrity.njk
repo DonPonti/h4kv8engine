@@ -27,6 +27,7 @@ eleventyComputed:
 </script>
 
 <h2>Latest Looks</h2>
+{% set related = hfk.celebrities | rejectattr("slug", "equalto", celebrity.slug) | selectattr("category", "equalto", celebrity.category) | list | slice(0,6) %}
 {% set updates = hfk.updates | where("celebritySlug", celebrity.slug) | sort(attribute="date", reverse=true) %}
 {% for update in updates %}
 <article class="look-card">
