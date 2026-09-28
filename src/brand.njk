@@ -27,6 +27,11 @@ eleventyComputed:
   {% else %}<p>No shoes have been catalogued yet.</p>{% endfor %}
   </div>
 </section>
+{% set brandUpdates = [] %}
+{% for shoe in brandShoes %}{% set hits = hfk.updates | where("shoeSlug", shoe.slug) %}{% for hit in hits %}{% set brandUpdates = brandUpdates.concat(hit) %}{% endfor %}{% endfor %}
+<section class="related-block"><div class="section-heading"><h2>Celebrity sightings</h2><span>{{ brandUpdates.length }} tracked looks</span></div><div class="hfk-grid">
+{% for update in brandUpdates | sort(attribute="date", reverse=true) | slice(0,12) %}{% set person = hfk.celebrities | where("slug", update.celebritySlug) | first %}{% if person %}<a class="hfk-card" href="/celebrities/{{ person.slug }}/"><span class="eyebrow">{{ person.category }}</span><h3>{{ person.name }}</h3><p>{% if update.shoeName %}{{ update.shoeName }} · {% endif %}{{ update.date }}</p></a>{% endif %}{% endfor %}
+</div></section>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"CollectionPage","name":"{{ brand.name }} Sneakers & Celebrity Shoes","url":"{{ page.url | url | absoluteUrl(site.url) }}","isPartOf":{"@type":"WebSite","name":"Hunting For Kicks","url":"{{ site.url }}"}} 
 </script>
