@@ -16,6 +16,16 @@ eleventyComputed:
   {% if celebrity.instagram %}<a href="https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/" target="_blank" rel="noopener noreferrer">@{{ celebrity.instagram | replace("@","") }}</a>{% endif %}
 </section>
 
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ProfilePage",
+  "name":"{{ celebrity.name }} Shoes & Fashion",
+  "url":"{{ page.url | url | absoluteUrl(site.url) }}",
+  "mainEntity":{"@type":"Person","name":"{{ celebrity.name }}"{% if celebrity.instagram %},"sameAs":["https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/"]{% endif %}}
+}
+</script>
+
 <h2>Latest Looks</h2>
 {% set updates = hfk.updates | selectattr("celebritySlug", "equalto", celebrity.slug) | sort(attribute="date", reverse=true) %}
 {% for update in updates %}
