@@ -11,53 +11,142 @@ eleventyComputed:
 ---
 {% set updates = hfk.updates | where("celebritySlug", celebrity.slug) | sort(attribute="date", reverse=true) %}
 {% set shoeRefs = updates | uniqueBy("shoeSlug") %}
-<section class="hfk-profile">
-  <p class="eyebrow">{{ celebrity.category or "Celebrity Style" }}</p>
-  <h1>{{ celebrity.name }} Shoes & Fashion</h1>
-  {% if celebrity.bio %}<p class="profile-bio">{{ celebrity.bio }}</p>{% endif %}
-  {% if celebrity.instagram %}<a class="profile-instagram" href="https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/" target="_blank" rel="noopener noreferrer">Instagram · @{{ celebrity.instagram | replace("@","") }}</a>{% endif %}
-  <div class="profile-stats">
-    <span><strong>{{ updates.length }}</strong> tracked looks</span>
-    <span><strong>{{ shoeRefs | selectattr("shoeSlug") | list | length }}</strong> shoe references</span>
-  </div>
-</section>
-
-{% if updates.length %}
-<section class="related-block" aria-labelledby="latest-looks-title">
-  <div class="section-heading"><h2 id="latest-looks-title">Latest Looks</h2><span>{{ updates.length }} tracked</span></div>
-  <div class="look-feed">
-  {% for update in updates %}
-  {% set lookShoe = hfk.shoes | where("slug", update.shoeSlug) | first %}
-  <article class="look-card" id="look-{{ loop.index }}">
-    <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %} · {{ update.occasion }}{% endif %}</div>
-    {% if lookShoe %}<p class="look-brand">{{ lookShoe.brand }}</p><h3><a href="/shoes/{{ lookShoe.slug }}/">{{ lookShoe.name }}</a></h3>{% else %}<h3>Shoe not identified</h3>{% endif %}
-    {% if update.description %}<p>{{ update.description }}</p>{% endif %}
-    {% if lookShoe %}{% include "shop-links.njk" %}{% endif %}
-    {% if update.instagramUrl %}{% set instagramUrl = update.instagramUrl %}{% include "instagram.njk" %}<p class="source-link"><a href="{{ update.instagramUrl }}" target="_blank" rel="noopener noreferrer">View original Instagram post →</a></p>{% endif %}
-  </article>
-  {% endfor %}
-  </div>
-</section>
-{% else %}
-<section class="related-block"><div class="panel"><h2>Latest Looks</h2><p>No fashion updates have been catalogued yet.</p></div></section>
-{% endif %}
-
 {% set identifiedShoes = shoeRefs | selectattr("shoeSlug") | list %}
-{% if identifiedShoes.length %}
-<section class="related-block" aria-labelledby="shoes-worn-title">
-  <div class="section-heading"><h2 id="shoes-worn-title">Shoes Worn by {{ celebrity.name }}</h2><span>{{ identifiedShoes.length }}</span></div>
-  <div class="hfk-grid">
-  {% for ref in identifiedShoes %}
-    {% set shoe = hfk.shoes | where("slug", ref.shoeSlug) | first %}
-    {% if shoe %}<a class="hfk-card" href="/shoes/{{ shoe.slug }}/"><span class="eyebrow">{{ shoe.brand }}</span><h3>{{ shoe.name }}</h3><p>{{ hfk.updates | where("shoeSlug", shoe.slug) | length }} celebrity sightings</p><strong>View shoe →</strong></a>{% endif %}
-  {% endfor %}
-  </div>
-</section>
-{% endif %}
+{% set rankedCelebs = hfk.celebrities | sort(attribute="top100Rank") %}
 
-<section class="related-block profile-disclaimer" aria-label="Source note">
-  <p>Hunting For Kicks tracks publicly available fashion sightings and links to the original social post. Product links may be affiliate links.</p>
-</section>
+<nav class="hfk-breadcrumbs" aria-label="Breadcrumb">
+  <a href="/">Home</a><span>›</span><a href="/celebrities/">Celebrities</a><span>›</span><span aria-current="page">{{ celebrity.name }}</span>
+</nav>
+
+<div class="celebrity-layout">
+  <aside class="celebrity-infobox" aria-label="{{ celebrity.name }} profile">
+    <div class="infobox-heading">
+      <span class="eyebrow">Celebrity profile</span>
+      <h2>{{ celebrity.name }}</h2>
+    </div>
+    <dl>
+      {% if celebrity.category %}<div><dt>Known for</dt><dd>{{ celebrity.category }}</dd></div>{% endif %}
+      {% if celebrity.top100Rank %}<div><dt>HFK profile</dt><dd>#{{ celebrity.top100Rank }} of 100</dd></div>{% endif %}
+      <div><dt>Tracked looks</dt><dd>{{ updates.length }}</dd></div>
+      <div><dt>Shoes identified</dt><dd>{{ identifiedShoes.length }}</dd></div>
+    </dl>
+    {% if celebrity.instagram %}
+    <a class="infobox-social" href="https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/" target="_blank" rel="noopener noreferrer">
+      Instagram <span>@{{ celebrity.instagram | replace("@","") }}</span> ↗
+    </a>
+    {% endif %}
+  </aside>
+
+  <article class="celebrity-article">
+    <header class="celebrity-header">
+      <p class="eyebrow">{{ celebrity.category or "Celebrity Style" }}</p>
+      <h1>{{ celebrity.name }}</h1>
+      <p class="celebrity-lede">
+        {{ celebrity.name }}'s sneaker, shoe and fashion profile on Hunting For Kicks, including publicly documented looks, footwear references and shopping links.
+      </p>
+    </header>
+
+    <div class="celebrity-facts">
+      <div><strong>{{ updates.length }}</strong><span>tracked looks</span></div>
+      <div><strong>{{ identifiedShoes.length }}</strong><span>shoes identified</span></div>
+      <div><strong>{{ celebrity.top100Rank or "—" }}</strong><span>HFK profile rank</span></div>
+    </div>
+
+    <nav class="celebrity-toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <a href="#profile">Profile</a>
+      <a href="#looks">Latest looks</a>
+      <a href="#shoes">Shoes worn</a>
+      <a href="#related">Related profiles</a>
+      <a href="#sources">Sources & methodology</a>
+    </nav>
+
+    <section class="wiki-section" id="profile">
+      <h2>Profile</h2>
+      <p>{{ celebrity.bio or ("Hunting For Kicks maintains a structured record of " + celebrity.name + "'s publicly documented sneaker and fashion appearances.") }}</p>
+      <p>This page focuses specifically on footwear and style. Individual sightings are linked to their original public source when available, while product links may lead to retailers through affiliate relationships.</p>
+    </section>
+
+    <section class="wiki-section" id="looks" aria-labelledby="looks-title">
+      <div class="section-heading">
+        <h2 id="looks-title">Latest Looks</h2>
+        <span>{{ updates.length }} tracked</span>
+      </div>
+
+      {% if updates.length %}
+      <div class="look-feed">
+      {% for update in updates %}
+        {% set lookShoe = hfk.shoes | where("slug", update.shoeSlug) | first %}
+        <article class="look-card" id="look-{{ loop.index }}">
+          <div class="look-card-top">
+            <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %}<span>{{ update.occasion }}</span>{% endif %}</div>
+            {% if update.instagramUrl %}<a class="look-source" href="{{ update.instagramUrl }}" target="_blank" rel="noopener noreferrer">Original post ↗</a>{% endif %}
+          </div>
+          {% if lookShoe %}
+            <p class="look-brand">{{ lookShoe.brand }}</p>
+            <h3><a href="/shoes/{{ lookShoe.slug }}/">{{ lookShoe.name }}</a></h3>
+          {% else %}
+            <h3>Shoe not identified</h3>
+          {% endif %}
+          {% if update.description %}<p class="look-description">{{ update.description }}</p>{% endif %}
+          {% if lookShoe %}{% include "shop-links.njk" %}{% endif %}
+          {% if update.instagramUrl %}
+            {% set instagramUrl = update.instagramUrl %}{% include "instagram.njk" %}
+          {% endif %}
+        </article>
+      {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <strong>No fashion sightings have been catalogued yet.</strong>
+        <p>The profile is live and ready for documented sneaker and fashion updates.</p>
+      </div>
+      {% endif %}
+    </section>
+
+    <section class="wiki-section" id="shoes" aria-labelledby="shoes-title">
+      <div class="section-heading">
+        <h2 id="shoes-title">Shoes Worn</h2>
+        <span>{{ identifiedShoes.length }}</span>
+      </div>
+      {% if identifiedShoes.length %}
+      <div class="hfk-grid">
+        {% for ref in identifiedShoes %}
+          {% set shoe = hfk.shoes | where("slug", ref.shoeSlug) | first %}
+          {% if shoe %}
+          <a class="hfk-card shoe-profile-card" href="/shoes/{{ shoe.slug }}/">
+            <span class="eyebrow">{{ shoe.brand }}</span>
+            <h3>{{ shoe.name }}</h3>
+            <p>{{ hfk.updates | where("shoeSlug", shoe.slug) | length }} celebrity sightings</p>
+            <strong>View shoe profile →</strong>
+          </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state"><p>No shoe references have been identified on this profile yet.</p></div>
+      {% endif %}
+    </section>
+
+    <section class="wiki-section" id="related" aria-labelledby="related-title">
+      <h2 id="related-title">Related Celebrity Profiles</h2>
+      <p class="section-intro">Browse nearby profiles in the HFK celebrity directory.</p>
+      <div class="related-celebrities">
+        {% for person in rankedCelebs %}
+          {% if person.slug != celebrity.slug and person.top100Rank and celebrity.top100Rank and person.top100Rank >= celebrity.top100Rank - 2 and person.top100Rank <= celebrity.top100Rank + 2 %}
+          <a href="/celebrities/{{ person.slug }}/"><span class="eyebrow">#{{ person.top100Rank }} · {{ person.category or "Celebrity" }}</span><strong>{{ person.name }}</strong></a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="wiki-section methodology" id="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title">Sources & methodology</h2>
+      <p>Hunting For Kicks records publicly available fashion sightings and aims to link each entry to its original social post or another identifiable source. Product information and availability can change over time.</p>
+      <p>HFK profile rankings are editorial directory positions, not a universal measure of popularity, influence or achievement.</p>
+    </section>
+  </article>
+</div>
 
 <script type="application/ld+json">
 {
@@ -65,6 +154,11 @@ eleventyComputed:
   "@type":"ProfilePage",
   "name":"{{ celebrity.name }} Shoes & Fashion",
   "url":"{{ page.url | url | absoluteUrl(site.url) }}",
-  "mainEntity":{"@type":"Person","name":"{{ celebrity.name }}"{% if celebrity.instagram %},"sameAs":["https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/"]{% endif %}}
+  "description":"{{ celebrity.name }} sneaker, shoe and fashion profile on Hunting For Kicks.",
+  "mainEntity":{
+    "@type":"Person",
+    "name":"{{ celebrity.name }}"
+    {% if celebrity.instagram %},"sameAs":["https://www.instagram.com/{{ celebrity.instagram | replace("@","") }}/"]{% endif %}
+  }
 }
 </script>
