@@ -23,6 +23,13 @@ eleventyComputed:
 <div class="celebrity-layout">
   <aside class="celebrity-infobox" aria-label="{{ celebrity.name }} profile">
     <div class="infobox-heading">
+      {% if celebrity.image %}
+      <figure class="celebrity-portrait">
+        <img src="{{ celebrity.image }}" alt="{{ celebrity.imageAlt or celebrity.name }}" loading="eager" decoding="async">
+      </figure>
+      {% else %}
+      <div class="celebrity-portrait celebrity-portrait-placeholder" aria-hidden="true">{{ celebrity.name | first }}</div>
+      {% endif %}
       <span class="eyebrow">Celebrity profile</span>
       <h2>{{ celebrity.name }}</h2>
     </div>
@@ -84,7 +91,18 @@ eleventyComputed:
             <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %}<span>{{ update.occasion }}</span>{% endif %}</div>
             {% if update.instagramUrl %}<a class="look-source" href="{{ update.instagramUrl }}" target="_blank" rel="noopener noreferrer">Original post ↗</a>{% endif %}
           </div>
+          {% if update.image %}
+          <figure class="look-image">
+            <img src="{{ update.image }}" alt="{{ update.imageAlt or (celebrity.name + ' fashion look') }}" loading="lazy" decoding="async">
+            {% if update.imageCredit %}<figcaption>{{ update.imageCredit }}</figcaption>{% endif %}
+          </figure>
+          {% endif %}
           {% if lookShoe %}
+            {% if lookShoe.image %}
+            <a class="look-shoe-visual" href="/shoes/{{ lookShoe.slug }}/" aria-label="View {{ lookShoe.name }} shoe profile">
+              <img src="{{ lookShoe.image }}" alt="{{ lookShoe.imageAlt or (lookShoe.brand + ' ' + lookShoe.name) }}" loading="lazy" decoding="async">
+            </a>
+            {% endif %}
             <p class="look-brand">{{ lookShoe.brand }}</p>
             <h3><a href="/shoes/{{ lookShoe.slug }}/">{{ lookShoe.name }}</a></h3>
           {% else %}
@@ -117,6 +135,7 @@ eleventyComputed:
           {% set shoe = hfk.shoes | where("slug", ref.shoeSlug) | first %}
           {% if shoe %}
           <a class="hfk-card shoe-profile-card" href="/shoes/{{ shoe.slug }}/">
+            {% if shoe.image %}<img class="shoe-card-image" src="{{ shoe.image }}" alt="{{ shoe.imageAlt or (shoe.brand + ' ' + shoe.name) }}" loading="lazy" decoding="async">{% else %}<div class="shoe-card-image shoe-card-placeholder" aria-hidden="true">Shoe</div>{% endif %}
             <span class="eyebrow">{{ shoe.brand }}</span>
             <h3>{{ shoe.name }}</h3>
             <p>{{ hfk.updates | where("shoeSlug", shoe.slug) | length }} celebrity sightings</p>
