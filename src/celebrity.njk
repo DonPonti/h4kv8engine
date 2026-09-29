@@ -13,6 +13,8 @@ eleventyComputed:
 {% set shoeRefs = updates | uniqueBy("shoeSlug") %}
 {% set identifiedShoes = shoeRefs | selectattr("shoeSlug") | list %}
 {% set rankedCelebs = hfk.celebrities | sort(attribute="top100Rank") %}
+{% set previousCeleb = rankedCelebs | where("top100Rank", celebrity.top100Rank - 1) | first %}
+{% set nextCeleb = rankedCelebs | where("top100Rank", celebrity.top100Rank + 1) | first %}
 
 <nav class="hfk-breadcrumbs" aria-label="Breadcrumb">
   <a href="/">Home</a><span>›</span><a href="/celebrities/">Celebrities</a><span>›</span><span aria-current="page">{{ celebrity.name }}</span>
@@ -147,6 +149,22 @@ eleventyComputed:
     </section>
   </article>
 </div>
+
+<nav class="celebrity-pagination" aria-label="Celebrity profile navigation">
+  <div>
+    {% if previousCeleb %}
+      <span>Previous profile</span>
+      <a href="/celebrities/{{ previousCeleb.slug }}/">← {{ previousCeleb.name }}</a>
+    {% endif %}
+  </div>
+  <a class="directory-link" href="/top-100-celebrities/">View all 100 profiles</a>
+  <div class="next">
+    {% if nextCeleb %}
+      <span>Next profile</span>
+      <a href="/celebrities/{{ nextCeleb.slug }}/">{{ nextCeleb.name }} →</a>
+    {% endif %}
+  </div>
+</nav>
 
 <script type="application/ld+json">
 {
