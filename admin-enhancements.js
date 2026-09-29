@@ -1,145 +1,82 @@
-// HFK Studio productivity layer: global search, opportunity queues, shortcuts and backup.
-function hfkStats(){
-  const missingShoes=state.updates.filter(v=>!v.shoeSlug).length;
-  const missingAff=state.shoes.filter(s=>!(s.affiliates||[]).length).length;
-  const untouched=state.celebrities.filter(c=>!state.updates.some(v=>v.celebritySlug===c.slug)).length;
-  const shopReady=state.updates.filter(v=>v.shoeSlug&&state.shoes.find(s=>s.slug===v.shoeSlug)?.affiliates?.length).length;
-  return {missingShoes,missingAff,untouched,shopReady};
+/* HFK Studio enhancements: tools only. Core screens live in admin.js. */
+
+function hfkExport(){
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='hfk-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
-function dashboard(){const now=Date.now(),staleDays=30;const x=hfkStats();const stale=state.celebrities.filter(c=>{const a=state.updates.filter(v=>v.celebritySlug===c.slug).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0];return !a||!a.date||(now-new Date(a.date).getTime()>staleDays*86400000)}).length;const recent=state.updates.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,8);shell('Dashboard','<div class="grid"><div class="stat"><strong>'+state.posts.length+'</strong><span>Blog posts</span></div><div class="stat"><strong>'+state.celebrities.length+'</strong><span>Celebrities</span></div><div class="stat"><strong>'+state.shoes.length+'</strong><span>Shoes</span></div><div class="stat"><strong>'+state.updates.length+'</strong><span>Fashion updates</span></div></div><div class="panel"><h2>Content opportunities</h2><div class="grid"><div class="stat clickable" data-action="untouched"><strong>'+x.untouched+'</strong><span>Celebrities with no looks</span></div><div class="stat clickable" data-action="missing-shoes"><strong>'+x.missingShoes+'</strong><span>Looks missing shoe ID</span></div><div class="stat clickable" data-action="missing-aff"><strong>'+x.missingAff+'</strong><span>Shoes missing affiliates</span></div><div class="stat clickable" data-action="stale"><strong>'+stale+'</strong><span>Profiles stale 30+ days</span></div></div></div><div class="panel"><h2>Recent looks</h2><div class="list">'+recent.map(v=>'<div class="row"><div><b>'+esc(v.celebrityName||v.celebritySlug||'Unknown')+'</b><span>'+esc(v.shoeName||'Shoe not identified')+'</span></div><small>'+esc(v.date||'No date')+'</small></div>').join('')+'</div></div><div class="panel"><h2>Fast actions</h2><div class="actions"><button class="btn" onclick="render(\'command\')">Celebrity HQ</button><button class="btn secondary" onclick="render(\'updates\')">Batch Update</button><button class="btn secondary" onclick="render(\'posts\')">New Blog Post</button><button class="btn secondary" onclick="render(\'shoes\')">Add Shoe</button><button class="btn secondary" onclick="hfkValidate()">Run Data Check</button><button class="btn secondary" onclick="hfkExport()">Backup JSON</button></div></div><div class="panel"><h2>Shortcuts</h2><p class="muted">Alt+1–7 switches sections · Ctrl+K opens global search</p></div>');document.querySelectorAll('[data-action]').forEach(el=>el.onclick=()=>hfkQueue(el.dataset.action));}
-function hfkQueue(type){let title='',items=[];if(type==='untouched'){title='Celebrities with no looks';items=state.celebrities.filter(c=>!state.updates.some(v=>v.celebritySlug===c.slug)).map(c=>'<div class="row"><div><h3>'+esc(c.name)+'</h3><small>No fashion updates tracked yet</small></div><button class="btn secondary" onclick="hq(\''+esc(c.slug)+'\')">Open HQ</button></div>')}if(type==='missing-shoes'){title='Looks missing shoe identification';items=state.updates.filter(v=>!v.shoeSlug).map(v=>'<div class="row"><div><h3>'+esc(v.celebrityName)+'</h3><small>'+esc(v.date)+' · '+esc(v.instagramUrl)+'</small></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(v.instagramUrl)+'">Open Instagram</a></div>')}if(type==='missing-aff'){title='Shoes missing affiliate offers';items=state.shoes.filter(s=>!(s.affiliates||[]).length).map(s=>'<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3></div><button class="btn secondary" onclick="editAff(\''+esc(s.slug)+'\')">Add affiliate</button></div>')}if(type==='stale'){title='Celebrities needing refresh';items=state.celebrities.filter(c=>{const a=state.updates.filter(v=>v.celebritySlug===c.slug).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0];return !a||!a.date||(Date.now()-new Date(a.date).getTime()>30*86400000)}).map(c=>'<div class="row"><div><h3>'+esc(c.name)+'</h3><small>Latest look is missing or more than 30 days old</small></div><button class="btn secondary" onclick="hq(\''+esc(c.slug)+'\')">Open HQ</button></div>')}shell(title,'<div class="panel"><button class="btn secondary" onclick="render(\'dashboard\')">← Dashboard</button></div><div class="list">'+(items.join('')||'<div class="panel">Nothing in this queue.</div>')+'</div>')}
-function hfkSearch(){const input=document.getElementById('hfk-global-search');if(!input)return;const q=input.value.trim().toLowerCase();if(!q){render('dashboard');return}const cs=state.celebrities.filter(x=>(x.name+' '+x.instagram).toLowerCase().includes(q));const ss=state.shoes.filter(x=>(x.brand+' '+x.name).toLowerCase().includes(q));const us=state.updates.filter(x=>(x.celebrityName+' '+x.shoeName+' '+x.occasion+' '+x.instagramUrl).toLowerCase().includes(q));shell('Search','<div class="panel"><p class="muted">'+(cs.length+ss.length+us.length)+' result(s)</p></div><div class="panel"><h2>Celebrities</h2>'+(cs.map(x=>'<div class="row"><div><h3>'+esc(x.name)+'</h3></div><button class="btn secondary" onclick="hq(\''+esc(x.slug)+'\')">Open HQ</button></div>').join('')||'<p class="muted">No matches.</p>')+'</div><div class="panel"><h2>Shoes</h2>'+(ss.map(x=>'<div class="row"><div><h3>'+esc(x.brand+' '+x.name)+'</h3></div><button class="btn secondary" onclick="editAff(\''+esc(x.slug)+'\')">Affiliates</button></div>').join('')||'<p class="muted">No matches.</p>')+'</div><div class="panel"><h2>Updates</h2>'+(us.slice(0,30).map(x=>'<div class="row"><div><h3>'+esc(x.celebrityName)+' · '+esc(x.shoeName||'Unknown shoe')+'</h3><small>'+esc(x.date)+' · '+esc(x.occasion||'')+'</small></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(x.instagramUrl)+'">Instagram</a></div>').join('')||'<p class="muted">No matches.</p>')+'</div>')}
-async function hfkValidate(){try{const r=await fetch('/api/backup');const d=await r.json();const errors=[],warnings=[],slugs=a=>new Set((d[a]||[]).map(x=>x.slug)),cs=slugs('celebrities'),ss=slugs('shoes'),bs=slugs('brands'),ids=new Set(),igs=new Set();for(const u of d.updates||[]){if(ids.has(u.id))errors.push('Duplicate update ID: '+u.id);ids.add(u.id);if(!cs.has(u.celebritySlug))errors.push('Update references missing celebrity: '+u.celebritySlug);if(u.shoeSlug&&!ss.has(u.shoeSlug))errors.push('Update references missing shoe: '+u.shoeSlug);const ig=String(u.instagramUrl||'').trim().replace(/\/$/,'').toLowerCase();if(!/^https:\/\/(www\.)?instagram\.com\/(p|reel|tv)\//.test(ig))errors.push('Invalid Instagram URL: '+(u.instagramUrl||'(empty)'));if(igs.has(ig))errors.push('Duplicate Instagram URL: '+ig);igs.add(ig)}for(const s of d.shoes||[]){if(s.brandSlug&&!bs.has(s.brandSlug))errors.push('Shoe references missing brand: '+s.brandSlug);if(!(s.affiliates||[]).length)warnings.push('No affiliate offers: '+s.brand+' '+s.name)}shell('Data Integrity','<div class="grid"><div class="stat"><strong>'+errors.length+'</strong><span>Errors</span></div><div class="stat"><strong>'+warnings.length+'</strong><span>Warnings</span></div></div><div class="panel"><h2>Errors</h2><div class="list">'+(errors.map(x=>'<div class="row"><b>ERROR</b><span>'+esc(x)+'</span></div>').join('')||'<p class="muted">No blocking errors found.</p>')+'</div></div><div class="panel"><h2>Warnings</h2><div class="list">'+(warnings.slice(0,100).map(x=>'<div class="row"><b>WARN</b><span>'+esc(x)+'</span></div>').join('')||'<p class="muted">No warnings.</p>')+'</div></div>')}catch(e){alert(e.message)}}
-function hfkExport(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hfk-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function hfkCelebrityStatus(c){const ups=state.updates.filter(v=>v.celebritySlug===c.slug).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));if(!ups.length)return {key:'never',label:'Never covered',age:null,count:0};const age=ups[0].date?Math.floor((Date.now()-new Date(ups[0].date).getTime())/86400000):null;return {key:age!==null&&age>30?'stale':'fresh',label:age!==null&&age>30?'Needs refresh':'Fresh',age,count:ups.length}}
-function hfkHQRows(list){return list.map(c=>{const s=hfkCelebrityStatus(c);return '<div class="row hq-row"><div><h3>'+esc(c.name)+'</h3><small>'+esc(c.category||'Celebrity')+' · '+s.count+' looks'+(s.age!==null?' · last look '+s.age+'d ago':'')+'</small></div><span class="badge">'+s.label+'</span><button class="btn secondary" onclick="hq(\''+esc(c.slug)+'\')">Open HQ</button></div>'}).join('')}
-function command(){const cats=[...new Set(state.celebrities.map(c=>c.category).filter(Boolean))].sort();shell('Celebrity HQ','<div class="panel"><div class="two"><label>Search celebrity<input id="hqSearch" placeholder="Name or Instagram..." oninput="filterHQ()"></label><label>Category<select id="hqCategory" onchange="filterHQ()"><option value="">All categories</option>'+cats.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('')+'</select></label></div><div class="two"><label>Status<select id="hqStatus" onchange="filterHQ()"><option value="">All statuses</option><option value="fresh">Fresh</option><option value="stale">Needs refresh</option><option value="never">Never covered</option></select></label><label>Sort<select id="hqSort" onchange="filterHQ()"><option value="name">Name</option><option value="recent">Latest look</option><option value="most">Most looks</option><option value="attention">Needs attention first</option></select></label></div><p id="hqCount" class="muted"></p></div><div id="hqList" class="list"></div>');filterHQ()}
-function filterHQ(){const q=(document.getElementById('hqSearch')?.value||'').toLowerCase(),cat=document.getElementById('hqCategory')?.value||'',status=document.getElementById('hqStatus')?.value||'',sort=document.getElementById('hqSort')?.value||'name';let list=state.celebrities.filter(c=>{const s=hfkCelebrityStatus(c);return (!q||(c.name+' '+(c.instagram||'')+' '+(c.category||'')).toLowerCase().includes(q))&&(!cat||c.category===cat)&&(!status||s.key===status)});list.sort((a,b)=>{const sa=hfkCelebrityStatus(a),sb=hfkCelebrityStatus(b);if(sort==='most')return sb.count-sa.count;if(sort==='recent')return (sa.age??99999)-(sb.age??99999);if(sort==='attention')return ({stale:0,never:1,fresh:2}[sa.key])-({stale:0,never:1,fresh:2}[sb.key]);return a.name.localeCompare(b.name)});const box=document.getElementById('hqList');if(box)box.innerHTML=hfkHQRows(list)||'<div class="panel"><p>No celebrities match these filters.</p></div>';const count=document.getElementById('hqCount');if(count)count.textContent=list.length+' of '+state.celebrities.length+' celebrities'}
-(function(){const bar=document.createElement('div');bar.className='quickbar';bar.innerHTML='<button onclick="render(\'command\')">HQ</button><button onclick="render(\'updates\')">Quick Update</button><button onclick="render(\'posts\')">New Post</button><button onclick="hfkValidate()">Check</button><button onclick="hfkExport()">Backup</button><input id="hfk-global-search" aria-label="Search HFK" placeholder="Search celebrity, shoe, update...">';const main=document.querySelector('main');main.parentNode.insertBefore(bar,main);bar.querySelector('input').addEventListener('input',hfkSearch);window.addEventListener('keydown',e=>{if(e.altKey&&/^[1-7]$/.test(e.key)){e.preventDefault();render(['dashboard','command','updates','posts','celebrities','shoes','affiliates'][Number(e.key)-1])}if(e.ctrlKey&&e.key.toLowerCase()==='k'){e.preventDefault();bar.querySelector('input').focus()}})})();
 
-function hfkCapture(){
-  const cats=state.celebrities.slice().sort((a,b)=>a.name.localeCompare(b.name));
-  const html='<div class="panel"><div class="two"><label>Celebrity<select id="capCelebrity">'+cats.map(c=>'<option value="'+esc(c.slug)+'">'+esc(c.name)+'</option>').join('')+'</select></label><label>Date<input id="capDate" type="date" value="'+today()+'"></label></div><label>Instagram post URL<input id="capUrl" type="url" required autofocus placeholder="Paste Instagram post or reel URL"></label><div class="two"><label>Occasion<input id="capOccasion" placeholder="Event, airport, street style..."></label><label>Note<input id="capNote" placeholder="Optional identification note"></label></div><button class="btn" id="capSave">Capture look</button><button class="btn secondary" id="capCancel" style="margin-left:8px">Cancel</button><div id="capMsg"></div></div>';
-  shell('Quick Capture','<p class="muted">Capture the sighting first. Identify the shoe and add shopping links later from Celebrity HQ.</p>'+html);
-  capCancel.onclick=()=>render('dashboard');
-  capSave.onclick=async()=>{const msg=document.getElementById('capMsg');capSave.disabled=true;try{await api('/api/updates',{method:'POST',body:JSON.stringify({celebritySlug:capCelebrity.value,shoeSlug:'',instagramUrl:capUrl.value,date:capDate.value,occasion:capOccasion.value,description:capNote.value})});await load();msg.innerHTML='<div class="notice">Look captured successfully. You can identify the shoe from Celebrity HQ.</div>';setTimeout(()=>hq(capCelebrity.value),450)}catch(e){msg.innerHTML='<div class="notice error">'+esc(e.message)+'</div>';capSave.disabled=false}};
-  capUrl.focus();
+async function hfkValidate(){
+  try{
+    const d=await api('/api/state');
+    const errors=[],warnings=[],cs=new Set(d.celebrities.map(x=>x.slug)),ss=new Set(d.shoes.map(x=>x.slug)),bs=new Set(d.brands.map(x=>x.slug)),ids=new Set(),igs=new Set();
+    for(const u of d.updates){
+      if(ids.has(u.id))errors.push('Duplicate update ID: '+u.id); ids.add(u.id);
+      if(!cs.has(u.celebritySlug))errors.push('Missing celebrity: '+u.celebritySlug);
+      if(u.shoeSlug&&!ss.has(u.shoeSlug))errors.push('Missing shoe: '+u.shoeSlug);
+      const ig=String(u.instagramUrl||'').trim().replace(/\/$/,'').toLowerCase();
+      if(!/^https:\/\/(www\.)?instagram\.com\/(p|reel|tv)\//.test(ig))errors.push('Invalid Instagram URL: '+(u.instagramUrl||'(empty)'));
+      if(igs.has(ig))errors.push('Duplicate Instagram URL: '+ig); igs.add(ig);
+    }
+    for(const s of d.shoes){
+      if(s.brandSlug&&!bs.has(s.brandSlug))errors.push('Missing brand: '+s.brandSlug);
+      if(!(s.affiliates||[]).length)warnings.push('No affiliate offers: '+s.brand+' '+s.name);
+    }
+    shell('Data Integrity','<div class="grid"><div class="stat"><strong>'+errors.length+'</strong><span>Errors</span></div><div class="stat"><strong>'+warnings.length+'</strong><span>Warnings</span></div></div><div class="panel"><h2>Errors</h2><div class="list">'+(errors.map(x=>'<div class="row"><b>ERROR</b><span>'+esc(x)+'</span></div>').join('')||'<p class="muted">No blocking errors found.</p>')+'</div></div><div class="panel"><h2>Warnings</h2><div class="list">'+(warnings.map(x=>'<div class="row"><b>WARN</b><span>'+esc(x)+'</span></div>').join('')||'<p class="muted">No warnings.</p>')+'</div></div><button class="btn secondary" onclick="render(\'dashboard\')">← Dashboard</button>');
+  }catch(e){alert(e.message)}
 }
-(function(){const bar=document.querySelector('.quickbar');if(!bar)return;const b=document.createElement('button');b.textContent='Capture Look';b.onclick=hfkCapture;bar.insertBefore(b,bar.firstChild);})();
 
-
-// Inline shoe identification for captured looks.
-function hfkIdentify(updateId){
-  const u=state.updates.find(x=>x.id===updateId); if(!u)return;
-  const c=state.celebrities.find(x=>x.slug===u.celebritySlug);
-  const renderMatches=()=>{
-    const q=(document.getElementById('identifySearch')?.value||'').trim().toLowerCase();
-    const matches=state.shoes.filter(s=>(s.brand+' '+s.name).toLowerCase().includes(q)).slice(0,50);
-    const box=document.getElementById('identifyResults');
-    if(!box)return;
-    box.innerHTML=matches.map(s=>'<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3><small>'+((s.affiliates||[]).length)+' affiliate offer'+((s.affiliates||[]).length===1?'':'s')+'</small></div><button class="btn secondary" onclick="hfkAssignShoe(\\''+esc(s.slug)+'\\',\\''+esc(updateId)+'\\')">Use this shoe</button></div>').join('')||'<p class="muted">No matching shoes. Create the model below.</p>';
-  };
-  const html='<div class="panel"><div class="row"><div><h2>'+esc(c?c.name:u.celebrityName)+'</h2><small>'+esc(u.date||'')+' · '+esc(u.instagramUrl||'')+'</small></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Open Instagram</a></div></div>'+
-    '<div class="panel"><h2>Find existing shoe</h2><input id="identifySearch" autofocus placeholder="Search brand or model…"><div id="identifyResults" class="list" style="margin-top:12px"></div></div>'+
-    '<div class="panel"><h2>Create new shoe</h2><p class="muted">Use this when the model is not yet in your catalog.</p><form id="identifyNew" class="form"><div class="two"><label>Brand<input id="identifyBrand" required></label><label>Model<input id="identifyModel" required></label></div><label>Description<textarea id="identifyDesc" style="min-height:70px"></textarea></label><button class="btn">Create & assign shoe</button><div id="identifyMsg"></div></form></div>'+
-    '<button class="btn secondary" onclick="hq(\\''+esc(u.celebritySlug)+'\\')">← Back to Celebrity HQ</button>';
-  shell('Identify Shoe',html);
-  identifySearch.oninput=renderMatches;
-  identifyNew.onsubmit=async e=>{e.preventDefault();const msg=document.getElementById('identifyMsg');try{const brand=identifyBrand.value.trim(),name=identifyModel.value.trim();if(!brand||!name)throw Error('Enter brand and model');await api('/api/shoes',{method:'POST',body:JSON.stringify({brand,name,description:identifyDesc.value})});await load();const s=state.shoes.find(x=>x.slug===((brand+' '+name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')));if(!s)throw Error('Shoe was created but could not be found');await hfkAssignShoe(s.slug,updateId)}catch(e){msg.innerHTML='<div class="notice error">'+esc(e.message)+'</div>'}};
-  renderMatches();
-}
-async function hfkAssignShoe(shoeSlug,updateId){
-  try{await api('/api/updates/'+encodeURIComponent(updateId),{method:'PUT',body:JSON.stringify({celebritySlug:state.updates.find(x=>x.id===updateId)?.celebritySlug,shoeSlug})});await load();const u=state.updates.find(x=>x.id===updateId);if(u)hq(u.celebritySlug)}catch(e){alert(e.message)}
-}
-(function(){
-  const originalHQ=window.hq;
-  if(typeof originalHQ!=='function')return;
-  window.hq=function(slug){originalHQ(slug);setTimeout(function(){
-    const c=state.celebrities.find(x=>x.slug===slug);if(!c)return;
-    const ups=state.updates.filter(v=>v.celebritySlug===slug).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).slice(0,12);
-    const rows=document.querySelectorAll('.panel .list .row');
-    ups.forEach(function(u,i){if(u.shoeSlug||!rows[i])return;const a=rows[i].querySelector('a');if(!a)return;const b=document.createElement('button');b.className='btn secondary';b.textContent='Identify Shoe';b.style.marginLeft='8px';b.onclick=function(){hfkIdentify(u.id)};a.parentNode.appendChild(b);});
-  },0)};
-})();
-
-
-// Affiliate coverage workspace: prioritize monetization gaps by market and show coverage at a glance.
-function hfkAffiliateCoverage(s){
-  const offers=s.affiliates||[];
-  const countries=new Set(offers.map(a=>String(a.country||'global').trim().toUpperCase()));
-  return {offers,countries,india:countries.has('IN')||countries.has('INDIA')||countries.has('GLOBAL'),us:countries.has('US')||countries.has('USA')||countries.has('GLOBAL')};
-}
-function hfkAffiliateWorkspace(){
-  const q=(document.getElementById('affSearch')?.value||'').trim().toLowerCase();
-  const market=document.getElementById('affMarket')?.value||'';
-  const filter=document.getElementById('affFilter')?.value||'all';
-  let shoes=state.shoes.filter(s=>(s.brand+' '+s.name).toLowerCase().includes(q));
-  shoes=shoes.filter(s=>{const c=hfkAffiliateCoverage(s);if(market==='IN'&&!c.india)return false;if(market==='US'&&!c.us)return false;if(filter==='missing'&&(c.india&&c.us))return false;if(filter==='ready'&&!(c.india&&c.us))return false;return true});
-  const list=document.getElementById('affWorkspaceList');
-  if(list)list.innerHTML=shoes.map(s=>{const c=hfkAffiliateCoverage(s);const india=c.india?'Covered':'Missing',us=c.us?'Covered':'Missing';return '<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3><small>'+c.offers.length+' offer'+(c.offers.length===1?'':'s')+' · India: '+india+' · US: '+us+'</small></div><button class="btn secondary" onclick="editAff(\\''+esc(s.slug)+'\\')">Manage</button></div>'}).join('')||'<div class="panel"><p>No shoes match this filter.</p></div>';
-  const count=document.getElementById('affWorkspaceCount');if(count)count.textContent=shoes.length+' shoe'+(shoes.length===1?'':'s');
-}
-(function(){
-  const oldAff=window.affiliates;
-  window.affiliates=function(){
-    const missingIN=state.shoes.filter(s=>!hfkAffiliateCoverage(s).india).length;
-    const missingUS=state.shoes.filter(s=>!hfkAffiliateCoverage(s).us).length;
-    const ready=state.shoes.filter(s=>{const c=hfkAffiliateCoverage(s);return c.india&&c.us}).length;
-    shell('Affiliate Links','<div class="grid"><div class="stat"><strong>'+missingIN+'</strong><span>Missing India coverage</span></div><div class="stat"><strong>'+missingUS+'</strong><span>Missing US coverage</span></div><div class="stat"><strong>'+ready+'</strong><span>India + US covered</span></div><div class="stat"><strong>'+state.shoes.length+'</strong><span>Total shoes</span></div></div><div class="panel"><div class="two"><label>Search shoe<input id="affSearch" placeholder="Brand or model..." oninput="hfkAffiliateWorkspace()"></label><label>Market<select id="affMarket" onchange="hfkAffiliateWorkspace()"><option value="">All markets</option><option value="IN">India</option><option value="US">United States</option></select></label></div><div class="two"><label>Coverage<select id="affFilter" onchange="hfkAffiliateWorkspace()"><option value="all">All shoes</option><option value="missing">Needs coverage</option><option value="ready">India + US covered</option></select></label><div><p id="affWorkspaceCount" class="muted"></p></div></div></div><div id="affWorkspaceList" class="list"></div>');
-    hfkAffiliateWorkspace();
-  };
-})();
-
-
-// Shoe HQ: one workspace for catalog health, sightings, brands and affiliate coverage.
 function hfkShoeHQ(slug){
-  const s=state.shoes.find(x=>x.slug===slug);
-  if(!s){render('shoes');return}
-  const sightings=state.updates.filter(u=>u.shoeSlug===slug).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
-  const brands=state.brands.find(b=>b.slug===s.brandSlug)||state.brands.find(b=>b.name===s.brand);
+  const s=state.shoes.find(x=>x.slug===slug); if(!s)return render('shoes');
+  const sightings=state.updates.filter(x=>x.shoeSlug===slug).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
   const offers=s.affiliates||[];
-  const active=offers.filter(a=>(a.status||'active')==='active');
-  const primary=offers.filter(a=>a.primary);
-  const india=offers.filter(a=>String(a.country||'').toUpperCase()==='IN');
-  const us=offers.filter(a=>String(a.country||'').toUpperCase()==='US');
+  const india=offers.filter(a=>['IN','INDIA'].includes(String(a.country||'').toUpperCase()));
+  const us=offers.filter(a=>['US','USA'].includes(String(a.country||'').toUpperCase()));
+  const brand=state.brands.find(b=>b.slug===s.brandSlug)||state.brands.find(b=>b.name===s.brand);
   const health=[];
   if(!s.brand)health.push('Missing brand');
   if(!s.name)health.push('Missing model');
   if(!offers.length)health.push('No affiliate offers');
   if(!india.length)health.push('Missing India offer');
   if(!us.length)health.push('Missing US offer');
-  if(!primary.length)health.push('No primary offer');
-  const healthText=health.length?health.join(' · '):'Catalogued and monetization-ready';
-  const offerRows=offers.map((a,i)=>'<div class="row"><div><h3>'+esc(a.retailer||'Retailer')+'</h3><small>'+esc(a.country||'GLOBAL')+' · '+esc(a.status||'active')+(a.primary?' · Primary':'')+'</small></div><a class="btn secondary" target="_blank" rel="sponsored nofollow noopener" href="'+esc(a.url)+'">Open</a></div>').join('');
-  const sightRows=sightings.slice(0,20).map(u=>{const c=state.celebrities.find(x=>x.slug===u.celebritySlug);return '<div class="row"><div><h3>'+esc(c?c.name:u.celebrityName||'Unknown celebrity')+'</h3><small>'+esc(u.date||'No date')+' · '+esc(u.occasion||'Fashion update')+'</small></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Instagram</a></div>'}).join('');
-  shell('Shoe HQ','<div class="panel"><div class="hq-head"><div><p class="eyebrow">'+esc(s.brand||'Shoe')+(brands?' · '+esc(brands.name):'')+'</p><h2>'+esc(s.name)+'</h2><p class="muted">'+esc(s.description||'No description yet.')+'</p></div><span class="badge">'+esc(health.length?'Needs attention':'Ready')+'</span></div><p class="muted">'+esc(healthText)+'</p></div>'+
-    '<div class="grid"><div class="stat"><strong>'+sightings.length+'</strong><span>Celebrity sightings</span></div><div class="stat"><strong>'+offers.length+'</strong><span>Affiliate offers</span></div><div class="stat"><strong>'+active.length+'</strong><span>Active offers</span></div><div class="stat"><strong>'+primary.length+'</strong><span>Primary offers</span></div></div>'+
-    '<div class="panel"><h2>Catalog</h2><div class="two"><label>Brand<input id="shBrand" value="'+esc(s.brand||'')+'"></label><label>Model<input id="shName" value="'+esc(s.name||'')+'"></label></div><label>Description<textarea id="shDesc" style="min-height:100px">'+esc(s.description||'')+'</textarea><button class="btn" onclick="hfkSaveShoe(\''+esc(slug)+'\')">Save shoe</button><span id="shoeSaveMsg" class="muted" style="margin-left:10px"></span></div>'+
-    '<div class="panel"><div class="section-heading"><h2>Affiliate offers</h2><span>'+offers.length+'</span></div>'+ (offerRows||'<p class="muted">No offers yet.</p>') +'<button class="btn secondary" onclick="editAff(\''+esc(slug)+'\')">Manage affiliate offers →</button></div>'+
-    '<div class="panel"><div class="section-heading"><h2>Celebrity sightings</h2><span>'+sightings.length+'</span></div>'+ (sightRows||'<p class="muted">No celebrity sightings yet.</p>') +'</div>'+
-    '<button class="btn secondary" onclick="render(\'shoes\')">← Shoe catalog</button>');
-}
-async function hfkSaveShoe(oldSlug){
-  const msg=document.getElementById('shoeSaveMsg');
-  try{
-    await api('/api/shoes/'+encodeURIComponent(oldSlug),{method:'PUT',body:JSON.stringify({brand:document.getElementById('shBrand').value.trim(),name:document.getElementById('shName').value.trim(),description:document.getElementById('shDesc').value})});
-    await load();
-    const b=state.shoes.find(x=>x.slug===((document.getElementById('shBrand').value.trim()+' '+document.getElementById('shName').value.trim()).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')));
-    if(b)hfkShoeHQ(b.slug); else render('shoes');
-  }catch(e){if(msg)msg.textContent=e.message}
-}
-(function(){
-  const oldShoes=window.shoes;
-  window.shoes=function(){
-    oldShoes();
-    setTimeout(function(){
-      document.querySelectorAll('#app .list .row').forEach(function(row){
-        const title=row.querySelector('h3'); if(!title)return;
-        const text=title.textContent;
-        const s=state.shoes.find(x=>(x.brand+' '+x.name)===text); if(!s)return;
-        const btn=document.createElement('button'); btn.className='btn secondary'; btn.textContent='Shoe HQ'; btn.style.marginLeft='8px'; btn.onclick=function(){hfkShoeHQ(s.slug)};
-        row.querySelector('div:last-child')?.appendChild(btn);
-      });
-    },0);
+  shell('Shoe HQ','<div class="panel"><div class="hq-head"><div><p class="eyebrow">'+esc(brand?.name||s.brand||'Shoe')+'</p><h2>'+esc(s.name)+'</h2><p class="muted">'+esc(s.description||'No description yet.')+'</p></div><span class="badge">'+(health.length?'Needs attention':'Ready')+'</span></div><p class="muted">'+esc(health.join(' · ')||'Catalogued with current market coverage.')+'</p></div><div class="grid">'+
+    stat(sightings.length,'Celebrity sightings')+stat(offers.length,'Affiliate offers')+stat(india.length,'India offers')+stat(us.length,'US offers')+
+    '</div><div class="panel"><h2>Catalog</h2><div class="two"><label>Brand<input id="shBrand" value="'+esc(s.brand||'')+'"></label><label>Model<input id="shName" value="'+esc(s.name||'')+'"></label></div><label>Description<textarea id="shDesc" style="min-height:100px">'+esc(s.description||'')+'</textarea><button class="btn" id="shoeSave">Save shoe</button><span id="shoeMsg" class="muted" style="margin-left:10px"></span></div>'+
+    '<div class="panel"><div class="section-heading"><h2>Affiliate offers</h2><button class="btn secondary" onclick="editAff(\\''+esc(slug)+'\\')">Manage</button></div>'+(offers.map(a=>'<div class="row"><div><h3>'+esc(a.retailer||'Retailer')+'</h3><small>'+esc(a.country||'GLOBAL')+' · '+esc(a.status||'active')+(a.primary?' · Primary':'')+'</small></div><a class="btn secondary" target="_blank" rel="sponsored nofollow noopener" href="'+esc(a.url)+'">Open</a></div>').join('')||'<p class="muted">No offers yet.</p>')+'</div>'+
+    '<div class="panel"><h2>Celebrity sightings</h2>'+(sightings.map(u=>{const c=state.celebrities.find(x=>x.slug===u.celebritySlug);return '<div class="row"><div><h3>'+esc(c?.name||u.celebrityName||'Unknown')+'</h3><small>'+esc(u.date||'')+' · '+esc(u.occasion||'Fashion update')+'</small></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Instagram</a></div>'}).join('')||'<p class="muted">No sightings yet.</p>')+'</div><button class="btn secondary" onclick="render(\'shoes\')">← Shoe catalog</button>');
+  document.getElementById('shoeSave').onclick=async()=>{
+    try{
+      await api('/api/shoes/'+encodeURIComponent(slug),{method:'PUT',body:JSON.stringify({brand:document.getElementById('shBrand').value.trim(),name:document.getElementById('shName').value.trim(),description:document.getElementById('shDesc').value})});
+      await load(); const n=state.shoes.find(x=>x.brand===document.getElementById('shBrand').value.trim()&&x.name===document.getElementById('shName').value.trim()); if(n)hfkShoeHQ(n.slug); else render('shoes');
+    }catch(e){document.getElementById('shoeMsg').textContent=e.message}
   };
+}
+
+function hfkIdentify(updateId){
+  const u=state.updates.find(x=>x.id===updateId);if(!u)return;
+  const c=state.celebrities.find(x=>x.slug===u.celebritySlug);
+  const matches=()=>{const q=(document.getElementById('identifySearch')?.value||'').toLowerCase();const a=state.shoes.filter(s=>(s.brand+' '+s.name).toLowerCase().includes(q));document.getElementById('identifyResults').innerHTML=a.map(s=>'<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3></div><button class="btn secondary" onclick="hfkAssignShoe(\\''+esc(s.slug)+'\\',\\''+esc(updateId)+'\\')">Use this shoe</button></div>').join('')||'<p class="muted">No matching shoes.</p>'};
+  shell('Identify Shoe','<div class="panel"><h2>'+esc(c?.name||u.celebrityName||'Celebrity')+'</h2><p class="muted">'+esc(u.date||'')+' · '+esc(u.instagramUrl||'')+'</p><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Open Instagram</a></div><div class="panel"><h2>Find existing shoe</h2><input id="identifySearch" placeholder="Brand or model..." autofocus><div id="identifyResults" class="list"></div></div><div class="panel"><h2>Create new shoe</h2><form id="identifyNew" class="form"><div class="two"><label>Brand<input id="identifyBrand" required></label><label>Model<input id="identifyModel" required></label></div><label>Description<textarea id="identifyDesc"></textarea></label><button class="btn">Create & assign</button><div id="identifyMsg"></div></form></div><button class="btn secondary" onclick="hq(\\''+esc(u.celebritySlug)+'\\')">← Back</button>');
+  document.getElementById('identifySearch').oninput=matches; matches();
+  document.getElementById('identifyNew').onsubmit=async e=>{e.preventDefault();try{const brand=identifyBrand.value.trim(),name=identifyModel.value.trim();await api('/api/shoes',{method:'POST',body:JSON.stringify({brand,name,description:identifyDesc.value})});await load();const s=state.shoes.find(x=>x.slug===((brand+' '+name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')));if(!s)throw Error('Created shoe not found');await hfkAssignShoe(s.slug,updateId)}catch(e){notice('identifyMsg',e.message,true)}};
+}
+async function hfkAssignShoe(shoeSlug,updateId){
+  try{await api('/api/updates/'+encodeURIComponent(updateId),{method:'PUT',body:JSON.stringify({celebritySlug:state.updates.find(x=>x.id===updateId).celebritySlug,shoeSlug})});await load();hq(state.updates.find(x=>x.id===updateId).celebritySlug)}catch(e){alert(e.message)}
+}
+
+(function(){
+  const bar=document.createElement('div');bar.className='quickbar';
+  bar.innerHTML='<button onclick="render(\\'dashboard\\')">Home</button><button onclick="render(\\'command\\')">Celebrity HQ</button><button onclick="hfkCapture()">Capture Look</button><button onclick="render(\\'shoes\\')">Shoes</button><button onclick="hfkValidate()">Check</button><button onclick="hfkExport()">Backup</button><input id="hfk-global-search" aria-label="Search HFK" placeholder="Search celebrity or shoe...">';
+  const main=document.querySelector('main');main.parentNode.insertBefore(bar,main);
+  bar.querySelector('input').addEventListener('input',()=>{
+    const q=bar.querySelector('input').value.trim().toLowerCase();
+    if(!q)return render('dashboard');
+    const cs=state.celebrities.filter(x=>(x.name+' '+(x.instagram||'')).toLowerCase().includes(q));
+    const ss=state.shoes.filter(x=>(x.brand+' '+x.name).toLowerCase().includes(q));
+    shell('Search','<div class="panel"><p class="muted">'+(cs.length+ss.length)+' result(s)</p></div><div class="panel"><h2>Celebrities</h2>'+(cs.map(x=>'<div class="row"><h3>'+esc(x.name)+'</h3><button class="btn secondary" onclick="hq(\\''+esc(x.slug)+'\\')">Open HQ</button></div>').join('')||'<p class="muted">No matches.</p>')+'</div><div class="panel"><h2>Shoes</h2>'+(ss.map(x=>'<div class="row"><h3>'+esc(x.brand+' '+x.name)+'</h3><button class="btn secondary" onclick="hfkShoeHQ(\\''+esc(x.slug)+'\\')">Shoe HQ</button></div>').join('')||'<p class="muted">No matches.</p>')+'</div>');
+  });
+  window.addEventListener('keydown',e=>{if(e.altKey&&/^[1-7]$/.test(e.key)){e.preventDefault();render(['dashboard','command','updates','posts','celebrities','shoes','affiliates'][Number(e.key)-1])}if(e.ctrlKey&&e.key.toLowerCase()==='k'){e.preventDefault();bar.querySelector('input').focus()}});
 })();
