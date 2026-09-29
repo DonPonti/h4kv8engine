@@ -1,4 +1,4 @@
-<a class="hfk-card celebrity-card" href="{{ celebrity.url }}">
+<a class="hfk-card celebrity-card" href="/celebrities/{{ celebrity.slug }}/">
   <div>
     <h3>{{ celebrity.name }}</h3>
     {% if celebrity.instagram %}<p>@{{ celebrity.instagram | replace("@","") }}</p>{% endif %}
