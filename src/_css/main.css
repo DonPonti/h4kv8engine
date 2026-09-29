@@ -782,3 +782,10 @@ pre mark .token.punctuation {
   .look-card-top{display:block}
   .look-source{display:inline-block;margin-top:.25rem}
 }
+
+.celebrity-pagination{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;padding:1.5rem 0;border-bottom:1px solid var(--table-border);font:700 .8rem system-ui,sans-serif}
+.celebrity-pagination>div{min-width:0}.celebrity-pagination .next{text-align:right}
+.celebrity-pagination span{display:block;text-transform:uppercase;letter-spacing:.08em;font-size:.65rem;opacity:.5;margin-bottom:.2rem}
+.celebrity-pagination a{border:0!important;padding:0!important}
+.celebrity-pagination .directory-link{border:1px solid var(--table-border)!important;padding:.65rem .9rem!important;text-align:center}
+@media(max-width:480px){.celebrity-pagination{grid-template-columns:1fr 1fr}.celebrity-pagination .directory-link{grid-column:1/-1;grid-row:1}.celebrity-pagination .next{text-align:right}}
