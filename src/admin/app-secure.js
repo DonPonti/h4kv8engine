@@ -14,13 +14,13 @@ async function gh(path,opt={}){
   if(path==='/user')return {login:'HFK Admin'};
   let url='/.netlify/functions/hfk',body=null;
   if(opt.method==='PUT'){
-    const p=path.replace(/^\\/contents\\//,'').split('?')[0];
+    const p=path.replace(/^\/contents\//,'').split('?')[0];
     body={op:'save',path:decodeURIComponent(p),...(JSON.parse(opt.body||'{}'))};
   }else if(opt.method==='DELETE'){
-    const p=path.replace(/^\\/contents\\//,'').split('?')[0];
+    const p=path.replace(/^\/contents\//,'').split('?')[0];
     body={op:'delete',path:decodeURIComponent(p),...(JSON.parse(opt.body||'{}'))};
   }else{
-    const u=new URL(path,'https://hfk.local'),p=u.pathname.replace(/^\\/contents\\//,'');
+    const u=new URL(path,'https://hfk.local'),p=u.pathname.replace(/^\/contents\//,'');
     if(p==='src/_data/hfk.json')url+='?op=state';
     else if(p==='src/blog')url+='?op=posts';
     else url+='?op=file&path='+encodeURIComponent(decodeURIComponent(p));
