@@ -34,11 +34,11 @@
     "markdown-it-anchor": "^8.6.5",
     "markdown-it-attrs": "^4.1.4",
     "markdown-it-container": "^3.0.0",
-    "markdown-it-footnote": "^3.0.3",
-    "markdown-it-implicit-figures": "^0.10.0",
+    "markdown-it-footnote": "^3.0.0",
     "markdown-it-multimd-table": "^4.2.0",
     "minify-xml": "^3.4.0",
     "postcss-cli": "^10.0.0",
+    "postcss-custom-properties": "^13.3.0",
     "shx": "^0.3.4",
     "superstatic": "^9.0.0",
     "terser": "^5.16.0"
