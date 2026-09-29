@@ -36,7 +36,7 @@ function dashboard(){
     (recent.map(u=>'<div class="row"><div><h3>'+esc(u.celebrityName||u.celebritySlug)+'</h3><small>'+esc(u.shoeName||'Shoe not identified')+' · '+esc(u.date||'')+'</small></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Instagram</a></div>').join('')||'<p class="muted">No looks captured yet.</p>')+
     '</div></div><div class="panel"><h2>Start here</h2><div class="actions"><button class="btn" onclick="render(\'command\')">Open Celebrity HQ</button><button class="btn secondary" onclick="hfkCapture()">Capture a Look</button><button class="btn secondary" onclick="render(\'shoes\')">Build Shoe Catalog</button><button class="btn secondary" onclick="render(\'posts\')">Create Blog Post</button></div></div>');
 }
-function stat(n,label,view=''){return '<div class="stat '+(view?'clickable':'')+'" '+(view?'onclick="render(\\''+view+'\\')"':'')+'><strong>'+n+'</strong><span>'+esc(label)+'</span></div>'}
+function stat(n,label,view=''){return '<div class="stat '+(view?'clickable':'')+'" '+(view?'onclick="render(&quot;'+view+'&quot;)"':'')+'><strong>'+n+'</strong><span>'+esc(label)+'</span></div>'}
 
 function command(){
   const cats=[...new Set(state.celebrities.map(x=>x.category).filter(Boolean))].sort();
@@ -49,7 +49,7 @@ function filterHQ(){
   list.sort((a,b)=>a.name.localeCompare(b.name));
   document.getElementById('hqList').innerHTML=list.map(c=>{
     const count=state.updates.filter(u=>u.celebritySlug===c.slug).length;
-    return '<div class="row"><div><h3>'+esc(c.name)+'</h3><small>'+esc(c.category||'Celebrity')+' · '+count+' tracked looks</small></div><button class="btn secondary" onclick="hq(\\''+esc(c.slug)+'\\')">Open HQ</button></div>';
+    return '<div class="row"><div><h3>'+esc(c.name)+'</h3><small>'+esc(c.category||'Celebrity')+' · '+count+' tracked looks</small></div><button class="btn secondary" onclick="hq(&quot;'+esc(c.slug)+'&quot;)">Open HQ</button></div>';
   }).join('')||'<div class="panel"><p>No celebrities match.</p></div>';
   document.getElementById('hqCount').textContent=list.length+' of '+state.celebrities.length+' celebrities';
 }
@@ -59,8 +59,8 @@ function hq(slug){
   shell(c.name,'<div class="panel"><div class="hq-head"><div><p class="eyebrow">'+esc(c.category||'Celebrity')+'</p><h2>'+esc(c.name)+'</h2><p class="muted">'+esc(c.bio||'No bio yet.')+'</p></div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(c.instagram||'#')+'">Instagram</a></div></div>'+
     '<div class="grid">'+stat(ups.length,'Tracked looks')+stat(ups.filter(x=>x.shoeSlug).length,'Identified shoes')+stat([...new Set(ups.map(x=>x.shoeSlug).filter(Boolean))].length,'Unique shoes')+'</div>'+
     '<div class="panel"><h2>Capture latest look</h2><form id="hqf" class="form"><label>Instagram URL<input id="qi" type="url" required placeholder="https://www.instagram.com/p/..."></label><div class="two"><label>Date<input id="qd" type="date" value="'+today()+'"></label><label>Occasion<input id="qo" placeholder="Airport, event, street style..."></label></div><label>Shoe<select id="qs"><option value="">Unknown — identify later</option>'+options(state.shoes)+'</select></label><label>Description<textarea id="qx" placeholder="What is visible in the look?"></textarea></label><button class="btn">Capture look</button><div id="qn"></div></form></div>'+
-    '<div class="panel"><div class="section-heading"><h2>Recent looks</h2><button class="btn secondary" onclick="hfkCaptureFor(\\''+esc(c.slug)+'\\')">+ Capture</button></div><div class="list">'+(ups.slice(0,20).map(u=>'<div class="row"><div><h3>'+esc(u.shoeName||'Shoe not identified')+'</h3><small>'+esc(u.date||'')+' · '+esc(u.occasion||'Fashion update')+'</small></div><div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Instagram</a>'+(!u.shoeSlug?'<button class="btn secondary" style="margin-left:8px" onclick="hfkIdentify(\\''+esc(u.id)+'\\')">Identify Shoe</button>':'')+'</div></div>').join('')||'<p class="muted">No looks captured yet.</p>')+'</div></div>'+
-    '<button class="btn secondary" onclick="render(\\'command\\')">← All celebrities</button>');
+    '<div class="panel"><div class="section-heading"><h2>Recent looks</h2><button class="btn secondary" onclick="hfkCaptureFor(&quot;'+esc(c.slug)+'&quot;)">+ Capture</button></div><div class="list">'+(ups.slice(0,20).map(u=>'<div class="row"><div><h3>'+esc(u.shoeName||'Shoe not identified')+'</h3><small>'+esc(u.date||'')+' · '+esc(u.occasion||'Fashion update')+'</small></div><div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(u.instagramUrl)+'">Instagram</a>'+(!u.shoeSlug?'<button class="btn secondary" style="margin-left:8px" onclick="hfkIdentify(\\''+esc(u.id)+'&quot;)">Identify Shoe</button>':'')+'</div></div>').join('')||'<p class="muted">No looks captured yet.</p>')+'</div></div>'+
+    '<button class="btn secondary" onclick="render(&quot;command&quot;)">← All celebrities</button>');
   document.getElementById('hqf').onsubmit=async e=>{
     e.preventDefault();
     try{await api('/api/updates',{method:'POST',body:JSON.stringify({celebritySlug:c.slug,shoeSlug:qs.value,instagramUrl:qi.value,date:qd.value,occasion:qo.value,description:qx.value})});await load();hq(c.slug)}
@@ -70,7 +70,7 @@ function hq(slug){
 function hfkCaptureFor(slug){hfkCapture(slug)}
 function hfkCapture(preselect=''){
   const sorted=state.celebrities.slice().sort((a,b)=>a.name.localeCompare(b.name));
-  shell('Capture Look','<div class="panel"><p class="muted">Save the Instagram sighting first. You can identify the shoe immediately or later.</p><form id="capf" class="form"><label>Celebrity<select id="capCelebrity">'+sorted.map(c=>'<option value="'+esc(c.slug)+'" '+(c.slug===preselect?'selected':'')+'>'+esc(c.name)+'</option>').join('')+'</select></label><label>Instagram post / reel URL<input id="capUrl" type="url" required placeholder="https://www.instagram.com/p/..."></label><div class="two"><label>Date<input id="capDate" type="date" value="'+today()+'"></label><label>Occasion<input id="capOccasion" placeholder="Event, airport, street style..."></label></div><label>Optional shoe<select id="capShoe"><option value="">Unknown</option>'+options(state.shoes)+'</select></label><label>Notes<textarea id="capNote"></textarea></label><button class="btn">Capture Look</button><button type="button" class="btn secondary" onclick="render(\\'dashboard\\')" style="margin-left:8px">Cancel</button><div id="capMsg"></div></form></div>');
+  shell('Capture Look','<div class="panel"><p class="muted">Save the Instagram sighting first. You can identify the shoe immediately or later.</p><form id="capf" class="form"><label>Celebrity<select id="capCelebrity">'+sorted.map(c=>'<option value="'+esc(c.slug)+'" '+(c.slug===preselect?'selected':'')+'>'+esc(c.name)+'</option>').join('')+'</select></label><label>Instagram post / reel URL<input id="capUrl" type="url" required placeholder="https://www.instagram.com/p/..."></label><div class="two"><label>Date<input id="capDate" type="date" value="'+today()+'"></label><label>Occasion<input id="capOccasion" placeholder="Event, airport, street style..."></label></div><label>Optional shoe<select id="capShoe"><option value="">Unknown</option>'+options(state.shoes)+'</select></label><label>Notes<textarea id="capNote"></textarea></label><button class="btn">Capture Look</button><button type="button" class="btn secondary" onclick="render(&quot;dashboard&quot;)" style="margin-left:8px">Cancel</button><div id="capMsg"></div></form></div>');
   document.getElementById('capf').onsubmit=async e=>{e.preventDefault();try{await api('/api/updates',{method:'POST',body:JSON.stringify({celebritySlug:capCelebrity.value,shoeSlug:capShoe.value,instagramUrl:capUrl.value,date:capDate.value,occasion:capOccasion.value,description:capNote.value})});await load();notice('capMsg','Look captured.');setTimeout(()=>hq(capCelebrity.value),300)}catch(e){notice('capMsg',e.message,true)}};
   document.getElementById('capUrl').focus();
 }
@@ -82,7 +82,7 @@ function updates(){
 function filterUpdates(){
   const q=(document.getElementById('us')?.value||'').toLowerCase();
   const a=state.updates.filter(v=>(v.celebrityName+' '+v.shoeName+' '+v.occasion+' '+v.instagramUrl).toLowerCase().includes(q));
-  document.getElementById('ul').innerHTML=a.map(v=>'<div class="row"><div><h3>'+esc(v.celebrityName||v.celebritySlug)+'</h3><small>'+esc(v.shoeName||'Shoe not identified')+' · '+esc(v.date||'')+'</small></div><div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(v.instagramUrl)+'">Instagram</a><button class="btn danger" style="margin-left:8px" onclick="delUpdate(\\''+esc(v.id)+'\\')">Delete</button></div></div>').join('')||'<p class="muted">No looks captured.</p>';
+  document.getElementById('ul').innerHTML=a.map(v=>'<div class="row"><div><h3>'+esc(v.celebrityName||v.celebritySlug)+'</h3><small>'+esc(v.shoeName||'Shoe not identified')+' · '+esc(v.date||'')+'</small></div><div><a class="btn secondary" target="_blank" rel="noopener" href="'+esc(v.instagramUrl)+'">Instagram</a><button class="btn danger" style="margin-left:8px" onclick="delUpdate(&quot;'+esc(v.id)+'&quot;)">Delete</button></div></div>').join('')||'<p class="muted">No looks captured.</p>';
 }
 async function batch(e){
   e.preventDefault();const urls=bu.value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);let ok=0,bad=0;
@@ -99,7 +99,7 @@ function celebrities(){
 function filterCelebs(){
   const q=(document.getElementById('cs')?.value||'').toLowerCase();
   const a=state.celebrities.filter(c=>(c.name+' '+(c.instagram||'')+' '+(c.category||'')).toLowerCase().includes(q));
-  document.getElementById('cl').innerHTML=a.map(c=>'<div class="row"><div><h3>'+esc(c.name)+'</h3><small>'+esc(c.category||'Celebrity')+' · '+state.updates.filter(u=>u.celebritySlug===c.slug).length+' looks</small></div><button class="btn secondary" onclick="hq(\\''+esc(c.slug)+'\\')">Open HQ</button></div>').join('');
+  document.getElementById('cl').innerHTML=a.map(c=>'<div class="row"><div><h3>'+esc(c.name)+'</h3><small>'+esc(c.category||'Celebrity')+' · '+state.updates.filter(u=>u.celebritySlug===c.slug).length+' looks</small></div><button class="btn secondary" onclick="hq(&quot;'+esc(c.slug)+'&quot;)">Open HQ</button></div>').join('');
 }
 
 function shoes(){
@@ -110,7 +110,7 @@ function shoes(){
 function filterShoes(){
   const q=(document.getElementById('ss')?.value||'').toLowerCase();
   const a=state.shoes.filter(s=>(s.brand+' '+s.name).toLowerCase().includes(q));
-  document.getElementById('sl').innerHTML=a.map(s=>'<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3><small>'+((s.affiliates||[]).length)+' affiliate offers · '+state.updates.filter(u=>u.shoeSlug===s.slug).length+' sightings</small></div><div><button class="btn secondary" onclick="hfkShoeHQ(\\''+esc(s.slug)+'\\')">Shoe HQ</button><button class="btn secondary" style="margin-left:8px" onclick="editAff(\\''+esc(s.slug)+'\\')">Affiliates</button></div></div>').join('')||'<p class="muted">No shoes in the catalog yet.</p>';
+  document.getElementById('sl').innerHTML=a.map(s=>'<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3><small>'+((s.affiliates||[]).length)+' affiliate offers · '+state.updates.filter(u=>u.shoeSlug===s.slug).length+' sightings</small></div><div><button class="btn secondary" onclick="hfkShoeHQ(&quot;'+esc(s.slug)+'&quot;)">Shoe HQ</button><button class="btn secondary" style="margin-left:8px" onclick="editAff(&quot;'+esc(s.slug)+'&quot;)">Affiliates</button></div></div>').join('')||'<p class="muted">No shoes in the catalog yet.</p>';
 }
 
 function brands(){
@@ -127,11 +127,11 @@ function affiliates(){
 function filterAff(){
   const q=(document.getElementById('affSearch')?.value||'').toLowerCase();
   const a=state.shoes.filter(s=>(s.brand+' '+s.name).toLowerCase().includes(q));
-  document.getElementById('affList').innerHTML=a.map(s=>'<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3><small>'+((s.affiliates||[]).length)+' offer(s)</small></div><button class="btn secondary" onclick="editAff(\\''+esc(s.slug)+'\\')">Manage offers</button></div>').join('')||'<p class="muted">Create shoes first, then add their retailer offers.</p>';
+  document.getElementById('affList').innerHTML=a.map(s=>'<div class="row"><div><h3>'+esc(s.brand+' '+s.name)+'</h3><small>'+((s.affiliates||[]).length)+' offer(s)</small></div><button class="btn secondary" onclick="editAff(&quot;'+esc(s.slug)+'&quot;)">Manage offers</button></div>').join('')||'<p class="muted">Create shoes first, then add their retailer offers.</p>';
 }
 function editAff(slug){
   const s=state.shoes.find(x=>x.slug===slug);if(!s)return render('affiliates');
-  shell('Affiliate Offers','<div class="panel"><h2>'+esc(s.brand+' '+s.name)+'</h2><p class="muted">Use direct retailer/product URLs. One primary offer per market.</p><div id="arows">'+(s.affiliates||[]).map(affRow).join('')+'</div><button class="btn secondary" id="addAff">+ Add retailer</button><button class="btn" id="saveAff" style="margin-left:8px">Save offers</button><div id="affMsg"></div></div><button class="btn secondary" onclick="render(\\'affiliates\\')">← Affiliate manager</button>');
+  shell('Affiliate Offers','<div class="panel"><h2>'+esc(s.brand+' '+s.name)+'</h2><p class="muted">Use direct retailer/product URLs. One primary offer per market.</p><div id="arows">'+(s.affiliates||[]).map(affRow).join('')+'</div><button class="btn secondary" id="addAff">+ Add retailer</button><button class="btn" id="saveAff" style="margin-left:8px">Save offers</button><div id="affMsg"></div></div><button class="btn secondary" onclick="render(&quot;affiliates&quot;)">← Affiliate manager</button>');
   document.getElementById('addAff').onclick=()=>document.getElementById('arows').insertAdjacentHTML('beforeend',affRow());
   document.getElementById('saveAff').onclick=()=>saveAff(slug);
 }
@@ -148,5 +148,14 @@ function posts(){
   document.getElementById('pf').onsubmit=async e=>{e.preventDefault();try{await api('/api/posts',{method:'POST',body:JSON.stringify({title:pt.value,slug:ps.value,category:pc.value,seoDescription:pd.value,content:px.value})});await load();render('posts')}catch(e){notice('pm',e.message,true)}};
 }
 
-navs.forEach(n=>n.onclick=()=>render(n.dataset.view));
+window.render=render;
+window.hq=hq;
+window.hfkCapture=hfkCapture;
+window.hfkCaptureFor=hfkCaptureFor;
+window.batch=batch;
+window.delUpdate=delUpdate;
+window.hfkShoeHQ=window.hfkShoeHQ||function(slug){ if(typeof hfkShoeHQ==='function') hfkShoeHQ(slug); };
+window.editAff=editAff;
+navs.forEach(n=>n.addEventListener('click',()=>render(n.dataset.view)));
+
 load().then(()=>render('dashboard')).catch(e=>{app.innerHTML='<div class="panel"><h2>HFK Studio could not load</h2><p class="notice error">'+esc(e.message)+'</p></div>'});
