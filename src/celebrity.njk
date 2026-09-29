@@ -109,6 +109,14 @@ eleventyComputed:
             <h3>Shoe not identified</h3>
           {% endif %}
           {% if update.description %}<p class="look-description">{{ update.description }}</p>{% endif %}
+          {% if update.sourceName or update.sourceUrl or update.confidence %}
+          <div class="look-evidence">
+            <span class="evidence-label">Evidence</span>
+            {% if update.sourceName %}<span>{{ update.sourceName }}</span>{% endif %}
+            {% if update.sourceUrl %}<a href="{{ update.sourceUrl }}" target="_blank" rel="noopener noreferrer">Source ↗</a>{% endif %}
+            {% if update.confidence %}<span class="evidence-confidence">{{ update.confidence }}</span>{% endif %}
+          </div>
+          {% endif %}
           {% if lookShoe %}{% include "shop-links.njk" %}{% endif %}
           {% if update.instagramUrl %}
             {% set instagramUrl = update.instagramUrl %}{% include "instagram.njk" %}
@@ -163,7 +171,8 @@ eleventyComputed:
 
     <section class="wiki-section methodology" id="sources" aria-labelledby="sources-title">
       <h2 id="sources-title">Sources & methodology</h2>
-      <p>Hunting For Kicks records publicly available fashion sightings and aims to link each entry to its original social post or another identifiable source. Product information and availability can change over time.</p>
+      <p>Hunting For Kicks records publicly available fashion sightings and aims to link each entry to its original social post or another identifiable source. A source link identifies where HFK obtained the information; it does not imply endorsement by the celebrity or publication.</p>
+      <p>When a shoe identification is uncertain, the record should be marked with an appropriate confidence level rather than presented as fact. Product information and availability can change over time.</p>
       <p>HFK profile rankings are editorial directory positions, not a universal measure of popularity, influence or achievement.</p>
     </section>
   </article>
@@ -188,7 +197,7 @@ eleventyComputed:
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
-  "@type":"ProfilePage",
+  "@type":"WebPage",
   "name":"{{ celebrity.name }} Shoes & Fashion",
   "url":"{{ page.url | url | absoluteUrl(site.url) }}",
   "description":"{{ celebrity.name }} sneaker, shoe and fashion profile on Hunting For Kicks.",
