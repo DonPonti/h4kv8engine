@@ -789,3 +789,16 @@ pre mark .token.punctuation {
 .celebrity-pagination a{border:0!important;padding:0!important}
 .celebrity-pagination .directory-link{border:1px solid var(--table-border)!important;padding:.65rem .9rem!important;text-align:center}
 @media(max-width:480px){.celebrity-pagination{grid-template-columns:1fr 1fr}.celebrity-pagination .directory-link{grid-column:1/-1;grid-row:1}.celebrity-pagination .next{text-align:right}}
+
+/* --- HFK visual content cards --- */
+.celebrity-portrait{margin:0;border-bottom:1px solid var(--table-border);background:var(--main-background);overflow:hidden}
+.celebrity-portrait img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.celebrity-portrait-placeholder{display:flex;align-items:center;justify-content:center;aspect-ratio:4/5;font:900 4rem/1 'Playfair Display',serif;background:linear-gradient(135deg,#eee,#cfcfcf);color:#111}
+.look-image{margin:1rem 0 1.1rem;overflow:hidden;background:var(--alt-table-row-background);border:1px solid var(--table-border)}
+.look-image img{display:block;width:100%;max-height:620px;object-fit:cover}
+.look-image figcaption{padding:.45rem .7rem;font:600 .68rem/1.4 system-ui,sans-serif;opacity:.58;text-align:left}
+.look-shoe-visual{display:block;border:0!important;padding:0!important;margin:.9rem 0;background:var(--alt-table-row-background);overflow:hidden}
+.look-shoe-visual img{display:block;width:100%;max-height:280px;object-fit:contain;aspect-ratio:16/7}
+.shoe-card-image{display:block;width:100%;aspect-ratio:4/3;object-fit:contain;margin:-1.2rem -1.2rem 1rem;width:calc(100% + 2.4rem);background:var(--alt-table-row-background);border-bottom:1px solid var(--table-border)}
+.shoe-card-placeholder{display:flex;align-items:center;justify-content:center;font:700 .75rem system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;opacity:.45}
+@media(max-width:770px){.look-image img{max-height:520px}.look-shoe-visual img{aspect-ratio:16/8}}
