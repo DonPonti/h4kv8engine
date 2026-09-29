@@ -1,0 +1,1 @@
+[functions]\n  directory = "netlify/functions"\n\n[build]\n  publish = "dist"\n
