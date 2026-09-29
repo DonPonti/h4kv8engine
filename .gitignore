@@ -13,3 +13,7 @@ package-lock.json
 Desktop.ini
 ._*
 Thumbs.db
+
+.env
+.env.*
+!.env.example
