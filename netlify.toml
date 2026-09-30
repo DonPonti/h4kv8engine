@@ -5,6 +5,12 @@
 [functions]
   directory = "netlify/functions"
 
+[dev]
+  framework = "#custom"
+  command = "npx eleventy --serve --port 8080"
+  targetPort = 8080
+  port = 8888
+
 [[headers]]
   for = "/admin/*"
   [headers.values]
