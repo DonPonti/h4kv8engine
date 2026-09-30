@@ -49,7 +49,7 @@ async function writeData(message){
   const fresh=await gh('/contents/'+CONFIG.dataPath+'?ref='+encodeURIComponent(CONFIG.branch));
   const content=JSON.stringify(state,null,2)+'\n';
   const r=await gh('/contents/'+CONFIG.dataPath,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,content:b64(content),sha:fresh.sha,branch:CONFIG.branch})});
-  dataSha=r.content.sha;msg('Saved to GitHub','success');return r;
+  dataSha=r.sha;msg('Saved to GitHub','success');return r;
 }
 async function putFile(path,content,message,sha){
   const body={message,content:b64(content),branch:CONFIG.branch};if(sha)body.sha=sha;
