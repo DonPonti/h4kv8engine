@@ -1,14 +1,24 @@
 {% if instagramUrl %}
 <style>
-  .instagram-embed{width:100%;max-width:100%;min-width:0;overflow:hidden;clear:both}
-  .instagram-embed .instagram-media{display:block!important;width:100%!important;max-width:540px!important;min-width:280px!important;margin:0 auto!important;box-sizing:border-box!important}
-  .instagram-embed iframe{display:block;max-width:100%!important;width:100%!important;border:0!important}
-  @media(max-width:600px){.instagram-embed .instagram-media{min-width:0!important;max-width:100%!important}}
+  .instagram-embed{width:100%;max-width:540px;margin:0 auto;min-width:0;overflow:hidden;clear:both;box-sizing:border-box}
+  .instagram-embed iframe{display:block;width:100%;max-width:540px;height:760px;margin:0 auto;border:0;border-radius:4px;background:#fff;box-sizing:border-box}
+  .instagram-embed-fallback{display:block;margin:10px auto 0;text-align:center;font-size:.9rem}
+  @media(max-width:600px){
+    .instagram-embed{max-width:100%;padding:0}
+    .instagram-embed iframe{max-width:100%;height:720px}
+  }
 </style>
 {% set cleanInstagramUrl = instagramUrl | trim %}
 <div class="instagram-embed" data-instagram-url="{{ cleanInstagramUrl }}" aria-label="Instagram post">
-  <blockquote class="instagram-media" data-instgrm-permalink="{{ cleanInstagramUrl }}" data-instgrm-version="14" data-instgrm-captioned>
-    <a href="{{ cleanInstagramUrl }}" target="_blank" rel="noopener noreferrer">View this post on Instagram</a>
-  </blockquote>
+  <iframe
+    src="{{ cleanInstagramUrl }}/embed/captioned/"
+    title="Instagram post"
+    loading="lazy"
+    scrolling="no"
+    allowtransparency="true"
+    allow="autoplay; encrypted-media; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin">
+  </iframe>
+  <a class="instagram-embed-fallback" href="{{ cleanInstagramUrl }}" target="_blank" rel="noopener noreferrer">View original post on Instagram ↗</a>
 </div>
 {% endif %}
