@@ -25,7 +25,8 @@
       "instagram": "priyankachopra",
       "category": "Actress",
       "top100Rank": 3,
-      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks."
+      "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks.",
+      "updateCount": 1
     },
     {
       "name": "Alia Bhatt",
@@ -813,6 +814,26 @@
     }
   ],
   "updates": [
+    {
+      "id": "e0188dbd-02da-4d52-ab3f-1d72ccb1772e",
+      "celebritySlug": "priyanka-chopra",
+      "celebrityName": "Priyanka Chopra",
+      "shoeSlug": "",
+      "shoeName": "",
+      "instagramUrl": "https://www.instagram.com/p/dw9jbeijrhp/",
+      "date": "2026-10-01",
+      "occasion": "random",
+      "description": "looks good in black and white photo",
+      "image": "",
+      "imageAlt": "Priyanka Chopra fashion look",
+      "imageCredit": "",
+      "sourceUrl": "",
+      "sourceName": "Instagram",
+      "sourceType": "instagram",
+      "confidence": "unidentified",
+      "identificationNotes": "",
+      "accessories": []
+    },
     {
       "id": "virat-kohli-2019-09-09-mumbai-airport-adidas-originals",
       "celebritySlug": "virat-kohli",
