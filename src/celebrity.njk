@@ -109,7 +109,8 @@ eleventyComputed:
             </a>
             {% endif %}
             <p class="look-brand">{{ lookShoe.brand }}</p>
-            <h3><a href="/shoes/{{ lookShoe.slug }}/">{{ lookShoe.name }}</a></h3>
+            <h3><a href="/celebrities/{{ celebrity.slug }}/looks/{{ update.id }}/">{{ lookShoe.name }}</a></h3>
+            <a class="look-detail-link" href="/celebrities/{{ celebrity.slug }}/looks/{{ update.id }}/">View this look →</a>
           {% else %}
             <h3>Shoe not identified</h3>
           {% endif %}
