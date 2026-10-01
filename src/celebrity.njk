@@ -91,7 +91,12 @@ eleventyComputed:
             <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %}<span>{{ update.occasion }}</span>{% endif %}</div>
             {% if update.instagramUrl %}<a class="look-source" href="{{ update.instagramUrl }}" target="_blank" rel="noopener noreferrer">Original post ↗</a>{% elif update.sourceUrl %}<a class="look-source" href="{{ update.sourceUrl }}" target="_blank" rel="noopener noreferrer">Source ↗</a>{% endif %}
           </div>
-          {% if update.image %}
+          {% if update.instagramUrl %}
+          <div class="look-instagram">
+            <span class="eyebrow">Instagram look</span>
+            {% set instagramUrl = update.instagramUrl %}{% include "instagram.njk" %}
+          </div>
+          {% elif update.image %}
           <figure class="look-image">
             <img src="{{ update.image }}" alt="{{ update.imageAlt or (celebrity.name + ' fashion look') }}" loading="lazy" decoding="async">
             {% if update.imageCredit %}<figcaption>{{ update.imageCredit }}</figcaption>{% endif %}
@@ -128,9 +133,7 @@ eleventyComputed:
           </div>
           {% endif %}
           {% if lookShoe %}{% include "shop-links.njk" %}{% endif %}
-          {% if update.instagramUrl %}
-            {% set instagramUrl = update.instagramUrl %}{% include "instagram.njk" %}
-          {% endif %}
+
         </article>
       {% endfor %}
       </div>
