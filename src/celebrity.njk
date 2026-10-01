@@ -109,6 +109,16 @@ eleventyComputed:
             <h3>Shoe not identified</h3>
           {% endif %}
           {% if update.description %}<p class="look-description">{{ update.description }}</p>{% endif %}
+          {% if update.accessories and update.accessories.length %}
+          <div class="look-accessories">
+            <span class="evidence-label">Other fashion</span>
+            <ul>
+              {% for item in update.accessories %}
+              <li><span>{{ item.category or "Accessory" }}</span>{% if item.brand %}<strong>{{ item.brand }}</strong>{% endif %} {{ item.name }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
           {% if update.sourceName or update.sourceUrl or update.confidence %}
           <div class="look-evidence">
             <span class="evidence-label">Evidence</span>
