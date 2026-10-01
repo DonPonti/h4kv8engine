@@ -10,15 +10,34 @@
 </style>
 {% set cleanInstagramUrl = instagramUrl | trim %}
 <div class="instagram-embed" data-instagram-url="{{ cleanInstagramUrl }}" aria-label="Instagram post">
-  <iframe
-    src="{{ cleanInstagramUrl }}/embed/captioned/"
-    title="Instagram post"
-    loading="lazy"
-    scrolling="no"
-    allowtransparency="true"
-    allow="autoplay; encrypted-media; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin">
-  </iframe>
-  <a class="instagram-embed-fallback" href="{{ cleanInstagramUrl }}" target="_blank" rel="noopener noreferrer">View original post on Instagram ↗</a>
+  <a class="instagram-embed-fallback" href="{{ cleanInstagramUrl }}" target="_blank" rel="noopener noreferrer">Loading Instagram post…</a>
 </div>
+<script>
+(function(){
+  var root=document.currentScript.previousElementSibling;
+  if(!root)return;
+  var raw=root.getAttribute('data-instagram-url')||'';
+  try{
+    var u=new URL(raw,window.location.href);
+    var parts=u.pathname.split('/').filter(Boolean);
+    var media=['p','reel','reels','tv'];
+    var index=parts.findIndex(function(part){return media.indexOf(part.toLowerCase())!==-1;});
+    var type=index>=0?parts[index].toLowerCase():'';
+    var code=index>=0?parts[index+1]:'';
+    if(type==='reels')type='reel';
+    if(!code || !['p','reel','tv'].includes(type))throw new Error('Unsupported Instagram URL');
+    var iframe=document.createElement('iframe');
+    iframe.src='https://www.instagram.com/'+type+'/'+encodeURIComponent(code)+'/embed/captioned/';
+    iframe.title='Instagram post';
+    iframe.loading='lazy';
+    iframe.scrolling='no';
+    iframe.setAttribute('allowtransparency','true');
+    iframe.setAttribute('allow','autoplay; encrypted-media; picture-in-picture; web-share');
+    iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+    root.replaceChildren(iframe);
+  }catch(error){
+    root.querySelector('.instagram-embed-fallback').textContent='View original post on Instagram ↗';
+  }
+})();
+</script>
 {% endif %}
