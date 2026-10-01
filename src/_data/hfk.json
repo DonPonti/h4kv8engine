@@ -820,7 +820,7 @@
       "celebrityName": "Priyanka Chopra",
       "shoeSlug": "",
       "shoeName": "",
-      "instagramUrl": "https://www.instagram.com/p/dw9jbeijrhp/",
+      "instagramUrl": "https://www.instagram.com/p/dadc2vggbsf/",
       "date": "2026-10-01",
       "occasion": "random",
       "description": "looks good in black and white photo",
@@ -832,7 +832,13 @@
       "sourceType": "instagram",
       "confidence": "unidentified",
       "identificationNotes": "",
-      "accessories": []
+      "accessories": [
+        {
+          "category": "${esc(accessoriesText(u.accessories))}",
+          "brand": "",
+          "name": "Item"
+        }
+      ]
     },
     {
       "id": "virat-kohli-2019-09-09-mumbai-airport-adidas-originals",
