@@ -816,3 +816,28 @@ pre mark .token.punctuation {
 .look-instagram>.eyebrow{display:block;margin-bottom:.5rem}
 .look-instagram .instagram-embed{margin:0 auto;max-width:540px;overflow:hidden}
 .look-instagram .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important}
+
+
+/* --- Individual fashion look pages --- */
+.look-detail-link{display:inline-block;margin:.25rem 0 .75rem;font:700 .72rem/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;border:0!important;padding:0!important;opacity:.7}
+.look-detail-link:hover{opacity:1}
+.look-page{max-width:1100px;margin:0 auto}
+.look-page-header{padding:1.8rem 0 1rem;border-bottom:1px solid var(--table-border)}
+.look-page-header h1{font-size:clamp(2.2rem,5vw,4rem);max-width:850px;margin:.2rem 0 .7rem}
+.look-page-meta{display:flex;flex-wrap:wrap;gap:.6rem;font:700 .75rem system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;opacity:.62}
+.look-page-media{margin:1.5rem 0 2rem}
+.look-page-media .instagram-embed{margin:0 auto;max-width:640px;overflow:hidden}
+.look-page-media .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important}
+.look-page-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,.8fr);gap:2rem;align-items:start}
+.look-page-grid .wiki-section:first-child{padding-top:0}
+.look-page-shoe h2{margin-bottom:1rem}
+.look-page-shoe .look-shoe-visual{max-width:680px}
+.look-page-sidebar{position:sticky;top:1rem}
+.look-page-sidebar .look-evidence{margin-bottom:1rem}
+.look-page-sidebar .shop-box{margin-top:0}
+.look-page-accessories{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.look-page-accessories li{padding:.55rem .7rem;background:var(--alt-table-row-background)}
+.look-page-accessories li span{display:inline-block;margin-right:.35rem;font:700 .66rem/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;opacity:.55}
+.look-page-accessories li strong{margin-right:.25rem}
+.look-page-nav{margin-top:1.5rem}
+@media(max-width:770px){.look-page-grid{grid-template-columns:1fr}.look-page-sidebar{position:static}.look-page-header h1{font-size:2.5rem}}
