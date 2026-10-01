@@ -89,7 +89,7 @@ eleventyComputed:
         <article class="look-card" id="look-{{ loop.index }}">
           <div class="look-card-top">
             <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time>{% if update.occasion %}<span>{{ update.occasion }}</span>{% endif %}</div>
-            {% if update.instagramUrl %}<a class="look-source" href="{{ update.instagramUrl }}" target="_blank" rel="noopener noreferrer">Original post ↗</a>{% endif %}
+            {% if update.instagramUrl %}<a class="look-source" href="{{ update.instagramUrl }}" target="_blank" rel="noopener noreferrer">Original post ↗</a>{% elif update.sourceUrl %}<a class="look-source" href="{{ update.sourceUrl }}" target="_blank" rel="noopener noreferrer">Source ↗</a>{% endif %}
           </div>
           {% if update.image %}
           <figure class="look-image">
