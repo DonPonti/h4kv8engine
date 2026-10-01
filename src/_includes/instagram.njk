@@ -1,4 +1,10 @@
 {% if instagramUrl %}
+<style>
+  .instagram-embed{width:100%;max-width:100%;min-width:0;overflow:hidden;clear:both}
+  .instagram-embed .instagram-media{display:block!important;width:100%!important;max-width:540px!important;min-width:280px!important;margin:0 auto!important;box-sizing:border-box!important}
+  .instagram-embed iframe{display:block;max-width:100%!important;width:100%!important;border:0!important}
+  @media(max-width:600px){.instagram-embed .instagram-media{min-width:0!important;max-width:100%!important}}
+</style>
 {% set cleanInstagramUrl = instagramUrl | trim %}
 <div class="instagram-embed" data-instagram-url="{{ cleanInstagramUrl }}" aria-label="Instagram post">
   <blockquote class="instagram-media" data-instgrm-permalink="{{ cleanInstagramUrl }}" data-instgrm-version="14" data-instgrm-captioned>
