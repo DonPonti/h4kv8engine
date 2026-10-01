@@ -856,3 +856,12 @@ pre mark .token.punctuation {
 .celebrity-facts{background:var(--main-background)}
 .celebrity-facts div{min-width:0}
 @media(max-width:770px){.look-instagram{margin-left:-.25rem;margin-right:-.25rem}.look-instagram .instagram-embed{max-width:100%}.celebrity-layout{gap:0}}
+
+/* --- Reliable Instagram iframe embeds --- */
+.instagram-frame-wrap{width:100%;max-width:640px;margin:0 auto;overflow:hidden;background:#fff;border:1px solid var(--table-border)}
+.instagram-frame{display:block;width:100%;height:720px;border:0;background:#fff}
+.look-instagram .instagram-frame-wrap{max-width:540px}
+.look-page-media .instagram-frame-wrap{max-width:640px}
+.instagram-fallback{text-align:center;padding:1.5rem;border:1px solid var(--table-border);background:var(--alt-table-row-background);font:700 .82rem system-ui,sans-serif}
+.instagram-fallback a{border:0!important}
+@media(max-width:770px){.instagram-frame{height:680px}.look-instagram .instagram-frame-wrap,.look-page-media .instagram-frame-wrap{max-width:100%}}
