@@ -810,3 +810,9 @@ pre mark .token.punctuation {
 .look-accessories li{padding:.35rem .55rem;background:var(--alt-table-row-background);font-size:.82rem}
 .look-accessories li span{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;opacity:.55;margin-right:.3rem}
 .look-accessories li strong{margin-right:.2rem}
+
+/* Instagram-first celebrity looks */
+.look-instagram{margin:1rem 0 1.25rem;padding:1rem 0;border-top:1px solid var(--table-border);border-bottom:1px solid var(--table-border)}
+.look-instagram>.eyebrow{display:block;margin-bottom:.5rem}
+.look-instagram .instagram-embed{margin:0 auto;max-width:540px;overflow:hidden}
+.look-instagram .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important}
