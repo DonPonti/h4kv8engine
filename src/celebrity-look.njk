@@ -1,0 +1,117 @@
+---
+pagination:
+  data: hfk.updates
+  size: 1
+  alias: look
+permalink: "/celebrities/{{ look.celebritySlug }}/looks/{{ look.id }}/"
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ look.celebrityName }} Fashion Look | Hunting For Kicks"
+  description: "{{ look.description or (look.celebrityName + ' fashion look documented by Hunting For Kicks.') }}"
+---
+{% set celebrity = hfk.celebrities | where("slug", look.celebritySlug) | first %}
+{% set shoe = hfk.shoes | where("slug", look.shoeSlug) | first %}
+
+<nav class="hfk-breadcrumbs" aria-label="Breadcrumb">
+  <a href="/">Home</a><span>›</span>
+  <a href="/celebrities/">Celebrities</a><span>›</span>
+  {% if celebrity %}<a href="/celebrities/{{ celebrity.slug }}/">{{ celebrity.name }}</a><span>›</span>{% endif %}
+  <span aria-current="page">Fashion look</span>
+</nav>
+
+<article class="look-page">
+  <header class="look-page-header">
+    <p class="eyebrow">{{ look.sourceType or "Fashion sighting" }}</p>
+    <h1>{{ celebrity.name if celebrity else look.celebrityName }} fashion look</h1>
+    <div class="look-page-meta">
+      {% if look.date %}<time datetime="{{ look.date }}">{{ look.date }}</time>{% endif %}
+      {% if look.occasion %}<span>{{ look.occasion }}</span>{% endif %}
+    </div>
+  </header>
+
+  {% if look.instagramUrl %}
+  <div class="look-page-media look-instagram">
+    <span class="eyebrow">Instagram look</span>
+    {% set instagramUrl = look.instagramUrl %}{% include "instagram.njk" %}
+  </div>
+  {% elif look.image %}
+  <figure class="look-page-media look-image">
+    <img src="{{ look.image }}" alt="{{ look.imageAlt or ((celebrity.name if celebrity else look.celebrityName) + ' fashion look') }}" loading="eager" decoding="async">
+    {% if look.imageCredit %}<figcaption>{{ look.imageCredit }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
+
+  <div class="look-page-grid">
+    <div>
+      {% if shoe %}
+      <section class="wiki-section look-page-shoe">
+        <p class="eyebrow">Featured footwear</p>
+        <h2><a href="/shoes/{{ shoe.slug }}/">{{ shoe.brand }} {{ shoe.name }}</a></h2>
+        {% if shoe.image %}
+        <a class="look-shoe-visual" href="/shoes/{{ shoe.slug }}/" aria-label="View {{ shoe.name }} shoe profile">
+          <img src="{{ shoe.image }}" alt="{{ shoe.imageAlt or (shoe.brand + ' ' + shoe.name) }}" loading="lazy" decoding="async">
+        </a>
+        {% endif %}
+        {% if look.shoeName %}<p><strong>Identification:</strong> {{ look.shoeName }}</p>{% endif %}
+        {% if look.identificationNotes %}<p>{{ look.identificationNotes }}</p>{% endif %}
+        {% if look.confidence %}<p class="evidence-confidence">Identification confidence: {{ look.confidence }}</p>{% endif %}
+      </section>
+      {% else %}
+      <section class="wiki-section">
+        <p class="eyebrow">Footwear</p>
+        <h2>Shoe not identified</h2>
+        {% if look.shoeName %}<p>{{ look.shoeName }}</p>{% endif %}
+        {% if look.identificationNotes %}<p>{{ look.identificationNotes }}</p>{% endif %}
+      </section>
+      {% endif %}
+
+      {% if look.description %}
+      <section class="wiki-section">
+        <h2>About this look</h2>
+        <p>{{ look.description }}</p>
+      </section>
+      {% endif %}
+
+      {% if look.accessories and look.accessories.length %}
+      <section class="wiki-section">
+        <h2>Other fashion</h2>
+        <ul class="look-page-accessories">
+          {% for item in look.accessories %}
+          <li><span>{{ item.category or "Accessory" }}</span>{% if item.brand %}<strong>{{ item.brand }}</strong>{% endif %} {{ item.name }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+    </div>
+
+    <aside class="look-page-sidebar">
+      {% if look.sourceName or look.sourceUrl or look.confidence %}
+      <section class="look-evidence">
+        <span class="evidence-label">Evidence</span>
+        {% if look.sourceName %}<strong>{{ look.sourceName }}</strong>{% endif %}
+        {% if look.sourceUrl %}<a href="{{ look.sourceUrl }}" target="_blank" rel="noopener noreferrer">Open source ↗</a>{% endif %}
+        {% if look.instagramUrl %}<a href="{{ look.instagramUrl }}" target="_blank" rel="noopener noreferrer">Original Instagram post ↗</a>{% endif %}
+        {% if look.confidence %}<span class="evidence-confidence">{{ look.confidence }}</span>{% endif %}
+      </section>
+      {% endif %}
+      {% if shoe %}{% include "shop-links.njk" %}{% endif %}
+    </aside>
+  </div>
+</article>
+
+<nav class="celebrity-pagination look-page-nav" aria-label="Look navigation">
+  {% if celebrity %}
+  <div><span>Profile</span><a href="/celebrities/{{ celebrity.slug }}/">← {{ celebrity.name }}</a></div>
+  {% else %}<div></div>{% endif %}
+  <div class="next"><span>Directory</span><a href="/celebrities/">All celebrities →</a></div>
+</nav>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebPage",
+  "name":"{{ look.celebrityName }} fashion look",
+  "url":"{{ page.url | url | absoluteUrl(site.url) }}",
+  "description":"{{ look.description or (look.celebrityName + ' fashion look documented by Hunting For Kicks.') }}"
+}
+</script>
