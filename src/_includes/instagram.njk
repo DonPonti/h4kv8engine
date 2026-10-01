@@ -1,9 +1,36 @@
 {% if instagramUrl %}
 {% set cleanInstagramUrl = instagramUrl | trim %}
+{% set instagramParts = cleanInstagramUrl | split('/') %}
+{% set instagramKind = '' %}
+{% set instagramCode = '' %}
+{% for part in instagramParts %}
+  {% if part == 'p' or part == 'reel' or part == 'tv' %}
+    {% set instagramKind = part %}
+  {% endif %}
+{% endfor %}
+{% set reverseParts = instagramParts | reverse %}
+{% for part in reverseParts %}
+  {% if not instagramCode and part %}
+    {% set instagramCode = part %}
+  {% endif %}
+{% endfor %}
 <div class="instagram-embed" data-instagram-url="{{ cleanInstagramUrl }}" aria-label="Instagram post">
-  <blockquote class="instagram-media" data-instgrm-permalink="{{ cleanInstagramUrl }}" data-instgrm-version="14">
-    <a href="{{ cleanInstagramUrl }}" target="_blank" rel="noopener noreferrer">View this post on Instagram</a>
-  </blockquote>
-  <noscript><p><a href="{{ cleanInstagramUrl }}" target="_blank" rel="noopener noreferrer">View the original Instagram post ↗</a></p></noscript>
+  {% if instagramKind and instagramCode %}
+  <div class="instagram-frame-wrap">
+    <iframe
+      class="instagram-frame"
+      src="https://www.instagram.com/{{ instagramKind }}/{{ instagramCode }}/embed/"
+      title="Instagram post"
+      loading="lazy"
+      scrolling="no"
+      allowtransparency="true"
+      allow="encrypted-media">
+    </iframe>
+  </div>
+  {% else %}
+  <div class="instagram-fallback">
+    <a href="{{ cleanInstagramUrl }}" target="_blank" rel="noopener noreferrer">View this post on Instagram ↗</a>
+  </div>
+  {% endif %}
 </div>
 {% endif %}
