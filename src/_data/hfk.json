@@ -832,7 +832,13 @@
       "sourceType": "instagram",
       "confidence": "unidentified",
       "identificationNotes": "",
-      "accessories": []
+      "accessories": [
+        {
+          "category": "${esc(accessoriesText(u.accessories))}",
+          "brand": "",
+          "name": "Item"
+        }
+      ]
     }
   ],
   "affiliates": []
