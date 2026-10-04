@@ -26,7 +26,7 @@
       "category": "Actress",
       "top100Rank": 3,
       "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks.",
-      "updateCount": 3
+      "updateCount": 2
     },
     {
       "name": "Alia Bhatt",
@@ -815,25 +815,6 @@
   ],
   "updates": [
     {
-      "id": "29c36599-4616-43fc-a3ea-05c4a4a64e95",
-      "celebritySlug": "priyanka-chopra",
-      "celebrityName": "Priyanka Chopra",
-      "date": "2026-10-04",
-      "sourceType": "instagram",
-      "instagramUrl": "https://www.instagram.com/p/Dc37-G4DZag/",
-      "sourceUrl": "",
-      "occasion": "",
-      "sourceName": "",
-      "image": "",
-      "imageCredit": "",
-      "description": "",
-      "confidence": "unidentified",
-      "identificationNotes": "",
-      "accessories": [],
-      "shoeSlug": "",
-      "shoeName": ""
-    },
-    {
       "id": "89184674-79b9-46b3-8251-27b87ece0263",
       "celebritySlug": "priyanka-chopra",
       "celebrityName": "Priyanka Chopra",
@@ -876,47 +857,6 @@
           "category": "${esc(accessoriesText(u.accessories))}",
           "brand": "",
           "name": "Item"
-        }
-      ]
-    },
-    {
-      "id": "virat-kohli-2019-09-09-mumbai-airport-adidas-originals",
-      "celebritySlug": "virat-kohli",
-      "celebrityName": "Virat Kohli",
-      "shoeSlug": "",
-      "shoeName": "adidas Originals — white sneakers (model unidentified)",
-      "instagramUrl": "",
-      "sourceUrl": "https://www.vogue.in/vogue-closet/collection/anushka-sharma-virat-kohli-tshirt-blazer-trousers-sneakers-sunglasses-mumbai-airport",
-      "sourceName": "Vogue India",
-      "sourceType": "publication",
-      "date": "2019-09-09",
-      "occasion": "Mumbai airport",
-      "description": "Vogue India documented Virat Kohli returning from the West Indies in a white T-shirt layered with a deep blue Balenciaga jacket, black jeans, white sneakers and a baseball cap. The publication's shopping edit identifies the sneakers as Adidas Originals, but does not specify the exact model.",
-      "image": "",
-      "imageAlt": "Virat Kohli at Mumbai airport in September 2019",
-      "imageCredit": "Viral Bhayani / Vogue India",
-      "confidence": "high",
-      "identificationNotes": "Brand identification is supported by Vogue India's footwear listing as Adidas Originals. Exact sneaker model is not specified, so HFK does not assign a model.",
-      "accessories": [
-        {
-          "category": "Jacket",
-          "brand": "Balenciaga",
-          "name": "Deep blue jacket"
-        },
-        {
-          "category": "T-shirt",
-          "brand": "",
-          "name": "White T-shirt"
-        },
-        {
-          "category": "Jeans",
-          "brand": "",
-          "name": "Black jeans"
-        },
-        {
-          "category": "Cap",
-          "brand": "",
-          "name": "Baseball cap"
         }
       ]
     }
