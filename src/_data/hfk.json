@@ -833,32 +833,6 @@
       "confidence": "unidentified",
       "identificationNotes": "",
       "accessories": []
-    },
-    {
-      "id": "e0188dbd-02da-4d52-ab3f-1d72ccb1772e",
-      "celebritySlug": "priyanka-chopra",
-      "celebrityName": "Priyanka Chopra",
-      "shoeSlug": "",
-      "shoeName": "",
-      "instagramUrl": "https://www.instagram.com/p/dadc2vggbsf/",
-      "date": "2026-10-01",
-      "occasion": "random",
-      "description": "looks good in black and white photo",
-      "image": "",
-      "imageAlt": "Priyanka Chopra fashion look",
-      "imageCredit": "",
-      "sourceUrl": "",
-      "sourceName": "Instagram",
-      "sourceType": "instagram",
-      "confidence": "unidentified",
-      "identificationNotes": "",
-      "accessories": [
-        {
-          "category": "${esc(accessoriesText(u.accessories))}",
-          "brand": "",
-          "name": "Item"
-        }
-      ]
     }
   ],
   "affiliates": []
