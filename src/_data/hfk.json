@@ -26,7 +26,7 @@
       "category": "Actress",
       "top100Rank": 3,
       "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks.",
-      "updateCount": 2
+      "updateCount": 3
     },
     {
       "name": "Alia Bhatt",
@@ -814,6 +814,25 @@
     }
   ],
   "updates": [
+    {
+      "id": "29c36599-4616-43fc-a3ea-05c4a4a64e95",
+      "celebritySlug": "priyanka-chopra",
+      "celebrityName": "Priyanka Chopra",
+      "date": "2026-10-04",
+      "sourceType": "instagram",
+      "instagramUrl": "https://www.instagram.com/p/Dc37-G4DZag/",
+      "sourceUrl": "",
+      "occasion": "",
+      "sourceName": "",
+      "image": "",
+      "imageCredit": "",
+      "description": "",
+      "confidence": "unidentified",
+      "identificationNotes": "",
+      "accessories": [],
+      "shoeSlug": "",
+      "shoeName": ""
+    },
     {
       "id": "89184674-79b9-46b3-8251-27b87ece0263",
       "celebritySlug": "priyanka-chopra",
