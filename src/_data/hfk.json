@@ -9,7 +9,7 @@
       "bio": "Celebrity style, sneaker and fashion updates tracked by Hunting For Kicks.\njust now scored his 55th ODI century against West Indies opening Game and now he is closer to getting 100 centuries.",
       "image": "",
       "imageAlt": "",
-      "updateCount": 1
+      "updateCount": 2
     },
     {
       "name": "Shraddha Kapoor",
@@ -814,6 +814,25 @@
     }
   ],
   "updates": [
+    {
+      "id": "318d12ba-186d-402f-adb8-2d85fac207b6",
+      "celebritySlug": "virat-kohli",
+      "celebrityName": "Virat Kohli",
+      "date": "2026-10-05",
+      "sourceType": "instagram",
+      "instagramUrl": "https://www.instagram.com/reel/DZZ8lRptve1/",
+      "sourceUrl": "",
+      "occasion": "",
+      "sourceName": "",
+      "image": "",
+      "imageCredit": "",
+      "description": "",
+      "confidence": "unidentified",
+      "identificationNotes": "",
+      "accessories": [],
+      "shoeSlug": "",
+      "shoeName": ""
+    },
     {
       "id": "89184674-79b9-46b3-8251-27b87ece0263",
       "celebritySlug": "priyanka-chopra",
