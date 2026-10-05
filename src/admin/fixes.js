@@ -59,8 +59,8 @@
   async function uploadPhoto(file,id='look'){
     if(!file)return;
     if(!/^image\/(jpeg|png|webp|gif)$/.test(file.type))throw Error('Please choose a JPG, PNG, WebP or GIF image.');
-    if(file.size>8*1024*1024)throw Error('Please keep look photos under 8 MB.');
-    const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
+    if(file.size>3.5*1024*1024)throw Error('Please keep look photos under 3.5 MB (the hosting function limit). Compress the image and try again.');
+    const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'}[file.type]||'jpg';
     const path='src/_img/looks/'+safe(id)+'-'+Date.now()+'.'+ext;
     const dataUrl=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
     const content=String(dataUrl).split(',')[1];
