@@ -53,3 +53,30 @@
 @media(max-width:1000px){.brand-admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.brand-shoe-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:620px){.brand-admin-grid,.brand-shoe-grid{grid-template-columns:1fr 1fr}.brand-detail-hero{grid-template-columns:1fr}.brand-detail-mark{width:80px;height:80px}}
 @media(max-width:420px){.brand-admin-grid,.brand-shoe-grid{grid-template-columns:1fr}}
+
+/* --- Quick Capture --- */
+.qc-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:13px}
+.qc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{border:1px solid #cfd4dc;background:#fff;border-radius:999px;padding:5px 11px;font-weight:650;cursor:pointer}
+.chip:hover{background:#111;color:#fff;border-color:#111}
+.qc-text{min-height:96px;font-size:15px}
+.qc-rows{display:grid;gap:8px;margin-top:12px}
+.qc-row{border:1px solid #e3e6eb;border-radius:10px;padding:9px 11px;background:#fafbfc}
+.qc-row.dup{opacity:.6}
+.qc-row-main{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.qc-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+.qc-shoe{flex:1 1 220px;min-width:160px;padding:7px 9px}
+.qc-conf{width:auto;padding:7px 9px}
+.qc-prev:not(:empty){margin-top:10px}
+.qc-last{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.chip,.btn.link{font:inherit}
+@media(max-width:700px){.qc-top{grid-template-columns:1fr}}
+/* embeds inside the admin (same markup as the public site) */
+.ig-embed{position:relative;width:100%;max-width:540px;margin:0 auto;min-height:220px}
+.ig-stage{display:flex;align-items:center;justify-content:center;min-height:220px;border:1px solid #ddd;background:#f4f5f7;color:#667085;font-weight:650}
+.ig-stage::before{content:"Instagram post"}
+.ig-embed.ig-loading .ig-stage::before{content:"Loading Instagram post\2026"}
+.ig-embed.ig-slow:not(.ig-live) .ig-stage::before{content:"Instagram is slow or blocked in this browser"}
+.ig-embed.ig-live{min-height:0}.ig-embed.ig-live .ig-stage{display:none}
+.ig-embed iframe.ig-frame{display:block;width:100%;border:1px solid #ddd;border-radius:3px;background:#fff;height:640px}
+.ig-open{display:block;margin-top:6px;text-align:center;font-size:12px}

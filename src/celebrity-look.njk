@@ -32,7 +32,7 @@ eleventyComputed:
   {% if look.instagramUrl %}
   <div class="look-page-media look-instagram">
     <span class="eyebrow">Instagram look</span>
-    {% set instagramUrl = look.instagramUrl %}{% include "instagram.njk" %}
+    {% set instagramUrl = look.instagramUrl %}{% set igImage = look.image %}{% set igAlt = look.imageAlt %}{% include "instagram.njk" %}
   </div>
   {% elif look.image %}
   <figure class="look-page-media look-image">

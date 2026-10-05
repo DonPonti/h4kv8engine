@@ -66,7 +66,7 @@
     const content=String(dataUrl).split(',')[1];
     const r=await fetch('/.netlify/functions/hfk',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token()},body:JSON.stringify({op:'save',path,content,message:'Add fashion look photo'})});
     const d=await r.json();if(!r.ok)throw Error(d.error||'Photo upload failed');
-    return '/'+path;
+    return path.replace(/^src\//,'/');
   }
 
   function addPhotoControl(formSelector,imageSelector,slugSource){
@@ -130,7 +130,7 @@
     celebrity.updateCount=(Number(celebrity.updateCount)||0)+1;
     await saveState(state,loaded.sha,'Add fashion look: '+celebrity.name);
     flash(form,'Saved. The Instagram URL was stored without changing its case.','success');
-    setTimeout(()=>{if(typeof window.hfkGo==='function')window.hfkGo('updates')},500);
+    setTimeout(()=>{Promise.resolve(window.hfkApp&&window.hfkApp.reload()).catch(()=>{}).then(()=>{if(typeof window.hfkGo==='function')window.hfkGo('updates')})},500);
   }
 
   async function saveEditedLook(form,id){
@@ -152,7 +152,7 @@
     }
     await saveState(state,loaded.sha,'Update fashion look: '+celebrity.name);
     flash(form,'Saved. The Instagram URL was stored exactly as entered.','success');
-    setTimeout(()=>{if(typeof window.hfkGo==='function')window.hfkGo('updates')},500);
+    setTimeout(()=>{Promise.resolve(window.hfkApp&&window.hfkApp.reload()).catch(()=>{}).then(()=>{if(typeof window.hfkGo==='function')window.hfkGo('updates')})},500);
   }
 
   function bindCaptureSave(){

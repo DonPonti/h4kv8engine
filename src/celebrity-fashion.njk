@@ -16,8 +16,12 @@ layout: layouts/base.njk
   <div class="look-meta"><time datetime="{{ update.date }}">{{ update.date }}</time> · <a href="/celebrities/{{ update.celebritySlug }}/">{{ update.celebrityName }}</a></div>
   <h2>{% if update.shoeName %}{{ update.shoeName }}{% else %}Latest look{% endif %}</h2>
   {% if update.description %}<p>{{ update.description }}</p>{% endif %}
-  {% set instagramUrl = update.instagramUrl %}
+  {% if update.instagramUrl %}
+  {% set instagramUrl = update.instagramUrl %}{% set igImage = update.image %}{% set igAlt = update.imageAlt %}
   {% include "instagram.njk" %}
+  {% elif update.image %}
+  <figure class="look-image"><img src="{{ update.image }}" alt="{{ update.imageAlt or (update.celebrityName + ' fashion look') }}" loading="lazy" decoding="async"></figure>
+  {% endif %}
 </article>
 {% endfor %}
 </div>

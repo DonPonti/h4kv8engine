@@ -122,6 +122,20 @@ module.exports = (eleventyConfig) => {
 
   eleventyConfig.addFilter('slug', (value) => String(value || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''));
   eleventyConfig.addFilter('uniqueBy', (array, key) => { const seen = new Set(); return (array || []).filter(item => { const value = item && item[key]; if (seen.has(value)) return false; seen.add(value); return true; }); });
+  // Parse any Instagram post/reel/tv URL (tracking params, /reels/, /username/p/CODE/ all OK).
+  eleventyConfig.addFilter('igParse', (url) => {
+    try {
+      const u = new URL(String(url || '').trim());
+      const host = u.hostname.toLowerCase();
+      if (host !== 'instagram.com' && host !== 'www.instagram.com') return null;
+      const parts = u.pathname.split('/').filter(Boolean);
+      const i = parts.findIndex((x) => ['p', 'reel', 'reels', 'tv'].includes(x.toLowerCase()));
+      const code = parts[i + 1];
+      if (i < 0 || !code || !/^[A-Za-z0-9_-]+$/.test(code)) return null;
+      const kind = parts[i].toLowerCase() === 'reels' ? 'reel' : parts[i].toLowerCase();
+      return { kind, code, url: 'https://www.instagram.com/' + kind + '/' + code + '/' };
+    } catch (e) { return null; }
+  });
   eleventyConfig.addFilter('where', (array, key, value) => { return (array || []).filter(item => item && item[key] === value); });
 
   // Get the first `n` elements of a collection.

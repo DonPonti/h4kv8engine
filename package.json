@@ -6,7 +6,7 @@
     "eleventy": "eleventy",
     "html": "html-minifier-terser --config-file=.html-minifier.json --input-dir=dist --output-dir=dist --file-ext=html",
     "css": "postcss src/_css/main.css --output dist/_css/main.css && postcss src/_css/feature-support.css --output dist/_css/feature-support.css",
-    "js": "shx mkdir -p dist/_js && terser src/_js/main.js -cm -o dist/_js/main.js",
+    "js": "shx mkdir -p dist/_js && terser src/_js/main.js -cm -o dist/_js/main.js && terser src/_js/instagram.js -cm -o dist/_js/instagram.js",
     "json": "json-minify src/.webmanifest > dist/.webmanifest",
     "xml": "minify-xml --in-place dist/sitemap.xml && minify-xml --in-place dist/blog.atom",
     "sw": "terser src/sw.js -cm -o dist/sw.js",
@@ -14,7 +14,8 @@
     "clean": "shx rm -rf -- dist",
     "build": "npm run clean && npm run css && npm run js && npm run json && npm run copy-js && npm run eleventy && npm run sw && npm run xml && npm run html",
     "dev": "npm run build && npx eleventy --serve",
-    "hfk:check": "node hfk-check.js"
+    "hfk:check": "node hfk-check.js",
+    "test": "node tests/function.test.js && node tests/quick-core.test.js && node tests/instagram-loader.test.js && node tests/admin-e2e.test.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2",
@@ -27,6 +28,7 @@
     "he": "^1.2.0",
     "html-minifier-terser": "^7.1.0",
     "image-size": "^1.0.2",
+    "jsdom": "^30.1.2",
     "json-minify": "^1.0.0",
     "luxon": "^3.1.0",
     "markdown-it": "^13.0.1",

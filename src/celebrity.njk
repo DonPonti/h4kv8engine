@@ -94,7 +94,7 @@ eleventyComputed:
           {% if update.instagramUrl %}
           <div class="look-instagram">
             <span class="eyebrow">Instagram look</span>
-            {% set instagramUrl = update.instagramUrl %}{% include "instagram.njk" %}
+            {% set instagramUrl = update.instagramUrl %}{% set igImage = update.image %}{% set igAlt = update.imageAlt %}{% include "instagram.njk" %}
           </div>
           {% elif update.image %}
           <figure class="look-image">

@@ -870,13 +870,7 @@
       "sourceType": "instagram",
       "confidence": "unidentified",
       "identificationNotes": "",
-      "accessories": [
-        {
-          "category": "${esc(accessoriesText(u.accessories))}",
-          "brand": "",
-          "name": "Item"
-        }
-      ]
+      "accessories": []
     }
   ],
   "affiliates": []

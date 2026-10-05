@@ -1,19 +1,15 @@
+{#- Usage: {% set instagramUrl = ... %}{% set igImage = optional uploaded photo %}{% include "instagram.njk" %}
+    Renders a lightweight placeholder; /_js/instagram.js swaps in the real embed when it scrolls into view. -#}
 {% if instagramUrl %}
-<style>
-  .instagram-embed{width:100%;max-width:540px;margin:0 auto;min-width:0;overflow:hidden;clear:both;box-sizing:border-box}
-  .instagram-embed blockquote.instagram-media{display:block;width:100% !important;max-width:540px !important;min-width:0 !important;margin:0 auto !important;padding:0 !important;box-sizing:border-box;overflow:hidden}
-  /* Instagram replaces the blockquote with an iframe. Our global iframe rule
-     uses aspect-ratio: attr(width) / attr(height), which can crop the rendered
-     Instagram iframe before Instagram finishes sizing it. Keep Instagram's
-     own height and let embed.js control the final dimensions. */
-  .instagram-embed iframe.instagram-media{display:block;width:100% !important;max-width:540px !important;min-width:0 !important;height:auto !important;aspect-ratio:auto !important;margin:0 auto !important;border:0 !important;}
-  .instagram-embed-fallback{display:block;margin:10px auto 0;text-align:center;font-size:.9rem}
-  @media(max-width:600px){.instagram-embed{max-width:100%;}.instagram-embed blockquote.instagram-media{max-width:100% !important;}.instagram-embed iframe.instagram-media{max-width:100% !important;}}
-</style>
-{% set cleanInstagramUrl = instagramUrl | trim %}
-<div class="instagram-embed" aria-label="Instagram post">
-  <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{{ cleanInstagramUrl }}" data-instgrm-version="14">
-    <div style="padding:16px;text-align:center"><a class="instagram-embed-fallback" href="{{ cleanInstagramUrl }}" target="_blank" rel="noopener noreferrer">View this post on Instagram</a></div>
-  </blockquote>
+{% set ig = instagramUrl | trim | igParse %}
+{% if ig %}
+<div class="ig-embed" data-ig-kind="{{ ig.kind }}" data-ig-code="{{ ig.code }}">
+  <div class="ig-stage">
+    {% if igImage %}<img class="ig-poster" src="{{ igImage }}" alt="{{ igAlt or 'Fashion look from Instagram' }}" loading="lazy" decoding="async">{% endif %}
+  </div>
+  <a class="ig-open" href="{{ ig.url }}" target="_blank" rel="noopener noreferrer">View on Instagram ↗</a>
 </div>
+{% else %}
+<p class="ig-open"><a href="{{ instagramUrl | trim }}" target="_blank" rel="noopener noreferrer">View on Instagram ↗</a></p>
+{% endif %}
 {% endif %}

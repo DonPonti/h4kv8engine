@@ -709,8 +709,7 @@ pre mark .token.punctuation {
 .hfk-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .hfk-card h3{margin:.2rem 0}.hfk-card p{margin:.2rem 0;font-size:.85rem}.hfk-card span{font-size:.8rem;opacity:.65}
 .hfk-profile{padding:2rem 0}.look-feed{display:grid;gap:1.5rem}.look-card{border-top:1px solid var(--table-border);padding-top:1.5rem}
-.look-meta{font-size:.8rem;opacity:.65;margin-bottom:.5rem}.instagram-embed{max-width:540px;margin:1rem auto}
-.instagram-media{min-width:280px!important;width:100%!important}
+.look-meta{font-size:.8rem;opacity:.65;margin-bottom:.5rem}
 .shop-box{border:1px solid var(--table-border);padding:1.2rem;margin:1.5rem 0;background:rgba(127,127,127,.04)}
 .shop-box h2{margin-top:0}.affiliate-note{font-size:.75rem;opacity:.65}.shop-links{display:grid;gap:.6rem}
 .shop-link{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--table-border);padding:.8rem 1rem}.shop-link strong{font-size:.85rem}
@@ -814,8 +813,6 @@ pre mark .token.punctuation {
 /* Instagram-first celebrity looks */
 .look-instagram{margin:1rem 0 1.25rem;padding:1rem 0;border-top:1px solid var(--table-border);border-bottom:1px solid var(--table-border)}
 .look-instagram>.eyebrow{display:block;margin-bottom:.5rem}
-.look-instagram .instagram-embed{margin:0 auto;max-width:540px;overflow:hidden}
-.look-instagram .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important}
 
 
 /* --- Individual fashion look pages --- */
@@ -826,8 +823,6 @@ pre mark .token.punctuation {
 .look-page-header h1{font-size:clamp(2.2rem,5vw,4rem);max-width:850px;margin:.2rem 0 .7rem}
 .look-page-meta{display:flex;flex-wrap:wrap;gap:.6rem;font:700 .75rem system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;opacity:.62}
 .look-page-media{margin:1.5rem 0 2rem}
-.look-page-media .instagram-embed{margin:0 auto;max-width:640px;overflow:hidden}
-.look-page-media .instagram-media{margin:0 auto!important;min-width:0!important;width:100%!important}
 .look-page-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,.8fr);gap:2rem;align-items:start}
 .look-page-grid .wiki-section:first-child{padding-top:0}
 .look-page-shoe h2{margin-bottom:1rem}
@@ -844,10 +839,6 @@ pre mark .token.punctuation {
 
 /* --- Instagram embed reliability + celebrity editorial polish --- */
 .look-instagram,.look-page-media{overflow:visible}
-.look-instagram .instagram-embed,.look-page-media .instagram-embed{width:100%;max-width:640px;margin:0 auto}
-.look-instagram .instagram-media,.look-page-media .instagram-media{display:block!important;width:100%!important;min-width:280px!important;margin:0 auto!important}
-.instagram-embed noscript{display:block;margin-top:.75rem;text-align:center;font:600 .78rem system-ui,sans-serif}
-.instagram-embed noscript a{border:0!important}
 .look-card{border-radius:2px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
 .look-card-top{padding-bottom:.25rem}
 .look-card .look-instagram{background:var(--main-background)}
@@ -855,13 +846,20 @@ pre mark .token.punctuation {
 .celebrity-infobox{overflow:hidden;border-radius:2px}
 .celebrity-facts{background:var(--main-background)}
 .celebrity-facts div{min-width:0}
-@media(max-width:770px){.look-instagram{margin-left:-.25rem;margin-right:-.25rem}.look-instagram .instagram-embed{max-width:100%}.celebrity-layout{gap:0}}
+@media(max-width:770px){.look-instagram{margin-left:-.25rem;margin-right:-.25rem}.celebrity-layout{gap:0}}
 
-/* --- Reliable Instagram iframe embeds --- */
-.instagram-frame-wrap{width:100%;max-width:640px;margin:0 auto;overflow:hidden;background:#fff;border:1px solid var(--table-border)}
-.instagram-frame{display:block;width:100%;height:720px;border:0;background:#fff}
-.look-instagram .instagram-frame-wrap{max-width:540px}
-.look-page-media .instagram-frame-wrap{max-width:640px}
-.instagram-fallback{text-align:center;padding:1.5rem;border:1px solid var(--table-border);background:var(--alt-table-row-background);font:700 .82rem system-ui,sans-serif}
-.instagram-fallback a{border:0!important}
-@media(max-width:770px){.instagram-frame{height:680px}.look-instagram .instagram-frame-wrap,.look-page-media .instagram-frame-wrap{max-width:100%}}
+/* --- Instagram embeds (see src/_js/instagram.js) ---
+   We build our own iframe so the theme's global iframe rules (aspect-ratio / height:auto)
+   can never collapse it. Height is set from Instagram's resize message. */
+.ig-embed{position:relative;width:100%;max-width:540px;margin:0 auto;min-height:220px}
+.look-page-media .ig-embed{max-width:640px}
+.ig-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;min-height:220px;padding:1rem;text-align:center;border:1px solid var(--table-border);background:var(--alt-table-row-background,#f6f6f6);overflow:hidden;font:600 .82rem system-ui,sans-serif}
+.ig-stage::before{content:"Instagram post";opacity:.6}
+.ig-poster{display:block;max-width:100%;max-height:420px;width:auto;height:auto;object-fit:contain}
+.ig-embed iframe.ig-frame{display:block;width:100%;max-width:100%;aspect-ratio:auto;border:1px solid var(--table-border);background:#fff;border-radius:3px;height:640px}
+.ig-embed.ig-live{min-height:0}
+.ig-embed.ig-live .ig-stage{display:none}
+.ig-embed.ig-loading .ig-stage::before{content:"Loading Instagram post\2026"}
+.ig-embed.ig-slow:not(.ig-live) .ig-stage::before{content:"Instagram is slow or blocked in this browser"}
+.ig-open{display:block;margin:.5rem 0 0;text-align:center;font:600 .8rem system-ui,sans-serif;border:0!important}
+.ig-embed.ig-slow:not(.ig-live) .ig-open{font-size:.95rem}
